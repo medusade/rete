@@ -34,6 +34,10 @@ namespace network {
 typedef struct msghdr MsgHdr;
 
 typedef int SocketBacklog;
+enum {
+    SocketBacklogNone = 0,
+    SocketBacklogDefault = SOMAXCONN
+};
 typedef int SocketSendFlags;
 typedef int SocketRecvFlags;
 typedef int SocketOptLevel;
@@ -41,8 +45,8 @@ typedef int SocketOptName;
 
 typedef int SocketLingerSeconds;
 enum {
-    SocketLingerSecondsDefault = -1,
-    SocketLingerSecondsNone = 0
+    SocketLingerSecondsNone = 0,
+    SocketLingerSecondsDefault = 10
 };
 
 typedef int SocketShutdownHow;
@@ -63,6 +67,8 @@ typedef TransportProtocol SocketProtocol;
 typedef Transport SocketTransport;
 typedef Endpoint SocketEndpoint;
 
+class _EXPORT_CLASS SocketTImplemented;
+
 typedef ::patrona::AttacherT
 <SocketAttachedTo, SocketUnattachedTo,
  SocketUnattached, Opener> SocketTAttacher;
@@ -71,7 +77,8 @@ typedef SocketTAttacher SocketTImplements;
 ///  Class: SocketT
 ///////////////////////////////////////////////////////////////////////
 template
-<typename TAttached = SocketAttachedTo,
+<class TImplemented = SocketTImplemented,
+ typename TAttached = SocketAttachedTo,
  typename TUnattached = SocketUnattachedTo,
  TUnattached VUnattached = SocketUnattached,
  typename TDomain = SocketDomain,
@@ -85,6 +92,7 @@ class _EXPORT_CLASS SocketT: virtual public TImplements {
 public:
     typedef TImplements Implements;
 
+    typedef TImplemented SocketTImplemented;
     typedef TTransport Transport;
     typedef TEndpoint Endpoint;
     typedef TDomain Domain;
@@ -94,18 +102,19 @@ public:
     enum { Unattached = VUnattached };
 
     typedef SocketLingerSeconds LingerSeconds;
-    static const LingerSeconds defaultLingerSeconds = 10;
+    static const LingerSeconds defaultLingerSeconds = SocketLingerSecondsDefault;
     typedef SocketShutdownHow ShutdownHow;
     static const ShutdownHow
         shutdownRead = SocketShutdownRead,
         shutdownWrite = SocketShutdownWrite,
         shutdownBoth = SocketShutdownBoth;
     typedef SocketBacklog Backlog;
-    static const Backlog defaultBacklog = SOMAXCONN;
+    static const Backlog defaultBacklog = SocketBacklogDefault;
     typedef SocketSendFlags SendFlags;
     typedef SocketRecvFlags RecvFlags;
     typedef SocketOptLevel OptLevel;
     typedef SocketOptName OptName;
+    static const bool bindAsReuseAddr = true;
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -212,15 +221,26 @@ public:
         }
         return false;
     }
-    virtual bool Accept(SocketT& sock, const Endpoint& ep) {
+    virtual bool Accept(SocketTImplemented& sock, const Endpoint& ep) {
         SockAddr* addr = 0;
         SockLen addrlen = 0;
         if ((addr = ep.SocketAddress(addrlen))) {
-            if ((this->Accept(sock, addr, &addrlen))) {
+            if ((this->Accept(sock, addr, addrlen))) {
                 return true;
             }
         }
         return false;
+    }
+    virtual SocketTImplemented* Accept(const Endpoint& ep) {
+        SockAddr* addr = 0;
+        SockLen addrlen = 0;
+        if ((addr = ep.SocketAddress(addrlen))) {
+            SocketTImplemented* sock = 0;
+            if (sock = (this->Accept(addr, addrlen))) {
+                return sock;
+            }
+        }
+        return 0;
     }
     virtual bool Bind(const Endpoint& ep) {
         SockAddr* addr = 0;
@@ -236,7 +256,8 @@ public:
     ///////////////////////////////////////////////////////////////////////
     virtual bool Connect(const SockAddr* addr, SockLen addrlen) { return false; }
     virtual bool Bind(const SockAddr* addr, SockLen addrlen) { return false; }
-    virtual bool Accept(SocketT& sock, SockAddr* addr, SockLen* addrlen) { return false; }
+    virtual bool Accept(SocketTImplemented& sock, SockAddr* addr, SockLen& addrlen) { return false; }
+    virtual SocketTImplemented* Accept(SockAddr* addr, SockLen& addrlen) { return 0; }
     virtual bool Listen(Backlog backlog) { return false; }
     virtual bool Listen() {
         Backlog backlog = this->DefaultBacklog();
@@ -311,9 +332,9 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual bool SetLingerOpt
-    (bool on = true, LingerSeconds lingerSeconds = defaultLingerSeconds) { return false; }
+    (bool on = true, LingerSeconds lingerSeconds = -1) { return false; }
     virtual bool SetDontLingerOpt
-    (bool on = true, LingerSeconds lingerSeconds = defaultLingerSeconds) { return false; }
+    (bool on = true, LingerSeconds lingerSeconds = -1) { return false; }
     virtual bool GetLingerOpt(bool &on, int &lingerSeconds) const { return false; }
 
     ///////////////////////////////////////////////////////////////////////
@@ -330,6 +351,12 @@ public:
     }
     virtual LingerSeconds DefaultLingerSeconds() const {
         return defaultLingerSeconds;
+    }
+    virtual bool BindAsReuseAddr() const {
+        return bindAsReuseAddr;
+    }
+    virtual SocketTImplemented* Implemented() const {
+        return 0;
     }
 
     ///////////////////////////////////////////////////////////////////////

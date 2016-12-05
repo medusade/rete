@@ -48,7 +48,7 @@ public:
       m_endpoint(&Derives::DefaultEndpoint),
       m_transport(&Derives::DefaultTransport),
       m_host("localhost"),
-      m_port(80) {
+      m_port(8080) {
     }
 
 protected:
@@ -73,8 +73,13 @@ protected:
         network::Socket& sock = this->Socket(argc, argv, env);
         if ((ep.AttachFirst(m_host.chars(), m_port))) {
             if ((sock.Open(tp))) {
-                if ((sock.Connect(ep))) {
-                    sock.Shutdown();
+                if ((sock.Listen(ep))) {
+                    network::Socket* accepted = 0;
+                    if ((accepted = sock.Accept(ep))) {
+                        String m_message("HTTP/1.0 200 OK\n\n\nHello\n");
+                        accepted->Send(m_message.chars(), m_message.length(), 0);
+                        accepted->Close();
+                    }
                 }
                 sock.Close();
             }
