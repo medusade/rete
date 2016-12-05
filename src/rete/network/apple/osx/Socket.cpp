@@ -18,24 +18,18 @@
 /// Author: $author$
 ///   Date: 12/3/2016
 ///////////////////////////////////////////////////////////////////////
-#include "Socket.hpp"
+#include "rete/network/apple/osx/Socket.hpp"
 
 namespace rete {
 namespace network {
 namespace apple {
 namespace osx {
 
-
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketT
 ///////////////////////////////////////////////////////////////////////
-
 
 } // namespace osx 
 } // namespace apple 
 } // namespace network 
 } // namespace rete 
-
-
-        
-

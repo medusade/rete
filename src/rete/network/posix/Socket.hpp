@@ -402,12 +402,15 @@ public:
 
 } // namespace posix 
 
+typedef posix::SocketTImplements SocketTImplementedImplements;
 typedef posix::SocketT<> SocketTImplementedExtends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketTImplemented
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS SocketTImplemented: public SocketTImplementedExtends {
+class _EXPORT_CLASS SocketTImplemented
+: virtual public SocketTImplementedImplements, public SocketTImplementedExtends {
 public:
+    typedef SocketTImplementedImplements Implements;
     typedef SocketTImplementedExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -441,12 +444,16 @@ public:
 
 namespace posix {
 
+typedef SocketTImplementedImplements SocketImplements;
+typedef SocketTImplemented SocketExtends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: Socket
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS Socket: public SocketTImplemented {
+class _EXPORT_CLASS Socket
+: virtual public SocketImplements, public SocketExtends {
 public:
-    typedef SocketTImplemented Extends;
+    typedef SocketImplements Implements;
+    typedef SocketExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     Socket(const Socket& copy): Extends(copy) {}

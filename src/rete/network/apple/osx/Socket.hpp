@@ -20,29 +20,15 @@
 ///////////////////////////////////////////////////////////////////////
 #ifndef _RETE_NETWORK_APPLE_OSX_SOCKET_HPP
 #define _RETE_NETWORK_APPLE_OSX_SOCKET_HPP
-#include "rete/network/Socket.hpp"
+
+#include "rete/network/posix/Socket.hpp"
 
 namespace rete {
 namespace network {
 namespace apple {
 namespace osx {
 
-
-///////////////////////////////////////////////////////////////////////
-///  Class: SocketT
-///////////////////////////////////////////////////////////////////////
-template
-<class TImplements = SocketTImplements, class TExtends = SocketTExtends>
-class _EXPORT_CLASS SocketT: virtual public TImplements,public TExtends {
-public:
-    typedef TImplements Implements;
-    typedef TExtends Extends;
-    SocketT() {
-    }
-    virtual ~SocketT() {
-    }
-};
-
+typedef posix::Socket Socket;
 
 } // namespace osx 
 } // namespace apple 

@@ -20,34 +20,17 @@
 ///////////////////////////////////////////////////////////////////////
 #ifndef _RETE_NETWORK_LINUX_SOCKET_HPP
 #define _RETE_NETWORK_LINUX_SOCKET_HPP
-#include "rete/network/Socket.hpp"
+
+#include "rete/network/posix/Socket.hpp"
 
 namespace rete {
 namespace network {
 namespace linux {
 
+typedef posix::Socket Socket;
 
-///////////////////////////////////////////////////////////////////////
-///  Class: SocketT
-///////////////////////////////////////////////////////////////////////
-template
-<class TImplements = SocketTImplements, class TExtends = SocketTExtends>
-class _EXPORT_CLASS SocketT: virtual public TImplements,public TExtends {
-public:
-    typedef TImplements Implements;
-    typedef TExtends Extends;
-    SocketT() {
-    }
-    virtual ~SocketT() {
-    }
-};
-
-
-} // namespace linux 
+} // namespace linux
 } // namespace network 
 } // namespace rete 
 
-
 #endif // _RETE_NETWORK_LINUX_SOCKET_HPP 
-        
-

@@ -26,7 +26,7 @@
 #include "rete/network/ip/v4/Endpoint.hpp"
 #include "rete/network/ip/tcp/Transport.hpp"
 #include "rete/network/ip/udp/Transport.hpp"
-#include "rete/network/posix/Socket.hpp"
+#include "rete/network/os/Socket.hpp"
 
 namespace rete {
 namespace app {
@@ -71,7 +71,7 @@ protected:
         network::Endpoint& ep = this->Endpoint(argc, argv, env);
         network::Transport& tp = this->Transport(argc, argv, env);
         network::Socket& sock = this->Socket(argc, argv, env);
-        if ((ep.AttachFirst(m_host.chars(), m_port))) {
+        if ((ep.Attach(m_port))) {
             if ((sock.Open(tp))) {
                 if ((sock.Listen(ep))) {
                     network::Socket* accepted = 0;
@@ -158,7 +158,7 @@ protected:
     network::ip::v6::Endpoint m_ip6;
     network::ip::tcp::Transport m_tcp;
     network::ip::udp::Transport m_udp;
-    network::posix::Socket m_sock;
+    network::os::Socket m_sock;
 };
 
 } // namespace hello

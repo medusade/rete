@@ -13,21 +13,36 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Socket.cpp
+///   File: Os.hpp
 ///
 /// Author: $author$
-///   Date: 12/3/2016
+///   Date: 12/5/2016
 ///////////////////////////////////////////////////////////////////////
-#include "rete/network/linux/Socket.hpp"
+#ifndef _RETE_NETWORK_OS_OS_HPP
+#define _RETE_NETWORK_OS_OS_HPP
+
+#include "rete/base/Base.hpp"
 
 namespace rete {
 namespace network {
-namespace linux {
+namespace microsoft { namespace windows { } }
+namespace apple { namespace osx { } }
+namespace posix { }
+namespace os {
 
-///////////////////////////////////////////////////////////////////////
-///  Class: SocketT
-///////////////////////////////////////////////////////////////////////
+#if defined(WINDOWS)
+// Windows
+namespace os = microsoft::windows;
+#elif defined(MACOSX)
+// MacOSX
+namespace os = apple::osx;
+#else // defined(WINDOWS)
+// Unix
+namespace os = posix;
+#endif // defined(WINDOWS)
 
-} // namespace linux 
+} // namespace os
 } // namespace network 
 } // namespace rete 
+
+#endif // _RETE_NETWORK_OS_OS_HPP 

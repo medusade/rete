@@ -16,18 +16,25 @@
 ///   File: Socket.cpp
 ///
 /// Author: $author$
-///   Date: 12/3/2016
+///   Date: 12/5/2016
 ///////////////////////////////////////////////////////////////////////
-#include "rete/network/linux/Socket.hpp"
+#include "rete/network/os/Socket.hpp"
+
+#if defined(WINDOWS)
+// Windows
+#include "rete/network/microsoft/windows/Socket.cpp"
+#elif defined(MACOSX)
+// MacOSX
+#include "rete/network/apple/osx/Socket.cpp"
+#else // defined(WINDOWS)
+// Posix
+#include "rete/network/posix/Socket.cpp"
+#endif // defined(WINDOWS)
 
 namespace rete {
 namespace network {
-namespace linux {
+namespace os {
 
-///////////////////////////////////////////////////////////////////////
-///  Class: SocketT
-///////////////////////////////////////////////////////////////////////
-
-} // namespace linux 
+} // namespace os 
 } // namespace network 
 } // namespace rete 

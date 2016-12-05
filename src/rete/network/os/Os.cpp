@@ -13,21 +13,17 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Socket.cpp
+///   File: Os.cpp
 ///
 /// Author: $author$
-///   Date: 12/3/2016
+///   Date: 12/5/2016
 ///////////////////////////////////////////////////////////////////////
-#include "rete/network/linux/Socket.hpp"
+#include "rete/network/os/Os.hpp"
 
 namespace rete {
 namespace network {
-namespace linux {
+namespace os {
 
-///////////////////////////////////////////////////////////////////////
-///  Class: SocketT
-///////////////////////////////////////////////////////////////////////
-
-} // namespace linux 
+} // namespace os 
 } // namespace network 
 } // namespace rete 
