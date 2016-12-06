@@ -35,9 +35,18 @@ namespace rete {
 namespace network {
 namespace posix {
 
+typedef int SocketAttachedTo;
+typedef int SocketUnattachedTo;
+enum { SocketUnattached = 0 };
+
+typedef ::patrona::AttacherT
+<SocketAttachedTo, SocketUnattachedTo,
+ SocketUnattached, Opener> SocketTAttacher;
+
 typedef ::patrona::AttachedT
 <SocketAttachedTo, SocketUnattachedTo,
  SocketUnattached, Socket, Base> SocketTAttached;
+
 typedef ::patrona::OpenedT
 <SocketAttachedTo, SocketUnattachedTo, SocketUnattached,
  Socket, SocketTAttached> SocketTOpened;
@@ -66,13 +75,14 @@ public:
     typedef TExtends Extends;
 
     typedef TImplemented SocketTImplemented;
+    typedef TAttached Attached;
+    enum { Unattached = VUnattached };
+
     typedef TTransport Transport;
     typedef TEndpoint Endpoint;
     typedef TDomain Domain;
     typedef TType Type;
     typedef TProtocol Protocol;
-    typedef TAttached Attached;
-    enum { Unattached = VUnattached };
 
     typedef SocketLingerSeconds LingerSeconds;
     static const LingerSeconds defaultLingerSeconds = SocketLingerSecondsDefault;
@@ -94,6 +104,51 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    using Extends::Open;
+    virtual bool Open
+    (Domain domain, Type type, Protocol protocol) {
+        Attached detached = ((Attached)Unattached);
+        if (((Attached)Unattached) !=
+            (detached = OpenAttached(domain, type, protocol))) {
+            this->SetIsOpen();
+            return true;
+        }
+        return false;
+    }
+    virtual bool Close() {
+        if ((this->OnClose())) {
+            Attached detached = ((Attached)Unattached);
+            if (((Attached)Unattached) != (detached = this->Detach())) {
+                if ((this->CloseDetached(detached))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    using Extends::Shutdown;
+    virtual bool Shutdown(ShutdownHow how) {
+        Attached detached = ((Attached)Unattached);
+        if (((Attached)Unattached) != (detached = this->AttachedTo())) {
+            if ((this->ShutdownDetached(detached, how))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual Attached OpenAttached
+    (Domain domain, Type type, Protocol protocol) {
+        Attached detached = ((Attached)Unattached);
+        if ((this->Closed())) {
+            if (((Attached)Unattached) !=
+                (detached = OpenDetached(domain, type, protocol))) {
+                this->Attach(detached);
+            }
+        }
+        return detached;
+    }
     virtual Attached OpenDetached
     (Domain domain, Type type, Protocol protocol) const {
         Attached detached = ((Attached)Unattached);
@@ -120,9 +175,9 @@ public:
     }
     virtual bool ShutdownDetached(Attached detached, ShutdownHow how) const {
         if (0 <= (detached)) {
-            int sdHow = ((how & this->shutdownRead)?(SHUT_RD):(0))
-                        | ((how & this->shutdownWrite)?(SHUT_WR):(0))
-                        | ((how & this->shutdownBoth)?(SHUT_RDWR):(0)),
+            int sdHow = ((how == this->shutdownRead)?(SHUT_RD)
+                        :((how == this->shutdownWrite)?(SHUT_WR)
+                        :((how == this->shutdownBoth)?(SHUT_RDWR):(0)))),
                 err = 0;
             CRONO_LOG_DEBUG("shutdown(" << detached << ", " << sdHow << ")...");
             if (!(err = ::shutdown(detached, sdHow))) {

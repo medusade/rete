@@ -18,24 +18,29 @@
 /// Author: $author$
 ///   Date: 12/3/2016
 ///////////////////////////////////////////////////////////////////////
-#include "Socket.hpp"
+#include "rete/network/microsoft/windows/Socket.hpp"
+
+#if !defined(WINDOWS)
+int closesocket(
+  _In_ SOCKET s
+) {
+    return close(s);
+}
+int WSAGetLastError(void) {
+    return errno;
+}
+#endif // !defined(WINDOWS)
 
 namespace rete {
 namespace network {
 namespace microsoft {
 namespace windows {
 
-
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketT
 ///////////////////////////////////////////////////////////////////////
-
 
 } // namespace windows 
 } // namespace microsoft 
 } // namespace network 
 } // namespace rete 
-
-
-        
-

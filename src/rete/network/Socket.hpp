@@ -51,15 +51,10 @@ enum {
 
 typedef int SocketShutdownHow;
 enum {
-    SocketShutdownNone = 0,
-    SocketShutdownRead = 1,
-    SocketShutdownWrite = 2,
-    SocketShutdownBoth = (SocketShutdownRead | SocketShutdownWrite)
+    SocketShutdownRead,
+    SocketShutdownWrite,
+    SocketShutdownBoth
 };
-
-typedef int SocketAttachedTo;
-typedef int SocketUnattachedTo;
-enum { SocketUnattached = 0 };
 
 typedef AddressFamily SocketDomain;
 typedef TransportType SocketType;
@@ -68,19 +63,12 @@ typedef Transport SocketTransport;
 typedef Endpoint SocketEndpoint;
 
 class _EXPORT_CLASS SocketTImplemented;
-
-typedef ::patrona::AttacherT
-<SocketAttachedTo, SocketUnattachedTo,
- SocketUnattached, Opener> SocketTAttacher;
-typedef SocketTAttacher SocketTImplements;
+typedef Opener SocketTImplements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketT
 ///////////////////////////////////////////////////////////////////////
 template
 <class TImplemented = SocketTImplemented,
- typename TAttached = SocketAttachedTo,
- typename TUnattached = SocketUnattachedTo,
- TUnattached VUnattached = SocketUnattached,
  typename TDomain = SocketDomain,
  typename TType = SocketType,
  typename TProtocol = SocketProtocol,
@@ -98,8 +86,6 @@ public:
     typedef TDomain Domain;
     typedef TType Type;
     typedef TProtocol Protocol;
-    typedef TAttached Attached;
-    enum { Unattached = VUnattached };
 
     typedef SocketLingerSeconds LingerSeconds;
     static const LingerSeconds defaultLingerSeconds = SocketLingerSecondsDefault;
@@ -131,62 +117,18 @@ public:
     ///////////////////////////////////////////////////////////////////////
     virtual bool Open
     (Domain domain, Type type, Protocol protocol) {
-        Attached detached = ((Attached)Unattached);
-        if (((Attached)Unattached) !=
-            (detached = OpenAttached(domain, type, protocol))) {
-            this->SetIsOpen();
-            return true;
-        }
         return false;
     }
     virtual bool Close() {
-        if ((this->OnClose())) {
-            Attached detached = ((Attached)Unattached);
-            if (((Attached)Unattached) != (detached = this->Detach())) {
-                if ((this->CloseDetached(detached))) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
     virtual bool Shutdown(ShutdownHow how) {
-        Attached detached = ((Attached)Unattached);
-        if (((Attached)Unattached) != (detached = this->AttachedTo())) {
-            if ((this->ShutdownDetached(detached, how))) {
-                return true;
-            }
-        }
         return false;
     }
     virtual bool Shutdown() {
         if ((this->Shutdown(SocketShutdownBoth))) {
             return true;
         }
-        return false;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual Attached OpenAttached
-    (Domain domain, Type type, Protocol protocol) {
-        Attached detached = ((Attached)Unattached);
-        if ((this->Closed())) {
-            if (((Attached)Unattached) !=
-                (detached = OpenDetached(domain, type, protocol))) {
-                this->Attach(detached);
-            }
-        }
-        return detached;
-    }
-    virtual Attached OpenDetached
-    (Domain domain, Type type, Protocol protocol) const {
-        Attached detached = ((Attached)Unattached);
-        return detached;
-    }
-    virtual bool CloseDetached(Attached detached) const {
-        return false;
-    }
-    virtual bool ShutdownDetached(Attached detached, ShutdownHow how) const {
         return false;
     }
 
