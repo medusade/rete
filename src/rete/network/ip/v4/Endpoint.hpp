@@ -68,7 +68,9 @@ public:
     }
     EndpointT(const EndpointT& copy) {
         memset(&m_socketAddress, 0, sizeof(m_socketAddress));
-        this->Attach(copy.m_socketAddress, copy.m_socketAddressLen, copy.m_socketAddressPort);
+        this->Attach
+        ((SockAddrAttached)&copy.m_socketAddress, 
+         copy.m_socketAddressLen, copy.m_socketAddressPort);
     }
     EndpointT() {
         memset(&m_socketAddress, 0, sizeof(m_socketAddress));

@@ -90,10 +90,9 @@ public:
     typedef SocketLingerSeconds LingerSeconds;
     static const LingerSeconds defaultLingerSeconds = SocketLingerSecondsDefault;
     typedef SocketShutdownHow ShutdownHow;
-    static const ShutdownHow
-        shutdownRead = SocketShutdownRead,
-        shutdownWrite = SocketShutdownWrite,
-        shutdownBoth = SocketShutdownBoth;
+    static const ShutdownHow shutdownRead = SocketShutdownRead;
+    static const ShutdownHow shutdownWrite = SocketShutdownWrite;
+    static const ShutdownHow shutdownBoth = SocketShutdownBoth;
     typedef SocketBacklog Backlog;
     static const Backlog defaultBacklog = SocketBacklogDefault;
     typedef SocketSendFlags SendFlags;

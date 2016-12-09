@@ -27,6 +27,7 @@
 #include "rete/network/ip/tcp/Transport.hpp"
 #include "rete/network/ip/udp/Transport.hpp"
 #include "rete/network/os/Socket.hpp"
+#include "rete/network/os/Sockets.hpp"
 
 namespace rete {
 namespace app {
@@ -68,22 +69,30 @@ protected:
     ///////////////////////////////////////////////////////////////////////
     virtual int DefaultRun(int argc, char_t **argv, char_t **env) {
         int err = 0;
-        network::Endpoint& ep = this->Endpoint(argc, argv, env);
-        network::Transport& tp = this->Transport(argc, argv, env);
-        network::Socket& sock = this->Socket(argc, argv, env);
-        if ((ep.Attach(m_port))) {
-            if ((sock.Open(tp))) {
-                if ((sock.Listen(ep))) {
-                    network::Socket* accepted = 0;
-                    if ((accepted = sock.Accept(ep))) {
-                        String m_message("HTTP/1.0 200 OK\n\n\nHello\n");
-                        accepted->Send(m_message.chars(), m_message.length(), 0);
-                        accepted->Close();
+        network::Sockets& sockets = this->Sockets(argc, argv, env);
+
+        if ((sockets.Startup())) {
+            network::Endpoint& ep = this->Endpoint(argc, argv, env);
+
+            if ((ep.Attach(m_port))) {
+                network::Transport& tp = this->Transport(argc, argv, env);
+                network::Socket& sock = this->Socket(argc, argv, env);
+
+                if ((sock.Open(tp))) {
+                    if ((sock.Listen(ep))) {
+                        network::Socket* accepted = 0;
+
+                        if ((accepted = sock.Accept(ep))) {
+                            String m_message("HTTP/1.0 200 OK\n\n\nHello\n");
+                            accepted->Send(m_message.chars(), m_message.length(), 0);
+                            accepted->Close();
+                        }
                     }
+                    sock.Close();
                 }
-                sock.Close();
+                ep.Detach();
             }
-            ep.Detach();
+            sockets.Cleanup();
         }
         return err;
     }
@@ -138,6 +147,10 @@ protected:
     Socket(int argc, char_t **argv, char_t **env) {
         return m_sock;
     }
+    virtual network::Sockets&
+    Sockets(int argc, char_t **argv, char_t **env) {
+        return m_sockets;
+    }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -159,6 +172,7 @@ protected:
     network::ip::tcp::Transport m_tcp;
     network::ip::udp::Transport m_udp;
     network::os::Socket m_sock;
+    network::os::Sockets m_sockets;
 };
 
 } // namespace hello

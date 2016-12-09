@@ -268,11 +268,12 @@ public:
     (const void* buf, size_t len, SendFlags flags,
      const SockAddr* addr, SockLen addrlen) {
         Attached detached = ((Attached)Unattached);
+        const char* msg = 0;
         if ((((Attached)Unattached) != (detached = this->AttachedTo()))
-            && (buf) && (len) && (addr) && (addrlen)) {
+            && (msg = ((const char*)buf)) && (len) && (addr) && (addrlen)) {
             ssize_t count = 0;
             CRONO_LOG_DEBUG("sendto(..., len = " << len << ", flags = " << flags << ")...");
-            if (SOCKET_ERROR != (count = ::sendto(detached, buf, len, flags, addr, addrlen))) {
+            if (SOCKET_ERROR != (count = ::sendto(detached, msg, len, flags, addr, addrlen))) {
                 CRONO_LOG_DEBUG("..." << count << " = sendto(..., len = " << len << ", flags = " << flags << ")...");
                 return count;
             } else {
@@ -286,11 +287,12 @@ public:
     (void* buf, size_t len, RecvFlags flags,
      SockAddr* addr, SockLen* addrlen) {
         Attached detached = ((Attached)Unattached);
+        char* msg = 0;
         if ((((Attached)Unattached) != (detached = this->AttachedTo()))
-            && (buf) && (len) && (addr) && (addrlen)) {
+            && (msg = ((char*)buf)) && (len) && (addr) && (addrlen)) {
             ssize_t count = 0;
             CRONO_LOG_DEBUG("recvfrom(..., len = " << len << ", flags = " << flags << ")...");
-            if (SOCKET_ERROR != (count = ::recvfrom(detached, buf, len, flags, addr, addrlen))) {
+            if (SOCKET_ERROR != (count = ::recvfrom(detached, msg, len, flags, addr, addrlen))) {
                 CRONO_LOG_DEBUG("..." << count << " = recvfrom(..., len = " << len << ", flags = " << flags << ")...");
                 return count;
             } else {
@@ -305,10 +307,12 @@ public:
     ///////////////////////////////////////////////////////////////////////
     virtual ssize_t Send(const void* buf, size_t len, SendFlags flags) {
         Attached detached = ((Attached)Unattached);
-        if ((((Attached)Unattached) != (detached = this->AttachedTo())) && (buf) && (len)) {
+        const char* buff = 0;
+        if ((((Attached)Unattached) != (detached = this->AttachedTo())) 
+            && (buff = ((const char*)buf)) && (len)) {
             ssize_t count = 0;
             CRONO_LOG_DEBUG("send(..., len = " << len << ", flags = " << flags << ")...");
-            if (SOCKET_ERROR != (count = ::send(detached, buf, len, flags))) {
+            if (SOCKET_ERROR != (count = ::send(detached, buff, len, flags))) {
                 CRONO_LOG_DEBUG("..." << count << " = send(..., len = " << len << ", flags = " << flags << ")...");
                 return count;
             } else {
@@ -320,10 +324,12 @@ public:
     }
     virtual ssize_t Recv(void* buf, size_t len, RecvFlags flags) {
         Attached detached = ((Attached)Unattached);
-        if ((((Attached)Unattached) != (detached = this->AttachedTo())) && (buf) && (len)) {
+        char* buff = 0;
+        if ((((Attached)Unattached) != (detached = this->AttachedTo())) 
+            && (buff = ((char*)buf)) && (len)) {
             ssize_t count = 0;
             CRONO_LOG_DEBUG("recv(..., len = " << len << ", flags = " << flags << ")...");
-            if (SOCKET_ERROR != (count = ::recv(detached, buf, len, flags))) {
+            if (SOCKET_ERROR != (count = ::recv(detached, buff, len, flags))) {
                 CRONO_LOG_DEBUG("..." << count << " = recv(..., len = " << len << ", flags = " << flags << ")...");
                 return count;
             } else {
@@ -451,10 +457,12 @@ public:
     virtual bool SetOpt
     (OptLevel level, OptName name, const void* value, SockLen length) {
         Attached detached = ((Attached)Unattached);
-        if ((((Attached)Unattached) != (detached = this->AttachedTo())) && (value) && (length)) {
+        const char* optval = 0;
+        if ((((Attached)Unattached) != (detached = this->AttachedTo())) 
+            && (optval = ((const char*)value)) && (length)) {
             int err = 0;
             CRONO_LOG_DEBUG("setsockopt(..., level = " << level << ", name = " << name << ", ..., length)...");
-            if (SOCKET_ERROR != (err = ::setsockopt(detached, level, name, value, length))) {
+            if (SOCKET_ERROR != (err = ::setsockopt(detached, level, name, optval, length))) {
                 CRONO_LOG_DEBUG("...setsockopt(..., level = " << level << ", name = " << name << ", ..., length)...");
                 return true;
             } else {
@@ -467,10 +475,11 @@ public:
     virtual bool GetOpt
     (OptLevel level, OptName name, void* value, SockLen &length) const {
         Attached detached = ((Attached)Unattached);
+        char* optval = 0;
         if ((((Attached)Unattached) != (detached = this->AttachedTo())) && (value)) {
             int err = 0;
             CRONO_LOG_DEBUG("getsockopt(..., level = " << level << ", name = " << name << ", ..., length)...");
-            if (SOCKET_ERROR != (err = ::getsockopt(detached, level, name, value, &length))) {
+            if (SOCKET_ERROR != (err = ::getsockopt(detached, level, name, optval, &length))) {
                 CRONO_LOG_DEBUG("...getsockopt(..., level = " << level << ", name = " << name << ", ..., length)...");
                 return true;
             } else {
