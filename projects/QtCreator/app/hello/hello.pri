@@ -47,6 +47,11 @@ hello_SOURCES += \
 
 ########################################################################
 hello_HEADERS += \
+$${RETE_SRC}/rete/network/os/Sockets.hpp \
+$${RETE_SRC}/rete/network/microsoft/windows/Sockets.hpp \
+$${RETE_SRC}/rete/network/apple/osx/Sockets.hpp \
+$${RETE_SRC}/rete/network/posix/Sockets.hpp \
+$${RETE_SRC}/rete/network/Sockets.hpp \
 $${RETE_SRC}/rete/network/os/Socket.hpp \
 $${RETE_SRC}/rete/network/microsoft/windows/Socket.hpp \
 $${RETE_SRC}/rete/network/apple/osx/Socket.hpp \
@@ -68,6 +73,7 @@ $${RETE_SRC}/rete/network/Address.hpp \
 $${RETE_SRC}/rete/network/os/Os.hpp \
 
 hello_SOURCES += \
+$${RETE_SRC}/rete/network/os/Sockets.cpp \
 $${RETE_SRC}/rete/network/os/Socket.cpp \
 $${RETE_SRC}/rete/network/ip/v6/Endpoint.cpp \
 $${RETE_SRC}/rete/network/ip/udp/Transport.cpp \
