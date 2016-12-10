@@ -26,10 +26,10 @@
 
 #if defined(WINSOCK_2)
 #define WINSOCK_VERSION_MAJOR 2
-#define WINSOCK_VERSION_MAJOR 2
+#define WINSOCK_VERSION_MINOR 2
 #else // defined(WINSOCK_2)
 #define WINSOCK_VERSION_MAJOR 1
-#define WINSOCK_VERSION_MAJOR 1
+#define WINSOCK_VERSION_MINOR 1
 #endif // defined(WINSOCK_2)
 
 #if !defined(WINDOWS)
@@ -79,12 +79,15 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual bool Startup() {
-        WORD wsaVersion = MAKEWORD(WINSOCK_VERSION_MAJOR, WINSOCK_VERSION_MAJOR);
+        BYTE wsaVersionMajor = WINSOCK_VERSION_MAJOR, 
+             wsaVersionMinor = WINSOCK_VERSION_MINOR;
+        WORD wsaVersion = MAKEWORD(wsaVersionMajor, wsaVersionMinor);
         WSADATA wsaData;
         memset(&wsaData, 0, sizeof(WSADATA));
         CRONO_LOG_DEBUG("WSAStartup(wsaVersion = " << wsaVersion << ",...)...");
         if (SOCKET_ERROR != (WSAStartup(wsaVersion, &wsaData))) {
             CRONO_LOG_DEBUG("...WSAStartup(wsaVersion = " << wsaVersion << ",...)");
+            return true;
         } else {
             int error = WSAGetLastError();
             CRONO_LOG_ERROR("...failed error = " << error << " on WSAStartup(wsaVersion = " << wsaVersion << ",...)");

@@ -53,6 +53,16 @@ public:
     typedef TImplements Implements;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached AttachFirst(const String& host, SockPort port) {
+        const char* chars = host.has_chars();
+        if ((chars)) { return this->AttachFirst(chars, port); }
+        return  0;
+    }
+    virtual SockAddrAttached AttachLast(const String& host, SockPort port) {
+        const char* chars = host.has_chars();
+        if ((chars)) { return this->AttachLast(chars, port); }
+        return  0;
+    }
     virtual SockAddrAttached AttachFirst(const char* host, SockPort port) {
         return this->Attach(host, FirstAddrIndex, port);
     }
