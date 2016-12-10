@@ -341,7 +341,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\src\rete\network\microsoft\windows\Socket.cpp"
+				RelativePath="..\..\..\..\..\src\rete\network\os\Socket.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\src\rete\network\os\Sockets.cpp"
 				>
 			</File>
 		</Filter>
@@ -355,7 +359,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\src\rete\network\microsoft\windows\Socket.hpp"
+				RelativePath="..\..\..\..\..\src\rete\network\os\Socket.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\src\rete\network\os\Sockets.hpp"
 				>
 			</File>
 		</Filter>

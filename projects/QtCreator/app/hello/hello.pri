@@ -86,6 +86,7 @@ $${RETE_SRC}/rete/console/getopt/MainOpt.hpp \
 $${RETE_SRC}/rete/console/getopt/Main.hpp \
 $${RETE_SRC}/rete/console/Main.hpp \
 $${RETE_SRC}/rete/console/Main_main.hpp \
+$${RETE_SRC}/rete/app/console/hello/MainOpt.hpp \
 $${RETE_SRC}/rete/app/console/hello/Main.hpp \
 
 hello_SOURCES += \
