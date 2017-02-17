@@ -63,6 +63,8 @@ $${RETE_SRC}/rete/network/ip/v4/Endpoint.hpp \
 $${RETE_SRC}/rete/network/ip/Endpoint.hpp \
 $${RETE_SRC}/rete/network/Endpoint.hpp \
 $${RETE_SRC}/rete/network/ip/udp/Transport.hpp \
+$${RETE_SRC}/rete/network/ip/v4/tcp/Transport.hpp \
+$${RETE_SRC}/rete/network/ip/v6/tcp/Transport.hpp \
 $${RETE_SRC}/rete/network/ip/tcp/Transport.hpp \
 $${RETE_SRC}/rete/network/ip/Transport.hpp \
 $${RETE_SRC}/rete/network/Transport.hpp \
@@ -76,7 +78,7 @@ hello_SOURCES += \
 $${RETE_SRC}/rete/network/os/Sockets.cpp \
 $${RETE_SRC}/rete/network/os/Socket.cpp \
 $${RETE_SRC}/rete/network/ip/v6/Endpoint.cpp \
-$${RETE_SRC}/rete/network/ip/udp/Transport.cpp \
+$${RETE_SRC}/rete/network/ip/v6/tcp/Transport.cpp \
 $${RETE_SRC}/rete/network/ip/v6/Address.cpp \
 $${RETE_SRC}/rete/network/os/Os.cpp \
 
