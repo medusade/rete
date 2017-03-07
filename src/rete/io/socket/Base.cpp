@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,27 +13,17 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Attached.hpp
+///   File: Base.cpp
 ///
 /// Author: $author$
-///   Date: 12/1/2016
+///   Date: 2/17/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_BASE_ATTACHED_HPP
-#define _RETE_BASE_ATTACHED_HPP
-
-#include "rete/base/Base.hpp"
-#include "patrona/cpp/xos/base/Attached.hpp"
+#include "rete/io/socket/Base.hpp"
 
 namespace rete {
+namespace io {
+namespace socket {
 
-typedef ::patrona::AttachStatus AttachStatus;
-static const AttachStatus DetachSuccess = ::patrona::DetachSuccess;
-static const AttachStatus AttachSuccess = ::patrona::AttachSuccess;
-static const AttachStatus AttachFailed = ::patrona::AttachFailed;
-static const AttachStatus DetachFailed = ::patrona::DetachFailed;
-
-typedef ::patrona::AttachException AttachException;
-
+} // namespace socket 
+} // namespace io 
 } // namespace rete 
-
-#endif // _RETE_BASE_ATTACHED_HPP 

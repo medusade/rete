@@ -224,6 +224,7 @@ public:
         }
         return false;
     }
+    using Extends::Listen;
     virtual bool Listen(Backlog backlog) {
         Attached detached = ((Attached)Unattached);
         if ((0 <= (detached = this->AttachedTo()))) {
@@ -473,6 +474,7 @@ public:
     SocketTImplemented() {}
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    using Implements::Accept;
     virtual bool Accept(SocketTImplemented& sock, SockAddr* addr, SockLen& addrlen) {
         if ((sock.Closed())) {
             Attached detached = ((Attached)Unattached);

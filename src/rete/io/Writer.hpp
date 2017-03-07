@@ -27,7 +27,14 @@
 namespace rete {
 namespace io {
 
+typedef patrona::io::Writer Writer;
+
 typedef patrona::io::CharWriter CharWriter;
+typedef patrona::io::TCharWriter TCharWriter;
+typedef patrona::io::WCharWriter WCharWriter;
+
+typedef patrona::io::ByteWriter ByteWriter;
+typedef patrona::io::WordWriter WordWriter;
 
 } // namespace io
 } // namespace rete 

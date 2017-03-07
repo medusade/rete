@@ -21,6 +21,7 @@
 #ifndef _RETE_BASE_BASE_HPP
 #define _RETE_BASE_BASE_HPP
 
+#include "nadir/base/to_string.hpp"
 #include "nadir/base/string.hpp"
 #include "nadir/base/array.hpp"
 #include "nadir/base/wrapped.hpp"
@@ -49,6 +50,10 @@ inline const signed_t& to_signed(const signed_t& v) { return v; }
 inline const wchar_t& to_wchar(const wchar_t& v) { return v; }
 inline const char& to_char(const char& v) { return v; }
 inline const bool& to_bool(const bool& v) { return v; }
+
+typedef ::nadir::chars_to_string CharsToString;
+typedef ::nadir::chars_to_tstring CharsToTString;
+typedef ::nadir::chars_to_wstring CharsToWString;
 
 } // namespace rete
 

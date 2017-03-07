@@ -79,7 +79,7 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    using Extends::Attach;
+    using Implements::Attach;
     virtual SockAddrAttached Attach
     (const SockAddrAttached socketAddress, SockLen socketAddressLen, SockPort port) {
         if ((socketAddress) && (socketAddressLen == (this->SocketAddressLen()))) {

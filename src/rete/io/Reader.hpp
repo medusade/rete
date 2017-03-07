@@ -27,7 +27,14 @@
 namespace rete {
 namespace io {
 
+typedef patrona::io::Reader Reader;
+
 typedef patrona::io::CharReader CharReader;
+typedef patrona::io::TCharReader TCharReader;
+typedef patrona::io::WCharReader WCharReader;
+
+typedef patrona::io::ByteReader ByteReader;
+typedef patrona::io::WordReader WordReader;
 
 } // namespace io 
 } // namespace rete 

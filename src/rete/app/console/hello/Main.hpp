@@ -23,6 +23,9 @@
 
 #include "rete/app/console/hello/MainOpt.hpp"
 #include "rete/console/getopt/Main.hpp"
+#include "rete/network/local/Endpoint.hpp"
+#include "rete/network/local/stream/Transport.hpp"
+#include "rete/network/local/dgram/Transport.hpp"
 #include "rete/network/ip/v6/Endpoint.hpp"
 #include "rete/network/ip/v4/Endpoint.hpp"
 #include "rete/network/ip/tcp/Transport.hpp"
@@ -71,6 +74,30 @@ protected:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual int SetClientRun(int argc, char_t **argv, char_t **env) {
+        int err = 0;
+        if (&Transport(argc, argv, env) == &StreamTransport(argc, argv, env)) {
+            m_run = &Derives::StreamClientRun;
+        } else {
+            if (&Transport(argc, argv, env) == &TcpTransport(argc, argv, env)) {
+                m_run = &Derives::TcpClientRun;
+            } else {
+            }
+        }
+        return err;
+    }
+    virtual int SetServerRun(int argc, char_t **argv, char_t **env) {
+        int err = 0;
+        if (&Transport(argc, argv, env) == &StreamTransport(argc, argv, env)) {
+            m_run = &Derives::StreamServerRun;
+        } else {
+            if (&Transport(argc, argv, env) == &TcpTransport(argc, argv, env)) {
+                m_run = &Derives::TcpServerRun;
+            } else {
+            }
+        }
+        return err;
+    }
     virtual int DefaultRun(int argc, char_t **argv, char_t **env) {
         int err = Usage(argc, argv, env);
         return err;
@@ -105,7 +132,6 @@ protected:
         }
         return err;
     }
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual int TcpServerRun(int argc, char_t **argv, char_t **env) {
@@ -140,6 +166,19 @@ protected:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual int StreamClientRun(int argc, char_t **argv, char_t **env) {
+        int err = 0;
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual int StreamServerRun(int argc, char_t **argv, char_t **env) {
+        int err = 0;
+        return err;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual ssize_t Receive(network::Socket& sock) {
         ssize_t count = 0, amount = 0;
         do {
@@ -160,14 +199,31 @@ protected:
         }
         return DefaultEndpoint(argc, argv, env);
     }
+    ///////////////////////////////////////////////////////////////////////
+    virtual network::Endpoint&
+    SetLocalEndpoint(int argc, char_t **argv, char_t **env) {
+        if ((&Transport(argc, argv, env) != &StreamTransport(argc, argv, env))
+            && (&Transport(argc, argv, env) != &DgramTransport(argc, argv, env))) {
+            m_transport = &Derives::DefaultLocalTransport;
+        }
+        m_endpoint = &Derives::LocalEndpoint;
+        return m_local;
+    }
+    virtual network::Endpoint&
+    LocalEndpoint(int argc, char_t **argv, char_t **env) {
+        return m_local;
+    }
+    ///////////////////////////////////////////////////////////////////////
     virtual network::Endpoint&
     Ip4Endpoint(int argc, char_t **argv, char_t **env) {
         return m_ip4;
     }
+    ///////////////////////////////////////////////////////////////////////
     virtual network::Endpoint&
     Ip6Endpoint(int argc, char_t **argv, char_t **env) {
         return m_ip6;
     }
+    ///////////////////////////////////////////////////////////////////////
     virtual network::Endpoint&
     DefaultEndpoint(int argc, char_t **argv, char_t **env) {
         return Ip4Endpoint(argc, argv, env);
@@ -181,6 +237,18 @@ protected:
             return (this->*m_transport)(argc, argv, env);
         }
         return DefaultTransport(argc, argv, env);
+    }
+    virtual network::Transport&
+    StreamTransport(int argc, char_t **argv, char_t **env) {
+        return m_stream;
+    }
+    virtual network::Transport&
+    DgramTransport(int argc, char_t **argv, char_t **env) {
+        return m_dgram;
+    }
+    virtual network::Transport&
+    DefaultLocalTransport(int argc, char_t **argv, char_t **env) {
+        return StreamTransport(argc, argv, env);
     }
     virtual network::Transport&
     TcpTransport(int argc, char_t **argv, char_t **env) {
@@ -212,11 +280,7 @@ protected:
     (int optval, const char_t* optarg,
      const char_t* optname, int optind,
      int argc, char_t**argv, char_t**env) {
-        int err = 0;
-        if (&Transport(argc, argv, env) == &TcpTransport(argc, argv, env)) {
-            m_run = &Derives::TcpClientRun;
-        } else {
-        }
+        int err = SetClientRun(argc, argv, env);
         return err;
     }
     ///////////////////////////////////////////////////////////////////////
@@ -224,11 +288,7 @@ protected:
     (int optval, const char_t* optarg,
      const char_t* optname, int optind,
      int argc, char_t**argv, char_t**env) {
-        int err = 0;
-        if (&Transport(argc, argv, env) == &TcpTransport(argc, argv, env)) {
-            m_run = &Derives::TcpServerRun;
-        } else {
-        }
+        int err = SetServerRun(argc, argv, env);
         return err;
     }
 
@@ -298,6 +358,9 @@ protected:
     MTransport m_transport;
     short m_port;
     String m_host, m_request, m_response;
+    network::local::Endpoint m_local;
+    network::local::stream::Transport m_stream;
+    network::local::dgram::Transport m_dgram;
     network::ip::v4::Endpoint m_ip4;
     network::ip::v6::Endpoint m_ip6;
     network::ip::tcp::Transport m_tcp;

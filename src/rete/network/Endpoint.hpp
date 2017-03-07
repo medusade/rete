@@ -63,11 +63,19 @@ public:
         if ((chars)) { return this->AttachLast(chars, port); }
         return  0;
     }
+    virtual SockAddrAttached Attach(const String& host, SockPort port) {
+        const char* chars = host.has_chars();
+        if ((chars)) { return this->Attach(chars, port); }
+        return  0;
+    }
     virtual SockAddrAttached AttachFirst(const char* host, SockPort port) {
         return this->Attach(host, FirstAddrIndex, port);
     }
     virtual SockAddrAttached AttachLast(const char* host, SockPort port) {
         return this->Attach(host, LastAddrIndex, port);
+    }
+    virtual SockAddrAttached Attach(const char* host, SockPort port) {
+        return this->Attach(host, FirstAddrIndex, port);
     }
     virtual SockAddrAttached Attach
     (const char_t* host, AddrIndex index, SockPort port) {
