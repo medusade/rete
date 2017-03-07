@@ -27,6 +27,16 @@ $${rete_DEFINES} \
 
 ########################################################################
 hello_HEADERS += \
+$${NADIR_SRC}/nadir/base/to_string.hpp \
+
+hello_SOURCES += \
+$${NADIR_SRC}/nadir/base/to_string.cpp \
+
+########################################################################
+hello_HEADERS += \
+$${RETE_SRC}/rete/base/Opened.hpp \
+$${RETE_SRC}/rete/base/Attached.hpp \
+$${RETE_SRC}/rete/base/Base.hpp \
 
 hello_SOURCES += \
 
@@ -37,13 +47,16 @@ hello_SOURCES += \
 
 ########################################################################
 hello_HEADERS += \
+$${RETE_SRC}/rete/io/socket/tcp/Writer.hpp \
+$${RETE_SRC}/rete/io/socket/Writer.hpp \
+$${RETE_SRC}/rete/io/socket/tcp/Reader.hpp \
+$${RETE_SRC}/rete/io/socket/Reader.hpp \
+$${RETE_SRC}/rete/io/socket/Base.hpp \
 
 hello_SOURCES += \
-
-########################################################################
-hello_HEADERS += \
-
-hello_SOURCES += \
+$${RETE_SRC}/rete/io/socket/tcp/Writer.cpp \
+$${RETE_SRC}/rete/io/socket/tcp/Reader.cpp \
+$${RETE_SRC}/rete/io/socket/Base.cpp \
 
 ########################################################################
 hello_HEADERS += \
@@ -58,16 +71,32 @@ $${RETE_SRC}/rete/network/apple/osx/Socket.hpp \
 $${RETE_SRC}/rete/network/linux/Socket.hpp \
 $${RETE_SRC}/rete/network/posix/Socket.hpp \
 $${RETE_SRC}/rete/network/Socket.hpp \
+
+hello_HEADERS += \
+$${RETE_SRC}/rete/network/local/Endpoint.hpp \
+$${RETE_SRC}/rete/network/ip/Endpoints.hpp \
 $${RETE_SRC}/rete/network/ip/v6/Endpoint.hpp \
 $${RETE_SRC}/rete/network/ip/v4/Endpoint.hpp \
 $${RETE_SRC}/rete/network/ip/Endpoint.hpp \
 $${RETE_SRC}/rete/network/Endpoint.hpp \
+
+hello_HEADERS += \
+$${RETE_SRC}/rete/network/local/dgram/Transport.hpp \
+$${RETE_SRC}/rete/network/local/stream/Transport.hpp \
+$${RETE_SRC}/rete/network/local/Transport.hpp \
+$${RETE_SRC}/rete/network/ip/Transports.hpp \
+$${RETE_SRC}/rete/network/ip/v4/udp/Transport.hpp \
+$${RETE_SRC}/rete/network/ip/v6/udp/Transport.hpp \
 $${RETE_SRC}/rete/network/ip/udp/Transport.hpp \
 $${RETE_SRC}/rete/network/ip/v4/tcp/Transport.hpp \
 $${RETE_SRC}/rete/network/ip/v6/tcp/Transport.hpp \
 $${RETE_SRC}/rete/network/ip/tcp/Transport.hpp \
 $${RETE_SRC}/rete/network/ip/Transport.hpp \
 $${RETE_SRC}/rete/network/Transport.hpp \
+
+hello_HEADERS += \
+$${RETE_SRC}/rete/network/local/Address.hpp \
+$${RETE_SRC}/rete/network/ip/Addresses.hpp \
 $${RETE_SRC}/rete/network/ip/v6/Address.hpp \
 $${RETE_SRC}/rete/network/ip/v4/Address.hpp \
 $${RETE_SRC}/rete/network/ip/Address.hpp \
@@ -77,9 +106,12 @@ $${RETE_SRC}/rete/network/os/Os.hpp \
 hello_SOURCES += \
 $${RETE_SRC}/rete/network/os/Sockets.cpp \
 $${RETE_SRC}/rete/network/os/Socket.cpp \
-$${RETE_SRC}/rete/network/ip/v6/Endpoint.cpp \
-$${RETE_SRC}/rete/network/ip/v6/tcp/Transport.cpp \
-$${RETE_SRC}/rete/network/ip/v6/Address.cpp \
+$${RETE_SRC}/rete/network/ip/Endpoints.cpp \
+$${RETE_SRC}/rete/network/ip/Transports.cpp \
+$${RETE_SRC}/rete/network/ip/Addresses.cpp \
+$${RETE_SRC}/rete/network/local/Endpoint.cpp \
+$${RETE_SRC}/rete/network/local/dgram/Transport.cpp \
+$${RETE_SRC}/rete/network/local/Address.cpp \
 $${RETE_SRC}/rete/network/os/Os.cpp \
 
 ########################################################################
