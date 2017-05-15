@@ -42,6 +42,7 @@ hello_SOURCES += \
 
 ########################################################################
 hello_HEADERS += \
+$${CRONO_SRC}/crono/io/Logger.hpp \
 
 hello_SOURCES += \
 
