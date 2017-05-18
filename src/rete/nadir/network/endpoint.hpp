@@ -37,20 +37,17 @@ enum {
 typedef u_short sockport_t;
 typedef struct sockaddr sockaddr_t;
 
-enum { sockaddr_unattached = 0 };
-typedef int sockaddr_unattached_t;
 typedef sockaddr_t* sockaddr_attached_t;
+typedef int sockaddr_unattached_t;
+enum { sockaddr_unattached = 0 };
 
+typedef nadir::attachert
+<sockaddr_attached_t, sockaddr_unattached_t,
+ sockaddr_unattached, address> endpointt_implements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: endpointt
 ///////////////////////////////////////////////////////////////////////
-template
-<class TAddress = address,
- typename TAttached = sockaddr_attached_t,
- typename TUnattached = sockaddr_unattached_t,
- TUnattached VUnattached = sockaddr_unattached,
- class TImplements = nadir::attachert
- <TAttached, TUnattached, VUnattached, TAddress> >
+template <class TImplements = endpointt_implements>
 
 class _EXPORT_CLASS endpointt: virtual public TImplements {
 public:
@@ -62,26 +59,32 @@ public:
     virtual sockaddr_attached_t attach_first(const char_string& host, sockport_t port) {
         const char* chars = host.has_chars();
         if ((chars)) { return this->attach_first(chars, port); }
-        return  0;
+        return this->attach(port);
     }
     virtual sockaddr_attached_t attach_last(const char_string& host, sockport_t port) {
         const char* chars = host.has_chars();
         if ((chars)) { return this->attach_last(chars, port); }
-        return  0;
+        return this->attach(port);
     }
     virtual sockaddr_attached_t attach(const char_string& host, sockport_t port) {
         const char* chars = host.has_chars();
         if ((chars)) { return this->attach(chars, port); }
-        return  0;
+        return this->attach(port);
     }
     virtual sockaddr_attached_t attach_first(const char* host, sockport_t port) {
-        return this->attach(host, first_addrindex, port);
+        if ((host) && (host[0])) {
+            return this->attach(host, first_addrindex, port); }
+        return this->attach(port);
     }
     virtual sockaddr_attached_t attach_last(const char* host, sockport_t port) {
-        return this->attach(host, last_addrindex, port);
+        if ((host) && (host[0])) {
+            return this->attach(host, last_addrindex, port); }
+        return this->attach(port);
     }
     virtual sockaddr_attached_t attach(const char* host, sockport_t port) {
-        return this->attach(host, first_addrindex, port);
+        if ((host) && (host[0])) {
+            return this->attach(host, first_addrindex, port); }
+        return this->attach(port);
     }
     virtual sockaddr_attached_t attach
     (const char_t* host, addrindex_t index, sockport_t port) {
@@ -163,18 +166,16 @@ public:
 };
 typedef endpointt<> endpoint;
 
+typedef endpoint endpoint_extendt_implements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: endpoint_extendt
 ///////////////////////////////////////////////////////////////////////
 template
-<class TAddress = address,
- typename TAttached = sockaddr_attached_t,
- typename TUnattached = sockaddr_unattached_t,
- TUnattached VUnattached = sockaddr_unattached,
- class TImplements = endpointt
- <TAddress, TAttached, TUnattached, VUnattached>,
+<class TAddress,
+ class TImplements = endpoint_extendt_implements,
  class TExtends = nadir::attachedt
- <TAttached, TUnattached, VUnattached, TImplements> >
+ <sockaddr_attached_t, sockaddr_unattached_t,
+  sockaddr_unattached, endpoint_extendt_implements, TAddress> >
 
 class _EXPORT_CLASS endpoint_extendt
 : virtual public TImplements, public TExtends {
@@ -206,7 +207,6 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef endpoint_extendt<> endpoint_extend;
 
 } // namespace network
 } // namespace rete 

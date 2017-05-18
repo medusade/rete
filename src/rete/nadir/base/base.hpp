@@ -63,4 +63,15 @@ const nadir::attach_status
 
 } // namespace rete
 
-#endif // _RETE_NADIR_BASE_BASE_HPP 
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+typedef nadir::opener opener;
+typedef nadir::open_exception open_exception;
+typedef nadir::open_status open_status;
+const nadir::open_status
+    close_success = nadir::close_success,
+    open_success = nadir::open_success,
+    open_failed = nadir::open_failed,
+    close_failed = nadir::close_failed;
+
+#endif // _RETE_NADIR_BASE_BASE_HPP

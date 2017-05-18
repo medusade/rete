@@ -13,70 +13,50 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: endpoint.hpp
+///   File: socket.hpp
 ///
 /// Author: $author$
-///   Date: 5/13/2017
+///   Date: 5/15/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP
-#define _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP
+#ifndef _RETE_NADIR_NETWORK_APPLE_OSX_SOCKET_HPP
+#define _RETE_NADIR_NETWORK_APPLE_OSX_SOCKET_HPP
 
-#include "rete/nadir/network/endpoint.hpp"
-#include "rete/nadir/network/ip/address.hpp"
+#include "rete/nadir/network/posix/socket.hpp"
 
 namespace rete {
 namespace network {
-namespace ip {
+namespace apple {
+namespace osx {
 
-typedef network::endpoint_extendt_implements endpointt_implements;
+typedef posix::socket_implements sockett_implements;
+typedef posix::socket sockett_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: endpointt
+///  Class: sockett
 ///////////////////////////////////////////////////////////////////////
 template
-<class TAddress,
- class TImplements = endpointt_implements,
- class TExtends = network::endpoint_extendt<TAddress> >
-
-class _EXPORT_CLASS endpointt
-: virtual public TImplements, public TExtends {
+<class TImplements = sockett_implements, class TExtends = sockett_extends>
+class _EXPORT_CLASS sockett: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    endpointt(const char* host, sockport_t port)
-    : socket_address_port_(0), socket_address_len_(0) {
-        if (!(this->attach(host, port))) {
-            attach_exception e(attach_failed);
-            CRONO_LOG_ERROR("...throwing attach_exception e(attach_failed)...");
-            throw (e);
-        }
+    sockett(const sockett& copy): Extends(copy) {
     }
-    endpointt()
-    : socket_address_port_(0), socket_address_len_(0) {
+    sockett() {
     }
-    virtual ~endpointt() {
-        if ((this->attached_to())) {
-            if (!(this->detach())) {
-                attach_exception e(detach_failed);
-                CRONO_LOG_ERROR("...throwing attach_exception e(detach_failed)...");
-                throw (e);
-            }
-        }
+    virtual ~sockett() {
     }
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-protected:
-    sockport_t socket_address_port_;
-    socklen_t socket_address_len_;
 };
+typedef sockett<> socket;
 
-} // namespace ip 
+} // namespace osx 
+} // namespace apple 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP 
+#endif // _RETE_NADIR_NETWORK_APPLE_OSX_SOCKET_HPP 
         
 

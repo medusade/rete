@@ -13,70 +13,40 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: endpoint.hpp
+///   File: socket_observer.hpp
 ///
 /// Author: $author$
-///   Date: 5/13/2017
+///   Date: 5/17/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP
-#define _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP
+#ifndef _RETE_NADIR_NETWORK_SOCKET_OBSERVER_HPP
+#define _RETE_NADIR_NETWORK_SOCKET_OBSERVER_HPP
 
-#include "rete/nadir/network/endpoint.hpp"
-#include "rete/nadir/network/ip/address.hpp"
+#include "rete/nadir/network/socket.hpp"
 
 namespace rete {
 namespace network {
-namespace ip {
 
-typedef network::endpoint_extendt_implements endpointt_implements;
+typedef implement_base socket_observert_implements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: endpointt
+///  Class: socket_observert
 ///////////////////////////////////////////////////////////////////////
-template
-<class TAddress,
- class TImplements = endpointt_implements,
- class TExtends = network::endpoint_extendt<TAddress> >
+template <class TImplements = socket_observert_implements>
 
-class _EXPORT_CLASS endpointt
-: virtual public TImplements, public TExtends {
+class _EXPORT_CLASS socket_observert: virtual public TImplements {
 public:
     typedef TImplements Implements;
-    typedef TExtends Extends;
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    endpointt(const char* host, sockport_t port)
-    : socket_address_port_(0), socket_address_len_(0) {
-        if (!(this->attach(host, port))) {
-            attach_exception e(attach_failed);
-            CRONO_LOG_ERROR("...throwing attach_exception e(attach_failed)...");
-            throw (e);
-        }
+    virtual void on_send(const void* buf, size_t len) {
     }
-    endpointt()
-    : socket_address_port_(0), socket_address_len_(0) {
+    virtual void on_recv(const void* buf, size_t len) {
     }
-    virtual ~endpointt() {
-        if ((this->attached_to())) {
-            if (!(this->detach())) {
-                attach_exception e(detach_failed);
-                CRONO_LOG_ERROR("...throwing attach_exception e(detach_failed)...");
-                throw (e);
-            }
-        }
-    }
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-protected:
-    sockport_t socket_address_port_;
-    socklen_t socket_address_len_;
 };
+typedef socket_observert<> socket_observer;
 
-} // namespace ip 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP 
-        
-
+#endif // _RETE_NADIR_NETWORK_SOCKET_OBSERVER_HPP 

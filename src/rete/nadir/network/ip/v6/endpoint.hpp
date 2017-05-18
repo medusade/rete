@@ -31,18 +31,14 @@ namespace v6 {
 
 typedef struct sockaddr_in6 sockaddr_t;
 
+typedef ip::endpointt_implements endpointt_implements;
+typedef ip::endpointt<address> endpointt_extends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: endpointt
 ///////////////////////////////////////////////////////////////////////
 template
-<class TAddress = address,
- typename TAttached = sockaddr_attached_t,
- typename TUnattached = sockaddr_unattached_t,
- TUnattached VUnattached = sockaddr_unattached,
- class TImplements = network::endpointt
- <TAddress, TAttached, TUnattached, VUnattached>,
- class TExtends = ip::endpointt
- <TAddress, TAttached, TUnattached, VUnattached, TImplements> >
+<class TImplements = endpointt_implements,
+ class TExtends = endpointt_extends>
 
 class _EXPORT_CLASS endpointt
 : virtual public TImplements, public TExtends {

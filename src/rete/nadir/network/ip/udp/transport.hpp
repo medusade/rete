@@ -13,70 +13,63 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: endpoint.hpp
+///   File: transport.hpp
 ///
 /// Author: $author$
-///   Date: 5/13/2017
+///   Date: 5/15/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP
-#define _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP
+#ifndef _RETE_NADIR_NETWORK_IP_UDP_TRANSPORT_HPP
+#define _RETE_NADIR_NETWORK_IP_UDP_TRANSPORT_HPP
 
-#include "rete/nadir/network/endpoint.hpp"
-#include "rete/nadir/network/ip/address.hpp"
+#include "rete/nadir/network/ip/transport.hpp"
 
 namespace rete {
 namespace network {
 namespace ip {
+namespace udp {
 
-typedef network::endpoint_extendt_implements endpointt_implements;
+typedef ip::transportt_implements transportt_implements;
+typedef ip::transport transportt_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: endpointt
+///  Class: transportt
 ///////////////////////////////////////////////////////////////////////
 template
-<class TAddress,
- class TImplements = endpointt_implements,
- class TExtends = network::endpoint_extendt<TAddress> >
+<class TImplements = transportt_implements,
+ class TExtends = transportt_extends>
 
-class _EXPORT_CLASS endpointt
-: virtual public TImplements, public TExtends {
+class _EXPORT_CLASS transportt: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
 
+    typedef typename Implements::domain_t domain_t;
+    typedef typename Implements::type_t type_t;
+    typedef typename Implements::protocol_t protocol_t;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    endpointt(const char* host, sockport_t port)
-    : socket_address_port_(0), socket_address_len_(0) {
-        if (!(this->attach(host, port))) {
-            attach_exception e(attach_failed);
-            CRONO_LOG_ERROR("...throwing attach_exception e(attach_failed)...");
-            throw (e);
-        }
+    transportt() {
     }
-    endpointt()
-    : socket_address_port_(0), socket_address_len_(0) {
-    }
-    virtual ~endpointt() {
-        if ((this->attached_to())) {
-            if (!(this->detach())) {
-                attach_exception e(detach_failed);
-                CRONO_LOG_ERROR("...throwing attach_exception e(detach_failed)...");
-                throw (e);
-            }
-        }
+    virtual ~transportt() {
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-protected:
-    sockport_t socket_address_port_;
-    socklen_t socket_address_len_;
+    virtual type_t type() const {
+        return SOCK_DGRAM;
+    }
+    virtual protocol_t protocol() const {
+        return IPPROTO_UDP;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
 };
+typedef transportt<> transport;
 
+} // namespace udp
 } // namespace ip 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NADIR_NETWORK_IP_ENDPOINT_HPP 
-        
-
+#endif // _RETE_NADIR_NETWORK_IP_UDP_TRANSPORT_HPP 
