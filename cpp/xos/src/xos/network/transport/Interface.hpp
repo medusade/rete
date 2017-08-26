@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,54 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Interface.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 8/23/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _XOS_NETWORK_TRANSPORT_INTERFACE_HPP
+#define _XOS_NETWORK_TRANSPORT_INTERFACE_HPP
 
-#include "rete/base/Base.hpp"
+#include "xos/network/transport/Domain.hpp"
+#include "xos/network/transport/Type.hpp"
+#include "xos/network/transport/Protocol.hpp"
+#include "xos/network/Sockets.hpp"
 
-namespace rete {
+namespace xos {
 namespace network {
+namespace transport {
 
-namespace sockets {
-
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef ImplementBase InterfaceTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: InterfaceT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template
+<class TDomain = Domain,
+ class TType = Type,
+ class TProtocol = Protocol,
+ class TImplements = InterfaceTImplements>
+
+class _EXPORT_CLASS InterfaceT: virtual public TImplements {
 public:
     typedef TImplements Implements;
+    typedef TDomain domain_t;
+    typedef TType type_t;
+    typedef TProtocol protocol_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    virtual const sockets::transport::Interface* const_SocketsInterface() const {
+        return SocketsInterface();
+    }
+    virtual sockets::transport::Interface* SocketsInterface() const {
+        return 0;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef SocketsT<> Sockets;
+typedef InterfaceT<> Interface;
 
+} // namespace transport 
 } // namespace network 
-} // namespace rete 
+} // namespace xos 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _XOS_NETWORK_TRANSPORT_INTERFACE_HPP 

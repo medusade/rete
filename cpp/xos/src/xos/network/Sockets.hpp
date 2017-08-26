@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -16,19 +16,45 @@
 ///   File: Sockets.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 8/21/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _XOS_NETWORK_SOCKETS_HPP
+#define _XOS_NETWORK_SOCKETS_HPP
 
-#include "rete/base/Base.hpp"
+#include "xos/base/Base.hpp"
 
-namespace rete {
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
+namespace xos {
 namespace network {
-
 namespace sockets {
 
+namespace address {
+
+class _EXPORT_CLASS Family;
+class _EXPORT_CLASS Version;
+class _EXPORT_CLASS Interface;
+
+} // namespace address
+
+namespace transport {
+
+class _EXPORT_CLASS Domain;
+class _EXPORT_CLASS Type;
+class _EXPORT_CLASS Protocol;
+class _EXPORT_CLASS Interface;
+
+} // namespace transport
+
+class _EXPORT_CLASS Endpoint;
 class _EXPORT_CLASS Location;
+class _EXPORT_CLASS Interface;
+class _EXPORT_CLASS Platform;
 
 } // namespace sockets
 
@@ -49,7 +75,7 @@ public:
 };
 typedef SocketsT<> Sockets;
 
-} // namespace network 
-} // namespace rete 
+} // namespace network
+} // namespace xos 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _XOS_NETWORK_SOCKETS_HPP 

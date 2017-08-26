@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,65 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Address.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 8/22/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _XOS_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP
+#define _XOS_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP
 
-#include "rete/base/Base.hpp"
+#include "xos/network/sockets/ip/Address.hpp"
 
-namespace rete {
+namespace xos {
 namespace network {
-
 namespace sockets {
+namespace ip {
+namespace v4 {
 
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef ip::Address AddressTImplements;
+typedef Base AddressTExtends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: AddressT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template
+<class TImplements = AddressTImplements, class TExtends = AddressTExtends>
+
+class _EXPORT_CLASS AddressT: virtual public TImplements {
 public:
     typedef TImplements Implements;
+    typedef typename Implements::family_t family_t;
+    typedef typename Implements::version_t version_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    AddressT(const AddressT& copy) {
+    }
+    AddressT() {
+    }
+    virtual ~AddressT() {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual family_t Family() const {
+        family_t family(AF_INET);
+        return family;
+    }
+    virtual version_t Version() const {
+        version_t version(4);
+        return version;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef SocketsT<> Sockets;
+typedef AddressT<> Address;
 
+} // namespace v4
+} // namespace ip 
+} // namespace sockets 
 } // namespace network 
-} // namespace rete 
+} // namespace xos 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _XOS_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP 
+
+        
+

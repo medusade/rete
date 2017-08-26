@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,21 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Domain.cpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 8/21/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#include "xos/network/transport/Domain.hpp"
 
-#include "rete/base/Base.hpp"
-
-namespace rete {
+namespace xos {
 namespace network {
+namespace transport {
 
-namespace sockets {
-
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: DomainT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
-public:
-    typedef TImplements Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-typedef SocketsT<> Sockets;
 
+} // namespace transport 
 } // namespace network 
-} // namespace rete 
-
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+} // namespace xos 

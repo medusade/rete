@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,62 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Address.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 7/9/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _RETE_NETWORK_SOCKETS_ADDRESS_HPP
+#define _RETE_NETWORK_SOCKETS_ADDRESS_HPP
 
-#include "rete/base/Base.hpp"
+#include "rete/network/Sockets.hpp"
+
+#include <sys/socket.h>
+#include <netdb.h>
 
 namespace rete {
 namespace network {
-
 namespace sockets {
 
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef int AddressFamily;
+typedef int AddressVersion;
+typedef ImplementBase AddressTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: AddressT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template
+<typename TFamily = AddressFamily,
+ typename TVersion = AddressVersion,
+ class TImplements = AddressTImplements>
+
+class _EXPORT_CLASS AddressT: virtual public TImplements {
 public:
     typedef TImplements Implements;
+
+    typedef TFamily tFamily;
+    typedef TVersion tVersion;
+    static const tFamily FamilyUnspec = AF_UNSPEC;
+    static const tVersion VersionUnspec = 0;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    virtual tFamily Family() const {
+        return FamilyUnspec;
+    }
+    virtual tVersion Version() const {
+        return VersionUnspec;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef SocketsT<> Sockets;
+typedef AddressT<> Address;
 
+} // namespace sockets
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _RETE_NETWORK_SOCKETS_ADDRESS_HPP 
+
+        
+

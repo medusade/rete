@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,55 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Endpoint.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 8/22/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _XOS_NETWORK_SOCKETS_IP_ENDPOINT_HPP
+#define _XOS_NETWORK_SOCKETS_IP_ENDPOINT_HPP
 
-#include "rete/base/Base.hpp"
+#include "xos/network/sockets/Endpoint.hpp"
 
-namespace rete {
+namespace xos {
 namespace network {
-
 namespace sockets {
+namespace ip {
 
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef sockets::Endpoint EndpointTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: EndpointT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template
+<class TAddress,
+ class TImplements = EndpointTImplements,
+ class TExtends = AttachedT
+ <SockAddrAttachedTo, int, 0,
+  AttachException, TImplements, TAddress> >
+
+class _EXPORT_CLASS EndpointT: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
+    typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    EndpointT(const EndpointT& copy)
+    : m_socketAddressPort(0), m_socketAddressLen(0) {
+    }
+    EndpointT(): m_socketAddressPort(0), m_socketAddressLen(0) {
+    }
+    virtual ~EndpointT() {
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+protected:
+    SockPort m_socketAddressPort;
+    SockLen m_socketAddressLen;
 };
-typedef SocketsT<> Sockets;
 
+} // namespace ip
+} // namespace sockets 
 } // namespace network 
-} // namespace rete 
+} // namespace xos 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _XOS_NETWORK_SOCKETS_IP_ENDPOINT_HPP 

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,65 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Transport.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 7/9/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _RETE_NETWORK_SOCKETS_TRANSPORT_HPP
+#define _RETE_NETWORK_SOCKETS_TRANSPORT_HPP
 
-#include "rete/base/Base.hpp"
+#include "rete/network/Sockets.hpp"
+
+#include <sys/socket.h>
 
 namespace rete {
 namespace network {
-
 namespace sockets {
 
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef int TransportDomain;
+typedef int TransportType;
+typedef int TransportProtocol;
+typedef ImplementBase TransportTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: TransportT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template
+<typename TDomain = TransportDomain,
+ typename TType = TransportType,
+ typename TProtocol = TransportProtocol,
+ class TImplements = TransportTImplements>
+
+class _EXPORT_CLASS TransportT: virtual public TImplements {
 public:
     typedef TImplements Implements;
+
+    typedef TDomain tDomain;
+    typedef TType tType;
+    typedef TProtocol tProtocol;
+    static const tDomain DomainUnspec = PF_UNSPEC;
+    static const tType TypeUnspec = SOCK_RAW;
+    static const tProtocol ProtocolUnspec = 0;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    virtual tDomain Domain() const {
+        return DomainUnspec;
+    }
+    virtual tType Type() const {
+        return TypeUnspec;
+    }
+    virtual tProtocol Protocol() const {
+        return ProtocolUnspec;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef SocketsT<> Sockets;
+typedef TransportT<> Transport;
 
+} // namespace sockets
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _RETE_NETWORK_SOCKETS_TRANSPORT_HPP 

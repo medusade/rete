@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -16,40 +16,44 @@
 ///   File: Sockets.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 8/24/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _XOS_NETWORK_POSIX_SOCKETS_HPP
+#define _XOS_NETWORK_POSIX_SOCKETS_HPP
 
-#include "rete/base/Base.hpp"
+#include "xos/network/posix/Socket.hpp"
+#include "xos/network/Sockets.hpp"
 
-namespace rete {
+namespace xos {
 namespace network {
+namespace posix {
 
-namespace sockets {
-
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef network::Sockets SocketsTImplements;
+typedef Base SocketsTExtends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketsT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template
+<class TImplements = SocketsTImplements, class TExtends = SocketsTExtends>
+
+class _EXPORT_CLASS SocketsT: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
+    typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
+    /// Constructor: SocketsT
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    SocketsT() {
+    }
+    virtual ~SocketsT() {
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
 typedef SocketsT<> Sockets;
 
+} // namespace posix 
 } // namespace network 
-} // namespace rete 
+} // namespace xos 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _XOS_NETWORK_POSIX_SOCKETS_HPP 

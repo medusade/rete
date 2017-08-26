@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,43 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: MainOpt.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 7/11/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _RETE_APP_CONSOLE_RETE_MAINOPT_HPP
+#define _RETE_APP_CONSOLE_RETE_MAINOPT_HPP
 
-#include "rete/base/Base.hpp"
+#include "rete/app/console/network/Main.hpp"
 
 namespace rete {
-namespace network {
+namespace app {
+namespace console {
+namespace rete {
 
-namespace sockets {
-
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef network::Main MainOptExtends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: MainOpt
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+class _EXPORT_CLASS MainOpt: public MainOptExtends {
 public:
-    typedef TImplements Implements;
+    typedef MainOptExtends Extends;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    MainOpt() {
+    }
+    virtual ~MainOpt() {
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef SocketsT<> Sockets;
 
-} // namespace network 
+} // namespace rete 
+} // namespace console 
+} // namespace app 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _RETE_APP_CONSOLE_RETE_MAINOPT_HPP 

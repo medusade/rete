@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,62 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Location.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 7/11/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _RETE_NETWORK_SOCKETS_LOCATION_HPP
+#define _RETE_NETWORK_SOCKETS_LOCATION_HPP
 
-#include "rete/base/Base.hpp"
+#include "rete/network/sockets/Address.hpp"
+#include "rete/network/Location.hpp"
 
 namespace rete {
 namespace network {
-
 namespace sockets {
 
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef network::LocationTImplements LocationImplements;
+typedef network::Location LocationExtends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: Location
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+class _EXPORT_CLASS Location
+: virtual public LocationImplements, public LocationExtends {
 public:
-    typedef TImplements Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-typedef SocketsT<> Sockets;
+    typedef LocationImplements Implements;
+    typedef LocationExtends Extends;
 
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    Location(const String& host, ushort port): m_host(host), m_port(port) {
+    }
+    Location(ushort port): m_port(port) {
+    }
+    virtual ~Location() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual sockets::Location* socketsLocation() const {
+        return (sockets::Location*)this;
+    }
+    virtual const char* Host() const {
+        return m_host.has_chars();
+    }
+    virtual ushort Port() const {
+        return m_port;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    String m_host;
+    ushort m_port;
+};
+
+} // namespace sockets 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _RETE_NETWORK_SOCKETS_LOCATION_HPP 

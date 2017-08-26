@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,53 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Location.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 7/11/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _RETE_NETWORK_LOCATION_HPP
+#define _RETE_NETWORK_LOCATION_HPP
 
-#include "rete/base/Base.hpp"
+#include "rete/network/Sockets.hpp"
 
 namespace rete {
 namespace network {
 
-namespace sockets {
-
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef ImplementBase LocationTImplements;
+typedef Base LocationTExtends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: LocationT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template
+<class TImplements = LocationTImplements, class TExtends = LocationTExtends>
+class _EXPORT_CLASS LocationT: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
+    typedef TExtends Extends;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    LocationT() {
+    }
+    virtual ~LocationT() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual const sockets::Location* const_socketsLocation() const {
+        return socketsLocation();
+    }
+    virtual sockets::Location* socketsLocation() const {
+        return 0;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef SocketsT<> Sockets;
+typedef LocationT<> Location;
 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _RETE_NETWORK_LOCATION_HPP 

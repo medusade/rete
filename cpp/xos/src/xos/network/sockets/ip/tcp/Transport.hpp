@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2017 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,43 +13,53 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Sockets.hpp
+///   File: Transport.hpp
 ///
 /// Author: $author$
-///   Date: 12/9/2016
+///   Date: 8/23/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_HPP
-#define _RETE_NETWORK_SOCKETS_HPP
+#ifndef _XOS_NETWORK_SOCKETS_IP_TCP_TRANSPORT_HPP
+#define _XOS_NETWORK_SOCKETS_IP_TCP_TRANSPORT_HPP
 
-#include "rete/base/Base.hpp"
+#include "xos/network/sockets/ip/Transport.hpp"
 
-namespace rete {
+namespace xos {
 namespace network {
-
 namespace sockets {
+namespace ip {
+namespace tcp {
 
-class _EXPORT_CLASS Location;
-
-} // namespace sockets
-
-typedef ImplementBase SocketsTImplements;
+typedef ip::Transport TransportTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: SocketsT
+///  Class: TransportT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = SocketsTImplements>
-class _EXPORT_CLASS SocketsT: virtual public TImplements {
+template <class TImplements = TransportTImplements>
+
+class _EXPORT_CLASS TransportT: virtual public TImplements {
 public:
     typedef TImplements Implements;
+    typedef typename Implements::domain_t domain_t;
+    typedef typename Implements::type_t type_t;
+    typedef typename Implements::protocol_t protocol_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    virtual type_t Type() const {
+        type_t type(SOCK_STREAM);
+        return type;
+    }
+    virtual protocol_t Protocol() const {
+        protocol_t protocol(IPPROTO_TCP);
+        return protocol;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef SocketsT<> Sockets;
+typedef TransportT<> Transport;
 
+} // namespace tcp
+} // namespace ip 
+} // namespace sockets 
 } // namespace network 
-} // namespace rete 
+} // namespace xos 
 
-#endif // _RETE_NETWORK_SOCKETS_HPP 
+#endif // _XOS_NETWORK_SOCKETS_IP_TCP_TRANSPORT_HPP 
