@@ -13,62 +13,66 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Transport.hpp
+///   File: MainOpt.hpp
 ///
 /// Author: $author$
-///   Date: 8/23/2017
+///   Date: 8/26/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _XOS_NETWORK_SOCKETS_TRANSPORT_HPP
-#define _XOS_NETWORK_SOCKETS_TRANSPORT_HPP
+#ifndef _RETE_APP_CONSOLE_MT_HELLO_MAINOPT_HPP
+#define _RETE_APP_CONSOLE_MT_HELLO_MAINOPT_HPP
 
-#include "xos/network/sockets/transport/Interface.hpp"
-#include "xos/network/Transport.hpp"
-
-namespace xos {
-namespace network {
-namespace sockets {
+#include "crono/app/console/mt/hello/MainOpt.hpp"
+#include "rete/console/mt/getopt/MainOpt.hpp"
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: TransportTImplements
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS TransportTImplements
-: virtual public network::Transport, virtual public transport::Interface {
-public:
-};
+#define RETE_CONSOLE_HELLO_MAIN_OPTIONS_CHARS \
+    HELLO_MAIN_MESSAGE_OPTVAL_S \
+    RETE_CONSOLE_MAIN_OPTIONS_CHARS
+
+#define RETE_CONSOLE_HELLO_MAIN_OPTIONS_OPTIONS \
+    HELLO_MAIN_MESSAGE_OPTION \
+    RETE_CONSOLE_MAIN_OPTIONS_OPTIONS
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: TransportT
 ///////////////////////////////////////////////////////////////////////
-template <class TImplements = TransportTImplements>
 
-class _EXPORT_CLASS TransportT: virtual public TImplements {
+namespace rete {
+namespace app {
+namespace console {
+namespace mt {
+namespace hello {
+
+typedef nadir::app::console::hello::MainOptT
+<rete::console::mt::getopt::MainOpt> MainOptImplements;
+///////////////////////////////////////////////////////////////////////
+///  Class: MainOptT
+///////////////////////////////////////////////////////////////////////
+template <class TImplements = MainOptImplements>
+
+class _EXPORT_CLASS MainOptT: virtual public TImplements {
 public:
     typedef TImplements Implements;
-    typedef transport::Domain domain_t;
-    typedef transport::Type type_t;
-    typedef transport::Protocol protocol_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-};
-
-typedef TransportT<> TransportImplements;
-///////////////////////////////////////////////////////////////////////
-///  Class: Transport
-///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS Transport: virtual public TransportImplements {
-public:
-    typedef TransportImplements Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual sockets::Transport* SocketsTransport() const {
-        return (sockets::Transport*)this;
+    virtual const char_t* Options(const struct option*& longopts) {
+        int err = 0;
+        static const char_t* chars = RETE_CONSOLE_HELLO_MAIN_OPTIONS_CHARS;
+        static struct option optstruct[]= {
+            RETE_CONSOLE_HELLO_MAIN_OPTIONS_OPTIONS
+            {0, 0, 0, 0}};
+        longopts = optstruct;
+        return chars;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
+typedef MainOptT<> MainOpt;
 
-} // namespace sockets 
-} // namespace network 
-} // namespace xos 
+} // namespace hello
+} // namespace mt 
+} // namespace console 
+} // namespace app 
+} // namespace rete 
 
-#endif // _XOS_NETWORK_SOCKETS_TRANSPORT_HPP 
+#endif // _RETE_APP_CONSOLE_MT_HELLO_MAINOPT_HPP 

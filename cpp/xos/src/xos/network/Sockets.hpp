@@ -21,7 +21,7 @@
 #ifndef _XOS_NETWORK_SOCKETS_HPP
 #define _XOS_NETWORK_SOCKETS_HPP
 
-#include "xos/base/Base.hpp"
+#include "xos/network/Library.hpp"
 
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -51,6 +51,8 @@ class _EXPORT_CLASS Interface;
 
 } // namespace transport
 
+class _EXPORT_CLASS Address;
+class _EXPORT_CLASS Transport;
 class _EXPORT_CLASS Endpoint;
 class _EXPORT_CLASS Location;
 class _EXPORT_CLASS Interface;
@@ -58,7 +60,7 @@ class _EXPORT_CLASS Platform;
 
 } // namespace sockets
 
-typedef ImplementBase SocketsTImplements;
+typedef Library SocketsTImplements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketsT
 ///////////////////////////////////////////////////////////////////////

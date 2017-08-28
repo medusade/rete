@@ -13,52 +13,40 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Endpoint.hpp
+///   File: MainOpt.hpp
 ///
 /// Author: $author$
-///   Date: 8/21/2017
+///   Date: 8/26/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _XOS_NETWORK_ENDPOINT_HPP
-#define _XOS_NETWORK_ENDPOINT_HPP
+#ifndef _RETE_CONSOLE_MT_GETOPT_MAINOPT_HPP
+#define _RETE_CONSOLE_MT_GETOPT_MAINOPT_HPP
 
-#include "xos/network/Location.hpp"
-#include "xos/network/Sockets.hpp"
+#include "rete/console/getopt/MainOpt.hpp"
+#include "crono/console/mt/getopt/MainOpt.hpp"
 
-namespace xos {
-namespace network {
+namespace rete {
+namespace console {
+namespace mt {
+namespace getopt {
 
-typedef ImplementBase EndpointTImplements;
+typedef rete::console::getopt::MainOptT
+<crono::console::mt::getopt::MainOpt> MainOptImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: EndpointT
+///  Class: MainOptT
 ///////////////////////////////////////////////////////////////////////
-template
-<class TImplements = EndpointTImplements>
+template <class TImplements = MainOptImplements>
 
-class _EXPORT_CLASS EndpointT: virtual public TImplements {
+class _EXPORT_CLASS MainOptT: virtual public TImplements {
 public:
     typedef TImplements Implements;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual Location* Attach(const Location& location) {
-        return 0;
-    }
-    virtual bool Detach(Location& location) {
-        return false;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual const sockets::Endpoint* const_SocketsEndpoint() const {
-        return SocketsEndpoint();
-    }
-    virtual sockets::Endpoint* SocketsEndpoint() const {
-        return 0;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
 };
-typedef EndpointT<> Endpoint;
+typedef MainOptT<> MainOpt;
 
-} // namespace network 
-} // namespace xos 
+} // namespace getopt
+} // namespace mt 
+} // namespace console 
+} // namespace rete 
 
-#endif // _XOS_NETWORK_ENDPOINT_HPP 
+#endif // _RETE_CONSOLE_MT_GETOPT_MAINOPT_HPP 

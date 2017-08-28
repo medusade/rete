@@ -13,52 +13,46 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Endpoint.hpp
+///   File: Transport.hpp
 ///
 /// Author: $author$
-///   Date: 8/21/2017
+///   Date: 8/26/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _XOS_NETWORK_ENDPOINT_HPP
-#define _XOS_NETWORK_ENDPOINT_HPP
+#ifndef _XOS_NETWORK_TRANSPORT_HPP
+#define _XOS_NETWORK_TRANSPORT_HPP
 
-#include "xos/network/Location.hpp"
+#include "xos/network/transport/Interface.hpp"
 #include "xos/network/Sockets.hpp"
 
 namespace xos {
 namespace network {
 
-typedef ImplementBase EndpointTImplements;
+typedef transport::Interface TransportTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: EndpointT
+///  Class: TransportT
 ///////////////////////////////////////////////////////////////////////
-template
-<class TImplements = EndpointTImplements>
+template <class TImplements = TransportTImplements>
 
-class _EXPORT_CLASS EndpointT: virtual public TImplements {
+class _EXPORT_CLASS TransportT: virtual public TImplements {
 public:
     typedef TImplements Implements;
+    typedef transport::Domain domain_t;
+    typedef transport::Type type_t;
+    typedef transport::Protocol protocol_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual Location* Attach(const Location& location) {
-        return 0;
+    virtual const sockets::Transport* const_SocketsTransport() const {
+        return SocketsTransport();
     }
-    virtual bool Detach(Location& location) {
-        return false;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual const sockets::Endpoint* const_SocketsEndpoint() const {
-        return SocketsEndpoint();
-    }
-    virtual sockets::Endpoint* SocketsEndpoint() const {
+    virtual sockets::Transport* SocketsTransport() const {
         return 0;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef EndpointT<> Endpoint;
+typedef TransportT<> Transport;
 
-} // namespace network 
+} // namespace network
 } // namespace xos 
 
-#endif // _XOS_NETWORK_ENDPOINT_HPP 
+#endif // _XOS_NETWORK_TRANSPORT_HPP 

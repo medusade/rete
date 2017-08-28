@@ -190,7 +190,14 @@ public:
                 XOS_LOG_DEBUG("...::shutdown(" << detached << ", " << sdHow << ")");
                 return true;
             } else {
-                XOS_LOG_ERROR("failed errno = " << errno << " on ::shutdown(" << detached << ", " << sdHow << ")");
+                bool opt = false, gotOpt = false;
+
+                gotOpt = GetKeepAliveOpt(opt);
+                if (!((gotOpt) && (!opt))) {
+                    XOS_LOG_ERROR("...failed errno = " << errno << " on ::shutdown(" << detached << ", " << sdHow << ")");
+                } else {
+                    XOS_LOG_DEBUG("...errno = " << errno << " on ::shutdown(" << detached << ", " << sdHow << ")");
+                }
             }
         }
         return false;
@@ -359,6 +366,34 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool SetKeepAliveOpt(bool on = true) {
+        int value = (on)?(1):(0);
+        if ((this->SetOpt(SOL_SOCKET, SO_KEEPALIVE, &value, sizeof(value)))) {
+            return true;
+        }
+        return false;
+    }
+    virtual bool SetDontKeepAliveOpt(bool on = true) {
+        int value = (on)?(0):(1);
+        if ((this->SetOpt(SOL_SOCKET, SO_KEEPALIVE, &value, sizeof(value)))) {
+            return true;
+        }
+        return false;
+    }
+    virtual bool GetKeepAliveOpt(bool &on) const {
+        int value = 0;
+        SockLen length = sizeof(value);
+        XOS_LOG_DEBUG("GetOpt(SOL_SOCKET, SO_KEEPALIVE, &value, length)...");
+        if ((this->GetOpt(SOL_SOCKET, SO_KEEPALIVE, &value, length))) {
+            XOS_LOG_DEBUG("...GetOpt(SOL_SOCKET, SO_KEEPALIVE, &value = " << value << ", length)");
+            on = (value != 0);
+            return true;
+        }
+        return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual bool SetReuseAddrOpt(bool on = true) {
         int value = (on)?(1):(0);
         if ((this->SetOpt(SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value)))) {
@@ -366,7 +401,7 @@ public:
         }
         return false;
     }
-    virtual bool SetNoreuseAddrOpt(bool on = true) {
+    virtual bool SetDontReuseAddrOpt(bool on = true) {
         int value = (on)?(0):(1);
         if ((this->SetOpt(SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value)))) {
             return true;

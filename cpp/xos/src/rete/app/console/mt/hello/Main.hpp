@@ -13,52 +13,63 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Endpoint.hpp
+///   File: Main.hpp
 ///
 /// Author: $author$
-///   Date: 8/21/2017
+///   Date: 8/26/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _XOS_NETWORK_ENDPOINT_HPP
-#define _XOS_NETWORK_ENDPOINT_HPP
+#ifndef _RETE_APP_CONSOLE_MT_HELLO_MAIN_HPP
+#define _RETE_APP_CONSOLE_MT_HELLO_MAIN_HPP
 
-#include "xos/network/Location.hpp"
-#include "xos/network/Sockets.hpp"
+#include "rete/app/console/mt/hello/MainOpt.hpp"
+#include "rete/console/mt/getopt/Main.hpp"
+#include "crono/app/console/mt/hello/Main.hpp"
 
-namespace xos {
-namespace network {
+namespace rete {
+namespace app {
+namespace console {
+namespace mt {
+namespace hello {
 
-typedef ImplementBase EndpointTImplements;
+typedef rete::console::mt::getopt::MainImplements MainImplements;
+typedef nadir::app::console::hello::MainT
+<MainOpt, MainImplements, rete::console::mt::getopt::Main> MainExtends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: EndpointT
+///  Class: MainT
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImplements = EndpointTImplements>
+<class TOptImplements = MainOpt,
+ class TImplements = MainImplements, class TExtends = MainExtends>
 
-class _EXPORT_CLASS EndpointT: virtual public TImplements {
+class _EXPORT_CLASS MainT
+: virtual public TOptImplements, virtual public TImplements, public TExtends {
 public:
+    typedef TOptImplements OptImplements;
     typedef TImplements Implements;
+    typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
+    /// Constructor: MainT
     ///////////////////////////////////////////////////////////////////////
-    virtual Location* Attach(const Location& location) {
-        return 0;
+    MainT() {
     }
-    virtual bool Detach(Location& location) {
-        return false;
+    virtual ~MainT() {
     }
+protected:
     ///////////////////////////////////////////////////////////////////////
+    /// Function: RunHello
     ///////////////////////////////////////////////////////////////////////
-    virtual const sockets::Endpoint* const_SocketsEndpoint() const {
-        return SocketsEndpoint();
+    virtual int RunHello(int argc, char_t**argv, char_t** env) {
+        int err = 0;
+        err = Extends::RunHello(argc, argv, env);
+        return err;
     }
-    virtual sockets::Endpoint* SocketsEndpoint() const {
-        return 0;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
 };
-typedef EndpointT<> Endpoint;
+typedef MainT<> Main;
 
-} // namespace network 
-} // namespace xos 
+} // namespace hello
+} // namespace mt 
+} // namespace console 
+} // namespace app 
+} // namespace rete 
 
-#endif // _XOS_NETWORK_ENDPOINT_HPP 
+#endif // _RETE_APP_CONSOLE_MT_HELLO_MAIN_HPP 

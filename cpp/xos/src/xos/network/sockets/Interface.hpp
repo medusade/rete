@@ -124,13 +124,60 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Open(const Transport& transport) {
-        Domain domain = transport.Domain();
-        Type type = transport.Type();
-        Protocol protocol = transport.Protocol();
+    virtual bool Open(const network::Transport& tp) {
+        const Transport* _tp = 0;
+        if ((_tp = tp.const_SocketsTransport())) {
+            return this->Open(*_tp);
+        }
+        return false;
+    }
+    virtual bool Open(const Transport& tp) {
+        Domain domain = tp.Domain();
+        Type type = tp.Type();
+        Protocol protocol = tp.Protocol();
 
         if ((this->Open(domain, type, protocol))) {
             return true;
+        }
+        return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool Connect(const network::Endpoint& ep) {
+        const Endpoint* _ep = 0;
+        if ((_ep = ep.const_SocketsEndpoint())) {
+            return this->Connect(*_ep);
+        }
+        return false;
+    }
+    virtual bool Listen(const network::Endpoint& ep, Backlog backlog) {
+        const Endpoint* _ep = 0;
+        if ((_ep = ep.const_SocketsEndpoint())) {
+            return this->Listen(*_ep, backlog);
+        }
+        return false;
+    }
+    virtual bool Listen(const network::Endpoint& ep) {
+        const Endpoint* _ep = 0;
+        if ((_ep = ep.const_SocketsEndpoint())) {
+            return this->Listen(*_ep);
+        }
+        return false;
+    }
+    virtual bool Accept
+    (network::Interface& in, const network::Endpoint& ep) {
+        Interface* _in = 0;
+        if ((_in = in.SocketsInterface())) {
+            return this->Accept(*_in, ep);
+        }
+        return false;
+    }
+    virtual bool Accept
+    (Interface& in, const network::Endpoint& ep) {
+        const Endpoint* _ep = 0;
+        if ((_ep = ep.const_SocketsEndpoint())) {
+            return this->Accept(in, *_ep);
         }
         return false;
     }
@@ -322,10 +369,22 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool SetKeepAliveOpt(bool on = true) {
+        return false;
+    }
+    virtual bool SetDontKeepAliveOpt(bool on = true) {
+        return false;
+    }
+    virtual bool GetKeepAliveOpt(bool &on) const {
+        return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual bool SetReuseAddrOpt(bool on = true) {
         return false;
     }
-    virtual bool SetNoreuseAddrOpt(bool on = true) {
+    virtual bool SetDontReuseAddrOpt(bool on = true) {
         return false;
     }
     virtual bool GetReuseAddrOpt(bool &on) const {

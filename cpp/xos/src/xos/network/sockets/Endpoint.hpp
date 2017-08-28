@@ -22,6 +22,7 @@
 #define _XOS_NETWORK_SOCKETS_ENDPOINT_HPP
 
 #include "xos/network/sockets/Address.hpp"
+#include "xos/network/sockets/Location.hpp"
 #include "xos/network/Endpoint.hpp"
 #include "xos/base/Attached.hpp"
 #include "xos/logger/Interface.hpp"
@@ -57,6 +58,43 @@ public:
     typedef TImplements Implements;
     typedef TAddrImplements AddrImplements;
     typedef typename AddrImplements::family_t::which_t AddressFamily;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    using AddrImplements::Attach;
+    using AddrImplements::Detach;
+    virtual network::Location* Attach(const network::Location& location) {
+        const Location* _location = 0;
+        if ((_location = location.const_SocketsLocation())) {
+            return Attach(*_location);
+        }
+        return 0;
+    }
+    virtual bool Detach(network::Location& location) {
+        Location* _location = 0;
+        if ((_location = location.SocketsLocation())) {
+            return Detach(*_location);
+        }
+        return false;
+    }
+    virtual Location* Attach(const Location& location) {
+        const char* host = location.Host();
+        SockPort port = location.Port();
+        SockAddrAttachedTo attached = 0;
+        if ((attached = this->Attach(host, port))) {
+            m_location = location;
+            return &m_location;
+        }
+        return 0;
+    }
+    virtual bool Detach(Location& location) {
+        if (&location == (&m_location)) {
+            SockAddrAttachedTo detached = 0;
+            if ((detached = this->Detach())) {
+                return true;
+            }
+        }
+        return false;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttachedTo AttachFirst(const String& host, SockPort port) {
@@ -166,6 +204,8 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+protected:
+    Location m_location;
 };
 
 typedef EndpointT<> EndpointImplements;
@@ -174,6 +214,11 @@ typedef EndpointT<> EndpointImplements;
 ///////////////////////////////////////////////////////////////////////
 class _EXPORT_CLASS Endpoint: virtual public EndpointImplements {
 public:
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual sockets::Endpoint* SocketsEndpoint() const {
+        return (sockets::Endpoint*)this;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };

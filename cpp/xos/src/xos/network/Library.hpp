@@ -13,52 +13,38 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Endpoint.hpp
+///   File: Library.hpp
 ///
 /// Author: $author$
-///   Date: 8/21/2017
+///   Date: 8/27/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _XOS_NETWORK_ENDPOINT_HPP
-#define _XOS_NETWORK_ENDPOINT_HPP
+#ifndef _XOS_NETWORK_LIBRARY_HPP
+#define _XOS_NETWORK_LIBRARY_HPP
 
-#include "xos/network/Location.hpp"
-#include "xos/network/Sockets.hpp"
+#include "xos/base/Base.hpp"
 
 namespace xos {
 namespace network {
 
-typedef ImplementBase EndpointTImplements;
+typedef ImplementBase LibraryTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: EndpointT
+///  Class: LibraryT
 ///////////////////////////////////////////////////////////////////////
-template
-<class TImplements = EndpointTImplements>
+template <class TImplements = LibraryTImplements>
 
-class _EXPORT_CLASS EndpointT: virtual public TImplements {
+class _EXPORT_CLASS LibraryT: virtual public TImplements {
 public:
     typedef TImplements Implements;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual Location* Attach(const Location& location) {
-        return 0;
-    }
-    virtual bool Detach(Location& location) {
-        return false;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual const sockets::Endpoint* const_SocketsEndpoint() const {
-        return SocketsEndpoint();
-    }
-    virtual sockets::Endpoint* SocketsEndpoint() const {
-        return 0;
-    }
+    virtual bool Startup() { return true; }
+    virtual bool Cleanup() { return true; }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef EndpointT<> Endpoint;
+typedef LibraryT<> Library;
 
 } // namespace network 
 } // namespace xos 
 
-#endif // _XOS_NETWORK_ENDPOINT_HPP 
+#endif // _XOS_NETWORK_LIBRARY_HPP 

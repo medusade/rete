@@ -51,22 +51,44 @@ class _EXPORT_CLASS Location
 public:
     typedef LocationImplements Implements;
     typedef LocationExtends Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     Location(const String& host, ushort port): m_host(host), m_port(port) {
     }
     Location(ushort port): m_port(port) {
+    }
+    Location(const Location& copy)
+    : m_host(copy.Host()), m_port(copy.Port()) {
+    }
+    Location(): m_port(0) {
     }
     virtual ~Location() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual Location* SocketsLocation() const {
-        return (Location*)this;
+    virtual const char* SetHost(const char* to) {
+        m_host.Assign(to);
+        return m_host.HasChars();
     }
     virtual const char* Host() const {
         return m_host.HasChars();
     }
+    virtual ushort SetPort(ushort to) {
+        m_port = to;
+        return m_port;
+    }
     virtual ushort Port() const {
         return m_port;
+    }
+    virtual Location& operator = (const Location& copy) {
+        m_host = copy.Host();
+        m_port = copy.Port();
+        return *this;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual Location* SocketsLocation() const {
+        return (Location*)this;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
