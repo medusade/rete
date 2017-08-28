@@ -64,6 +64,7 @@ $${CRONO_SRC}/xos/mt/Logger.cpp \
 ########################################################################
 # rete
 test_HEADERS += \
+$${RETE_SRC}/xos/network/Library.hpp \
 $${RETE_SRC}/xos/network/posix/Sockets.hpp \
 $${RETE_SRC}/xos/network/posix/Socket.hpp \
 $${RETE_SRC}/xos/network/sockets/posix/Interface.hpp \
@@ -81,6 +82,7 @@ $${RETE_SRC}/xos/network/sockets/ip/udp/Transport.hpp \
 $${RETE_SRC}/xos/network/sockets/ip/tcp/Transport.hpp \
 $${RETE_SRC}/xos/network/sockets/ip/Transport.hpp \
 $${RETE_SRC}/xos/network/sockets/Transport.hpp \
+$${RETE_SRC}/xos/network/Transport.hpp \
 $${RETE_SRC}/xos/network/sockets/transport/Interface.hpp \
 $${RETE_SRC}/xos/network/sockets/transport/Domain.hpp \
 $${RETE_SRC}/xos/network/sockets/transport/Type.hpp \
@@ -100,14 +102,21 @@ $${RETE_SRC}/xos/network/address/Interface.hpp \
 $${RETE_SRC}/xos/network/address/Family.hpp \
 $${RETE_SRC}/xos/network/address/Version.hpp \
 $${RETE_SRC}/xos/app/console/mt/hello/Main.hpp \
+$${RETE_SRC}/rete/app/console/mt/hello/Main.hpp \
+$${RETE_SRC}/rete/app/console/mt/hello/MainOpt.hpp \
+$${RETE_SRC}/rete/console/mt/getopt/Main.hpp \
+$${RETE_SRC}/rete/console/mt/getopt/MainOpt.hpp \
+$${RETE_SRC}/rete/console/getopt/Main.hpp \
+$${RETE_SRC}/rete/console/getopt/MainOpt.hpp \
 
 test_SOURCES += \
+$${RETE_SRC}/xos/network/Library.cpp \
 $${RETE_SRC}/xos/network/posix/Sockets.cpp \
 $${RETE_SRC}/xos/network/posix/Socket.cpp \
 $${RETE_SRC}/xos/network/sockets/posix/Interface.cpp \
 $${RETE_SRC}/xos/network/sockets/ip/v6/Endpoint.cpp \
 $${RETE_SRC}/xos/network/sockets/Location.cpp \
-$${RETE_SRC}/xos/network/sockets/ip/udp/Transport.cpp \
+$${RETE_SRC}/xos/network/Transport.cpp \
 $${RETE_SRC}/xos/network/sockets/transport/Domain.cpp \
 $${RETE_SRC}/xos/network/sockets/transport/Type.cpp \
 $${RETE_SRC}/xos/network/sockets/transport/Protocol.cpp \
