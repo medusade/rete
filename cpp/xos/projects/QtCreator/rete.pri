@@ -20,6 +20,7 @@
 ########################################################################
 
 OTHER_PKG = ../../../../../../../..
+OTHER_BLD = ..
 
 ########################################################################
 # rostra
@@ -61,19 +62,6 @@ patrona_DEFINES += \
 patrona_LIBS += \
 
 ########################################################################
-# fila
-FILA_PKG = $${OTHER_PKG}/fila/cpp/xos
-FILA_PRJ = $${FILA_PKG}
-FILA_SRC = $${FILA_PKG}/src
-
-fila_INCLUDEPATH += \
-$${FILA_SRC} \
-
-fila_DEFINES += \
-
-fila_LIBS += \
-
-########################################################################
 # crono
 CRONO_PKG = $${OTHER_PKG}/crono/cpp/xos
 CRONO_PRJ = $${CRONO_PKG}
@@ -85,6 +73,19 @@ $${CRONO_SRC} \
 crono_DEFINES += \
 
 crono_LIBS += \
+
+########################################################################
+# fila
+FILA_PKG = $${OTHER_PKG}/fila/cpp/xos
+FILA_PRJ = $${FILA_PKG}
+FILA_SRC = $${FILA_PKG}/src
+
+fila_INCLUDEPATH += \
+$${FILA_SRC} \
+
+fila_DEFINES += \
+
+fila_LIBS += \
 
 ########################################################################
 # rete
@@ -106,14 +107,21 @@ rete_DEFINES += RELEASE_BUILD
 
 rete_INCLUDEPATH += \
 $${RETE_SRC} \
-$${crono_INCLUDEPATH} \
 $${fila_INCLUDEPATH} \
+$${crono_INCLUDEPATH} \
 $${patrona_INCLUDEPATH} \
 $${nadir_INCLUDEPATH} \
 $${rostra_INCLUDEPATH} \
+$${build_rete_INCLUDEPATH} \
 
 rete_DEFINES += \
 BUILD_CONFIG=$${BUILD_CONFIG} \
+$${rostra_DEFINES} \
+$${nadir_DEFINES} \
+$${patrona_DEFINES} \
+$${crono_DEFINES} \
+$${fila_DEFINES} \
+$${build_rete_DEFINES} \
 
 rete_LIBS += \
 -L$${RETE_LIB}/librete \

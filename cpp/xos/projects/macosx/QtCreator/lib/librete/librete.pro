@@ -18,6 +18,7 @@
 # Author: $author$
 #   Date: 8/14/2017
 ########################################################################
+include(../../../../../build/QtCreator/rete.pri)
 include(../../../../QtCreator/rete.pri)
 include(../../rete.pri)
 include(../../../../QtCreator/lib/librete/librete.pri)
@@ -41,3 +42,4 @@ SOURCES += \
 $${librete_SOURCES} \
 
 ########################################################################
+
