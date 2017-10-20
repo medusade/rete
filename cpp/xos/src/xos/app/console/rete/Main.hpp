@@ -121,7 +121,7 @@ protected:
         network::Location& _lc = ClientLocation();
         network::Location* _lp = 0;
 
-        if (_lp = (ep.Attach(_lc))) {
+        if ((_lp = (ep.Attach(_lc)))) {
 
             if ((in.Connect(ep))) {
 

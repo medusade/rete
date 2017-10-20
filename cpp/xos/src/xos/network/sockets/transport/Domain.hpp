@@ -75,7 +75,7 @@ class _EXPORT_CLASS Domain
 public:
     typedef DomainImplements Implements;
     typedef DomainExtends Extends;
-    typedef typename Extends::which_t which_t;
+    typedef Extends::which_t which_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     Domain(which_t which): Extends(which) {
