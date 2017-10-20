@@ -13,74 +13,95 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: rete.pri
+#   File: Makefile
 #
 # Author: $author$
-#   Date: 9/5/2017
+#   Date: 10/11/2017
 #
-# build QtCreator .pri file for rete
+# generic Gcc Makefile for rete Executable rete
 ########################################################################
 
-########################################################################
-# rostra
-#
-# pkg-config --cflags --libs rostra
-#
-build_rostra_INCLUDEPATH += \
 
-build_rostra_DEFINES += \
-
-build_rostra_LIBS += \
+#
+# target
+#
+rete_exe_EXETARGET = rete
 
 ########################################################################
-# nadir
-#
-# pkg-config --cflags --libs nadir
-#
-build_nadir_INCLUDEPATH += \
 
-build_nadir_DEFINES += \
+#
+# user c++ flags
+#
+rete_exe_USRCXXFLAGS += \
+${rete_USRCXXFLAGS} \
 
-build_nadir_LIBS += \
+#
+# user defines
+#
+rete_exe_USRDEFINES += \
+${rete_USRDEFINES} \
+-DXOS_APP_CONSOLE_RETE_THE_MAIN \
+
+#
+# user includes
+#
+rete_exe_USRINCLUDES += \
+${rete_USRINCLUDES} \
+
+#
+# user libdirs
+#
+rete_exe_USRLIBDIRS += \
+${rete_USRLIBDIRS} \
 
 ########################################################################
-# patrona
-#
-# pkg-config --cflags --libs patrona
-#
-build_patrona_INCLUDEPATH += \
 
-build_patrona_DEFINES += \
+#
+# Executable .c sources
+#
+#rete_exe_EXE_C_SOURCES += \
+#${RETE_SRC}/rete/base/Base.c \
 
-build_patrona_LIBS += \
+#
+# Executable .cc sources
+#
+#rete_exe_EXE_CC_SOURCES += \
+#${RETE_SRC}/rete/base/Base.cc \
+
+#
+# Executable .cxx sources
+#
+#rete_exe_EXE_CXX_SOURCES += \
+#${RETE_SRC}/rete/base/Base.cxx \
+
+#
+# Executable .cpp sources
+#
+rete_exe_EXE_CPP_SOURCES += \
+${FILA_SRC}/xos/console/mt/Main_main.cpp \
+${RETE_SRC}/xos/app/console/rete/Main.cpp \
+${RETE_SRC}/xos/app/console/rete/MainOpt.cpp \
+
+#
+# Executable .m sources
+#
+#rete_exe_EXE_M_SOURCES += \
+#${RETE_SRC}/rete/base/Base.m \
+
+#
+# Executable .mm sources
+#
+#rete_exe_EXE_MM_SOURCES += \
+#${RETE_SRC}/rete/base/Base.mm \
+
 
 ########################################################################
-# fila
+
 #
-# pkg-config --cflags --libs fila
+# Executable libraries
 #
-build_fila_INCLUDEPATH += \
+rete_exe_LIBS += \
+${rete_LIBS}
 
-build_fila_DEFINES += \
 
-build_fila_LIBS += \
 
-########################################################################
-# rete
-build_rete_INCLUDEPATH += \
-$${build_fila_INCLUDEPATH} \
-$${build_patrona_INCLUDEPATH} \
-$${build_nadir_INCLUDEPATH} \
-$${build_rostra_INCLUDEPATH} \
-
-build_rete_DEFINES += \
-$${build_rostra_DEFINES} \
-$${build_nadir_DEFINES} \
-$${build_patrona_DEFINES} \
-$${build_fila_DEFINES} \
-
-build_rete_LIBS += \
-$${build_fila_LIBS} \
-$${build_patrona_LIBS} \
-$${build_nadir_LIBS} \
-$${build_rostra_LIBS} \

@@ -77,9 +77,7 @@ rete_DEFINES += \
 rete_LIBS += \
 $${fila_LIBS} \
 $${crono_LIBS} \
-$${patrona_LIBS} \
 $${nadir_LIBS} \
-$${rostra_LIBS} \
 $${build_rete_LIBS} \
 -lpthread \
 -ldl \
