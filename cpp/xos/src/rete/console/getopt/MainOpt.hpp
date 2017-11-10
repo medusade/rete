@@ -25,6 +25,71 @@
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
+#define RETE_CONSOLE_MAIN_METHOD_OPT "method"
+#define RETE_CONSOLE_MAIN_METHOD_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_REQUIRED
+#define RETE_CONSOLE_MAIN_METHOD_OPTARG_RESULT 0
+#define RETE_CONSOLE_MAIN_METHOD_OPTARG ""
+#define RETE_CONSOLE_MAIN_METHOD_OPTUSE "XTTP request method (GET)"
+#define RETE_CONSOLE_MAIN_METHOD_OPTVAL_S "m:"
+#define RETE_CONSOLE_MAIN_METHOD_OPTVAL_C 'm'
+#define RETE_CONSOLE_MAIN_METHOD_OPTION \
+   {RETE_CONSOLE_MAIN_METHOD_OPT, \
+    RETE_CONSOLE_MAIN_METHOD_OPTARG_REQUIRED, \
+    RETE_CONSOLE_MAIN_METHOD_OPTARG_RESULT, \
+    RETE_CONSOLE_MAIN_METHOD_OPTVAL_C}, \
+
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPT "arguments"
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_REQUIRED
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPTARG_RESULT 0
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPTARG ""
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPTUSE "XTTP request arguments (/)"
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPTVAL_S "a:"
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPTVAL_C 'a'
+#define RETE_CONSOLE_MAIN_ARGUMENTS_OPTION \
+   {RETE_CONSOLE_MAIN_ARGUMENTS_OPT, \
+    RETE_CONSOLE_MAIN_ARGUMENTS_OPTARG_REQUIRED, \
+    RETE_CONSOLE_MAIN_ARGUMENTS_OPTARG_RESULT, \
+    RETE_CONSOLE_MAIN_ARGUMENTS_OPTVAL_C}, \
+
+#define RETE_CONSOLE_MAIN_RESULT_OPT "result"
+#define RETE_CONSOLE_MAIN_RESULT_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_REQUIRED
+#define RETE_CONSOLE_MAIN_RESULT_OPTARG_RESULT 0
+#define RETE_CONSOLE_MAIN_RESULT_OPTARG ""
+#define RETE_CONSOLE_MAIN_RESULT_OPTUSE "XTTP result code (200)"
+#define RETE_CONSOLE_MAIN_RESULT_OPTVAL_S "r:"
+#define RETE_CONSOLE_MAIN_RESULT_OPTVAL_C 'r'
+#define RETE_CONSOLE_MAIN_RESULT_OPTION \
+   {RETE_CONSOLE_MAIN_RESULT_OPT, \
+    RETE_CONSOLE_MAIN_RESULT_OPTARG_REQUIRED, \
+    RETE_CONSOLE_MAIN_RESULT_OPTARG_RESULT, \
+    RETE_CONSOLE_MAIN_RESULT_OPTVAL_C}, \
+
+#define RETE_CONSOLE_MAIN_REASON_OPT "reason"
+#define RETE_CONSOLE_MAIN_REASON_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_REQUIRED
+#define RETE_CONSOLE_MAIN_REASON_OPTARG_RESULT 0
+#define RETE_CONSOLE_MAIN_REASON_OPTARG ""
+#define RETE_CONSOLE_MAIN_REASON_OPTUSE "XTTP result reason (Ok)"
+#define RETE_CONSOLE_MAIN_REASON_OPTVAL_S "e:"
+#define RETE_CONSOLE_MAIN_REASON_OPTVAL_C 'e'
+#define RETE_CONSOLE_MAIN_REASON_OPTION \
+   {RETE_CONSOLE_MAIN_REASON_OPT, \
+    RETE_CONSOLE_MAIN_REASON_OPTARG_REQUIRED, \
+    RETE_CONSOLE_MAIN_REASON_OPTARG_RESULT, \
+    RETE_CONSOLE_MAIN_REASON_OPTVAL_C}, \
+
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPT "protocol"
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_REQUIRED
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPTARG_RESULT 0
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPTARG ""
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPTUSE "XTTP protocol (HTTP/1.0)"
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPTVAL_S "o:"
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPTVAL_C 'o'
+#define RETE_CONSOLE_MAIN_PROTOCOL_OPTION \
+   {RETE_CONSOLE_MAIN_PROTOCOL_OPT, \
+    RETE_CONSOLE_MAIN_PROTOCOL_OPTARG_REQUIRED, \
+    RETE_CONSOLE_MAIN_PROTOCOL_OPTARG_RESULT, \
+    RETE_CONSOLE_MAIN_PROTOCOL_OPTVAL_C}, \
+
 #define RETE_CONSOLE_MAIN_CLIENT_OPT "client"
 #define RETE_CONSOLE_MAIN_CLIENT_OPTARG_REQUIRED MAIN_OPT_ARGUMENT_NONE
 #define RETE_CONSOLE_MAIN_CLIENT_OPTARG_RESULT 0
@@ -129,6 +194,11 @@
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 #define RETE_CONSOLE_MAIN_OPTIONS_CHARS \
+    RETE_CONSOLE_MAIN_METHOD_OPTVAL_S \
+    RETE_CONSOLE_MAIN_ARGUMENTS_OPTVAL_S \
+    RETE_CONSOLE_MAIN_RESULT_OPTVAL_S \
+    RETE_CONSOLE_MAIN_REASON_OPTVAL_S \
+    RETE_CONSOLE_MAIN_PROTOCOL_OPTVAL_S \
    RETE_CONSOLE_MAIN_CLIENT_OPTVAL_S \
    RETE_CONSOLE_MAIN_SERVER_OPTVAL_S \
    RETE_CONSOLE_MAIN_SOCKETS_OPTVAL_S \
@@ -139,6 +209,11 @@
    CRONO_CONSOLE_MAIN_OPTIONS_CHARS
 
 #define RETE_CONSOLE_MAIN_OPTIONS_OPTIONS \
+    RETE_CONSOLE_MAIN_METHOD_OPTION \
+    RETE_CONSOLE_MAIN_ARGUMENTS_OPTION \
+    RETE_CONSOLE_MAIN_RESULT_OPTION \
+    RETE_CONSOLE_MAIN_REASON_OPTION \
+    RETE_CONSOLE_MAIN_PROTOCOL_OPTION \
    RETE_CONSOLE_MAIN_CLIENT_OPTION \
    RETE_CONSOLE_MAIN_SERVER_OPTION \
    RETE_CONSOLE_MAIN_SOCKETS_OPTION \
@@ -175,6 +250,76 @@ public:
     virtual void OnServerOption() {}
     virtual void OnSocketsOption() {}
     ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnMethodOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        //if ((optarg) && (optarg[0])) {
+        //    RETE_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+        //    if (!(set_Method(optarg))) {
+        //        RETE_LOG_ERROR("...failed on set_Method(\"" << optarg << "\")");
+        //    }
+        //}
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnArgumentsOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        //if ((optarg) && (optarg[0])) {
+        //    RETE_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+        //    if (!(set_Arguments(optarg))) {
+        //        RETE_LOG_ERROR("...failed on set_Arguments(\"" << optarg << "\")");
+        //    }
+        //}
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnResultOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        //if ((optarg) && (optarg[0])) {
+        //    RETE_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+        //    if (!(set_Result(optarg))) {
+        //        RETE_LOG_ERROR("...failed on set_Result(\"" << optarg << "\")");
+        //    }
+        //}
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnReasonOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        //if ((optarg) && (optarg[0])) {
+        //    RETE_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+        //    if (!(set_Reason(optarg))) {
+        //        RETE_LOG_ERROR("...failed on set_Reason(\"" << optarg << "\")");
+        //    }
+        //}
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnProtocolOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        //if ((optarg) && (optarg[0])) {
+        //    RETE_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+        //    if (!(set_Protocol(optarg))) {
+        //        RETE_LOG_ERROR("...failed on set_Protocol(\"" << optarg << "\")");
+        //    }
+        //}
+        return err;
+    }
     ///////////////////////////////////////////////////////////////////////
     virtual int OnClientOption
     (int optval, const char* optarg,
@@ -250,6 +395,26 @@ public:
      int argc, char_t**argv, char_t**env) {
         int err = 0;
         switch(optval) {
+        case RETE_CONSOLE_MAIN_METHOD_OPTVAL_C:
+            err = OnMethodOption
+            (optval, optarg, optname, optind, argc, argv, env);
+            break;
+        case RETE_CONSOLE_MAIN_ARGUMENTS_OPTVAL_C:
+            err = OnArgumentsOption
+            (optval, optarg, optname, optind, argc, argv, env);
+            break;
+        case RETE_CONSOLE_MAIN_RESULT_OPTVAL_C:
+            err = OnResultOption
+            (optval, optarg, optname, optind, argc, argv, env);
+            break;
+        case RETE_CONSOLE_MAIN_REASON_OPTVAL_C:
+            err = OnReasonOption
+            (optval, optarg, optname, optind, argc, argv, env);
+            break;
+        case RETE_CONSOLE_MAIN_PROTOCOL_OPTVAL_C:
+            err = OnProtocolOption
+            (optval, optarg, optname, optind, argc, argv, env);
+            break;
         case RETE_CONSOLE_MAIN_CLIENT_OPTVAL_C:
             err = OnClientOption
             (optval, optarg, optname, optind, argc, argv, env);
@@ -288,6 +453,26 @@ public:
     (const char_t*& optarg, const struct option* longopt) {
         const char_t* chars = "";
         switch(longopt->val) {
+        case RETE_CONSOLE_MAIN_METHOD_OPTVAL_C:
+            optarg = RETE_CONSOLE_MAIN_METHOD_OPTARG;
+            chars = RETE_CONSOLE_MAIN_METHOD_OPTUSE;
+            break;
+        case RETE_CONSOLE_MAIN_ARGUMENTS_OPTVAL_C:
+            optarg = RETE_CONSOLE_MAIN_ARGUMENTS_OPTARG;
+            chars = RETE_CONSOLE_MAIN_ARGUMENTS_OPTUSE;
+            break;
+        case RETE_CONSOLE_MAIN_RESULT_OPTVAL_C:
+            optarg = RETE_CONSOLE_MAIN_RESULT_OPTARG;
+            chars = RETE_CONSOLE_MAIN_RESULT_OPTUSE;
+            break;
+        case RETE_CONSOLE_MAIN_REASON_OPTVAL_C:
+            optarg = RETE_CONSOLE_MAIN_REASON_OPTARG;
+            chars = RETE_CONSOLE_MAIN_REASON_OPTUSE;
+            break;
+        case RETE_CONSOLE_MAIN_PROTOCOL_OPTVAL_C:
+            optarg = RETE_CONSOLE_MAIN_PROTOCOL_OPTARG;
+            chars = RETE_CONSOLE_MAIN_PROTOCOL_OPTUSE;
+            break;
         case RETE_CONSOLE_MAIN_CLIENT_OPTVAL_C:
             optarg = RETE_CONSOLE_MAIN_CLIENT_OPTARG;
             chars = RETE_CONSOLE_MAIN_CLIENT_OPTUSE;

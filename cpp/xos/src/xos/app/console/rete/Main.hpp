@@ -60,7 +60,10 @@ public:
     ///////////////////////////////////////////////////////////////////////
     MainT()
     : m_run(0),
-      m_message("Hello"),
+      m_message(""),
+      m_xttpProtocol("HTTP/1.0"),
+      m_xttpMethod("GET"), m_xttpArguments("/"),
+      m_xttpResult("200"), m_xttpReason("OK"),
       m_clientPort(80), m_serverPort(8080),
       m_clientHost("localhost"), m_serverHost(""),
       m_clientSocketLocation(m_clientHost, m_clientPort),
@@ -332,13 +335,18 @@ protected:
         const char* chars = 0;
         size_t length = 0;
 
-        r.Assign("POST /");
+        r.Clear();
+        r.Append(m_xttpMethod);
+        r.Append(" ");
+        r.Append(m_xttpArguments);
 
         if ((chars = message.HasChars(length))) {
             r.Append(chars, length);
             r.Append("/");
         }
-        r.Append(" HTTP/1.0\r\n\r\n");
+        r.Append(" ");
+        r.Append(m_xttpProtocol);
+        r.Append("\r\n\r\n");
 
         if ((optind < argc) && (argv)) {
             const char* separator = 0;
@@ -365,7 +373,13 @@ protected:
         const char* chars = 0;
         size_t length = 0;
 
-        s.Assign("HTTP/1.0 200 Ok\r\n\r\n");
+        s.clear();
+        s.Append(m_xttpProtocol);
+        s.Append(" ");
+        s.Append(m_xttpResult);
+        s.Append(" ");
+        s.Append(m_xttpReason);
+        s.Append("\r\n\r\n");
 
         if ((chars = message.HasChars(length))) {
             s.Append(chars, length);
@@ -466,8 +480,103 @@ protected:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual int OnHostOption
+    (int optval, const char* optarg,
+     const char* optname, int optind,
+     int argc, char**argv, char**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            m_clientHost.Assign(optarg);
+            m_clientSocketLocation.SetHost(m_clientHost.Chars());
+        }
+        return err;
+    }
+    virtual int OnPortOption
+    (int optval, const char* optarg,
+     const char* optname, int optind,
+     int argc, char**argv, char**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            String port(optarg);
+            ushort portno = port.to_unsigned();
+            if (0 < (portno)) {
+                m_serverPort = m_clientPort = portno;
+                m_serverSocketLocation.SetPort(portno);
+                m_clientSocketLocation.SetPort(portno);
+            }
+        }
+        return err;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnMethodOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            XOS_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+            m_xttpMethod.Assign(optarg);
+        }
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnArgumentsOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            XOS_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+            m_xttpArguments.Assign(optarg);
+        }
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnResultOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            XOS_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+            m_xttpResult.Assign(optarg);
+        }
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnReasonOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            XOS_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+            m_xttpReason.Assign(optarg);            
+        }
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int OnProtocolOption
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 0;
+        if ((optarg) && (optarg[0])) {
+            XOS_LOG_DEBUG("optarg = \"" << optarg << "\"...");
+            m_xttpProtocol.Assign(optarg);
+        }
+        return err;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
 protected:
     String m_message;
+    String m_xttpProtocol, 
+           m_xttpMethod, m_xttpArguments, 
+           m_xttpResult, m_xttpReason;
     ushort m_clientPort, m_serverPort;
     String m_clientHost, m_serverHost;
 
