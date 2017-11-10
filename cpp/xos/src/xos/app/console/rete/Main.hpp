@@ -339,14 +339,9 @@ protected:
         r.Append(m_xttpMethod);
         r.Append(" ");
         r.Append(m_xttpArguments);
-
-        if ((chars = message.HasChars(length))) {
-            r.Append(chars, length);
-            r.Append("/");
-        }
         r.Append(" ");
         r.Append(m_xttpProtocol);
-        r.Append("\r\n\r\n");
+        r.Append("\r\n");
 
         if ((optind < argc) && (argv)) {
             const char* separator = 0;
@@ -354,17 +349,23 @@ protected:
             for (int i = optind; i < argc; ++i) {
                 if ((chars = argv[i]) && (chars[0])) {
                     if ((separator)) {
+                        r.Append(m_message);
                         r.Append(separator);
+                        r.Append(chars);
+                        r.Append("\r\n");
+                        separator = 0;
                     } else {
-                        separator = " ";
+                        m_message.Assign(chars);
+                        separator = ": ";
                     }
-                    r.Append(chars);
                 }
             }
             if ((separator)) {
                 r.Append("\r\n");
+                r.Append(m_message);
             }
         }
+        r.Append("\r\n");
         return r;
     }
     virtual String& MakeXttpResponse
