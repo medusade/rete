@@ -13,67 +13,61 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Address.hpp
+///   File: Addresses.hpp
 ///
 /// Author: $author$
-///   Date: 8/22/2017
+///   Date: 11/29/2017
 ///////////////////////////////////////////////////////////////////////
-#ifndef _XOS_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP
-#define _XOS_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP
+#ifndef _XOS_NETWORK_SOCKETS_INTERFACES_ADDRESSES_HPP
+#define _XOS_NETWORK_SOCKETS_INTERFACES_ADDRESSES_HPP
 
+#include "xos/network/sockets/address/Interface.hpp"
+#include "xos/network/sockets/Address.hpp"
 #include "xos/network/sockets/ip/Address.hpp"
+#include "xos/network/sockets/ip/v4/Address.hpp"
+#include "xos/network/sockets/ip/v6/Address.hpp"
+#include "xos/network/ethernet/actual/Address.hpp"
 
 namespace xos {
 namespace network {
 namespace sockets {
-namespace ip {
-namespace v4 {
+namespace interfaces {
 
-typedef ip::Address AddressTImplements;
-typedef sockets::AddressExtendT<AddressTImplements, Base> AddressTExtends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: AddressT
+///  Class: AddressesT
 ///////////////////////////////////////////////////////////////////////
-template
-<class TImplements = AddressTImplements, class TExtends = AddressTExtends>
+template <class TImplements = ImplementBase>
 
-class _EXPORT_CLASS AddressT: virtual public TImplements, public TExtends {
+class _EXPORT_CLASS AddressesT: virtual public TImplements {
 public:
     typedef TImplements Implements;
-    typedef TExtends Extends;
 
-    typedef typename Implements::family_t family_t;
-    typedef typename Implements::version_t version_t;
-
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    AddressT(const AddressT& copy): Extends(copy) {
-    }
-    AddressT(): Extends(family_t(AF_INET), version_t(4)) {
-    }
-    virtual ~AddressT() {
-    }
+    typedef address::Interface Address;
+    typedef const void* AddressAt;
+    typedef unspec::Address UnspecAddress;
+    typedef link::Address LinkAddress;
+    typedef ip::Address IpAddress;
+    typedef ip::v4::Address IpV4Address;
+    typedef ip::v6::Address IpV6Address;
+    typedef ethernet::actual::Address EthernetAddress;
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual family_t Family() const {
-        family_t family(AF_INET);
-        return family;
+    virtual const Address* GetFirst() {
+        return 0;
     }
-    virtual version_t Version() const {
-        version_t version(4);
-        return version;
+    virtual const Address* GetNext() {
+        return 0;
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef AddressT<> Address;
+typedef AddressesT<> Addresses;
 
-} // namespace v4
-} // namespace ip 
+} // namespace interfaces 
 } // namespace sockets 
 } // namespace network 
 } // namespace xos 
 
-#endif // _XOS_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP 
+#endif // _XOS_NETWORK_SOCKETS_INTERFACES_ADDRESSES_HPP 

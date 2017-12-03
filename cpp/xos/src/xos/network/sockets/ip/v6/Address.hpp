@@ -30,26 +30,30 @@ namespace ip {
 namespace v6 {
 
 typedef ip::Address AddressTImplements;
-typedef Base AddressTExtends;
+typedef sockets::AddressExtendT<AddressTImplements, Base> AddressTExtends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: AddressT
 ///////////////////////////////////////////////////////////////////////
 template
 <class TImplements = AddressTImplements, class TExtends = AddressTExtends>
 
-class _EXPORT_CLASS AddressT: virtual public TImplements {
+class _EXPORT_CLASS AddressT: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
+    typedef TExtends Extends;
+    
     typedef typename Implements::family_t family_t;
     typedef typename Implements::version_t version_t;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    AddressT(const AddressT& copy) {
+    AddressT(const AddressT& copy): Extends(copy) {
     }
-    AddressT() {
+    AddressT(): Extends(family_t(AF_INET6), version_t(6)) {
     }
     virtual ~AddressT() {
     }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual family_t Family() const {
@@ -60,6 +64,7 @@ public:
         version_t version(6);
         return version;
     }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
