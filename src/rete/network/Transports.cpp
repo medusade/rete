@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2017 $organization$
+/// Copyright (c) 1988-2018 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,19 +13,21 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Interface.cpp
+///   File: Transports.cpp
 ///
 /// Author: $author$
-///   Date: 7/9/2017
+///   Date: 3/25/2018
 ///////////////////////////////////////////////////////////////////////
-#include "rete/network/sockets/posix/Interface.hpp"
+#include "rete/network/Transports.hpp"
+#include "rete/network/ip/Transport.cpp"
+#include "rete/network/ip/tcp/Transport.cpp"
+#include "rete/network/ip/udp/Transport.cpp"
+#include "rete/network/local/Transport.cpp"
+#include "rete/network/local/stream/Transport.cpp"
+#include "rete/network/local/dgram/Transport.cpp"
 
 namespace rete {
 namespace network {
-namespace sockets {
-namespace posix {
 
-} // namespace posix 
-} // namespace sockets 
 } // namespace network 
 } // namespace rete 

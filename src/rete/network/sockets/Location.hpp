@@ -21,7 +21,6 @@
 #ifndef _RETE_NETWORK_SOCKETS_LOCATION_HPP
 #define _RETE_NETWORK_SOCKETS_LOCATION_HPP
 
-#include "rete/network/sockets/Address.hpp"
 #include "rete/network/Location.hpp"
 
 namespace rete {
@@ -43,18 +42,30 @@ public:
     ///////////////////////////////////////////////////////////////////////
     Location(const String& host, ushort port): m_host(host), m_port(port) {
     }
+    Location(const Location& copy): m_host(copy.m_host), m_port(copy.m_port) {
+    }
     Location(ushort port): m_port(port) {
+    }
+    Location(): m_port(0) {
     }
     virtual ~Location() {
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual sockets::Location* socketsLocation() const {
+    virtual sockets::Location* SocketsLocation() const {
         return (sockets::Location*)this;
+    }
+    virtual const char* SetHost(const char* to) {
+        m_host.assign(to);
+        return m_host.has_chars();
     }
     virtual const char* Host() const {
         return m_host.has_chars();
+    }
+    virtual ushort SetPort(ushort to) {
+        m_port = to;
+        return m_port;
     }
     virtual ushort Port() const {
         return m_port;

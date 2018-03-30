@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2017 $organization$
+/// Copyright (c) 1988-2018 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,19 +13,22 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Interface.cpp
+///   File: Locations.hpp
 ///
 /// Author: $author$
-///   Date: 7/9/2017
+///   Date: 3/25/2018
 ///////////////////////////////////////////////////////////////////////
-#include "rete/network/sockets/posix/Interface.hpp"
+#ifndef _RETE_NETWORK_LOCATIONS_HPP
+#define _RETE_NETWORK_LOCATIONS_HPP
+
+#include "rete/network/Location.hpp"
+#include "rete/network/local/Location.hpp"
+#include "rete/network/sockets/Location.hpp"
 
 namespace rete {
 namespace network {
-namespace sockets {
-namespace posix {
 
-} // namespace posix 
-} // namespace sockets 
 } // namespace network 
 } // namespace rete 
+
+#endif // _RETE_NETWORK_LOCATIONS_HPP 

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2017 $organization$
+/// Copyright (c) 1988-2018 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,73 +13,75 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Address.hpp
+///   File: Connection.hpp
 ///
 /// Author: $author$
-///   Date: 7/9/2017
+///   Date: 3/26/2018
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_ADDRESS_HPP
-#define _RETE_NETWORK_SOCKETS_ADDRESS_HPP
+#ifndef _RETE_NETWORK_CONNECTION_HPP
+#define _RETE_NETWORK_CONNECTION_HPP
 
-#include "rete/network/Address.hpp"
+#include "rete/network/Transport.hpp"
+#include "rete/network/Endpoint.hpp"
+#include "rete/base/Opened.hpp"
 
 namespace rete {
 namespace network {
-namespace sockets {
 
-typedef network::AddressFamily AddressFamily;
-typedef network::AddressVersion AddressVersion;
-typedef network::Address AddressTImplements;
+typedef Opener ConnectionTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: AddressT
+///  Class: ConnectionT
 ///////////////////////////////////////////////////////////////////////
 template
-<typename TFamily = AddressFamily,
- typename TVersion = AddressVersion,
- class TImplements = AddressTImplements>
-
-class _EXPORT_CLASS AddressT: virtual public TImplements {
+<class TImplements = ConnectionTImplements>
+class _EXPORT_CLASS ConnectionT: virtual public TImplements {
 public:
     typedef TImplements Implements;
 
-    typedef TFamily tFamily;
-    typedef TVersion tVersion;
-    static const tFamily FamilyUnspec = AF_UNSPEC;
-    static const tVersion VersionUnspec = 0;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool Open(const Transport& transport) {
+        return false;
+    }
+    virtual bool Close() {
+        return false;
+    }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tFamily Family() const {
-        return FamilyUnspec;
+    virtual bool Connect(const Endpoint& endpoint) {
+        return false;
     }
-    virtual tVersion Version() const {
-        return VersionUnspec;
+    virtual bool Disconnect() {
+        return false;
+    }
+    
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual ssize_t Send(const void* message, size_t length) {
+        ssize_t count = 0;
+        return count;
+    }
+    virtual ssize_t Recv(void* message, size_t size) {
+        ssize_t count = 0;
+        return count;
     }
 
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual const sockets::Connection* const_SocketsConnection() const {
+        return this->SocketsConnection();
+    }
+    virtual sockets::Connection* SocketsConnection() const {
+        return 0;
+    }
+    
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef AddressT<> AddressImplement;
+typedef ConnectionT<> Connection;
 
-///////////////////////////////////////////////////////////////////////
-///  Class: Address
-///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS Address: virtual public AddressImplement {
-public:
-    typedef AddressImplement Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual Address* SocketsAddress() const {
-        return (Address*)this;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-
-typedef Base AddressExtend;
-
-} // namespace sockets
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_ADDRESS_HPP 
+#endif // _RETE_NETWORK_CONNECTION_HPP 

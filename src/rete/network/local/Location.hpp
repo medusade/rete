@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2017 $organization$
+/// Copyright (c) 1988-2018 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,73 +13,63 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Address.hpp
+///   File: Location.hpp
 ///
 /// Author: $author$
-///   Date: 7/9/2017
+///   Date: 3/26/2018
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_ADDRESS_HPP
-#define _RETE_NETWORK_SOCKETS_ADDRESS_HPP
+#ifndef _RETE_NETWORK_LOCAL_LOCATION_HPP
+#define _RETE_NETWORK_LOCAL_LOCATION_HPP
 
-#include "rete/network/Address.hpp"
+#include "rete/network/Location.hpp"
 
 namespace rete {
 namespace network {
-namespace sockets {
+namespace local {
 
-typedef network::AddressFamily AddressFamily;
-typedef network::AddressVersion AddressVersion;
-typedef network::Address AddressTImplements;
+typedef network::LocationTImplements LocationImplements;
+typedef network::Location LocationExtends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: AddressT
+///  Class: Location
 ///////////////////////////////////////////////////////////////////////
-template
-<typename TFamily = AddressFamily,
- typename TVersion = AddressVersion,
- class TImplements = AddressTImplements>
-
-class _EXPORT_CLASS AddressT: virtual public TImplements {
+class _EXPORT_CLASS Location
+: virtual public LocationImplements, public LocationExtends {
 public:
-    typedef TImplements Implements;
-
-    typedef TFamily tFamily;
-    typedef TVersion tVersion;
-    static const tFamily FamilyUnspec = AF_UNSPEC;
-    static const tVersion VersionUnspec = 0;
+    typedef LocationImplements Implements;
+    typedef LocationExtends Extends;
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tFamily Family() const {
-        return FamilyUnspec;
+    Location(const String& path): m_path(path) {
     }
-    virtual tVersion Version() const {
-        return VersionUnspec;
+    Location(const Location& copy): m_path(copy.m_path) {
+    }
+    Location() {
+    }
+    virtual ~Location() {
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-};
-typedef AddressT<> AddressImplement;
-
-///////////////////////////////////////////////////////////////////////
-///  Class: Address
-///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS Address: virtual public AddressImplement {
-public:
-    typedef AddressImplement Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual Address* SocketsAddress() const {
-        return (Address*)this;
+    virtual local::Location* LocalLocation() const {
+        return (local::Location*)this;
     }
+    virtual const char* SetPath(const char* to) {
+        m_path.assign(to);
+        return m_path.has_chars();
+    }
+    virtual const char* Path() const {
+        return m_path.has_chars();
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+protected:
+    String m_path;
 };
 
-typedef Base AddressExtend;
-
-} // namespace sockets
+} // namespace local 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_ADDRESS_HPP 
+#endif // _RETE_NETWORK_LOCAL_LOCATION_HPP 

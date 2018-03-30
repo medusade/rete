@@ -23,12 +23,33 @@
 
 #include "rete/base/Base.hpp"
 
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
 namespace rete {
 namespace network {
 
+typedef int AddrIndex;
+enum {
+    FirstAddrIndex = 0,
+    LastAddrIndex = -1
+};
+typedef u_short SockPort;
+typedef socklen_t SockLen;
+typedef struct sockaddr SockAddr;
+
 namespace sockets {
 
+class _EXPORT_CLASS Address;
 class _EXPORT_CLASS Location;
+class _EXPORT_CLASS Endpoint;
+class _EXPORT_CLASS Interface;
+class _EXPORT_CLASS Connection;
+class _EXPORT_CLASS Connector;
 
 } // namespace sockets
 
@@ -42,8 +63,12 @@ public:
     typedef TImplements Implements;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool Startup() { return true; }
-    virtual bool Cleanup() { return true; }
+    virtual bool Startup() { 
+        return true; 
+    }
+    virtual bool Cleanup() { 
+        return true; 
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };

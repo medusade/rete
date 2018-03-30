@@ -24,7 +24,7 @@
 #include "rete/network/Transport.hpp"
 #include "rete/network/Endpoint.hpp"
 #include "rete/network/Address.hpp"
-#include "rete/base/Opened.hpp"
+#include "rete/network/Connection.hpp"
 
 #include <sys/socket.h>
 
@@ -39,7 +39,13 @@ enum {
     SocketBacklogDefault = SOMAXCONN
 };
 typedef int SocketSendFlags;
+enum {
+    SocketSendFlagsDefault = 0
+};
 typedef int SocketRecvFlags;
+enum {
+    SocketRecvFlagsDefault = 0
+};
 typedef int SocketOptLevel;
 typedef int SocketOptName;
 
@@ -53,7 +59,8 @@ typedef int SocketShutdownHow;
 enum {
     SocketShutdownRead,
     SocketShutdownWrite,
-    SocketShutdownBoth
+    SocketShutdownBoth,
+    SocketShutdownDefault = SocketShutdownBoth
 };
 
 typedef AddressFamily SocketDomain;
@@ -64,7 +71,7 @@ typedef Endpoint SocketEndpoint;
 
 class _EXPORT_CLASS Socket;
 class _EXPORT_CLASS SocketTImplemented;
-typedef Opener SocketTImplements;
+typedef Connection SocketTImplements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketT
 ///////////////////////////////////////////////////////////////////////
@@ -90,16 +97,25 @@ public:
 
     typedef SocketLingerSeconds LingerSeconds;
     static const LingerSeconds defaultLingerSeconds = SocketLingerSecondsDefault;
+
     typedef SocketShutdownHow ShutdownHow;
     static const ShutdownHow shutdownRead = SocketShutdownRead;
     static const ShutdownHow shutdownWrite = SocketShutdownWrite;
     static const ShutdownHow shutdownBoth = SocketShutdownBoth;
+    static const ShutdownHow defaultShutdownHow = SocketShutdownDefault;
+
     typedef SocketBacklog Backlog;
     static const Backlog defaultBacklog = SocketBacklogDefault;
+
     typedef SocketSendFlags SendFlags;
+    static const SendFlags defaultSendFlags = SocketSendFlagsDefault;
+    
     typedef SocketRecvFlags RecvFlags;
+    static const RecvFlags defaultRecvFlags = SocketRecvFlagsDefault;
+    
     typedef SocketOptLevel OptLevel;
     typedef SocketOptName OptName;
+    
     static const bool bindAsReuseAddr = true;
 
     ///////////////////////////////////////////////////////////////////////
@@ -113,6 +129,7 @@ public:
         }
         return false;
     }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual bool Open
@@ -126,7 +143,7 @@ public:
         return false;
     }
     virtual bool Shutdown() {
-        if ((this->Shutdown(SocketShutdownBoth))) {
+        if ((this->Shutdown(this->DefaultShutdownHow()))) {
             return true;
         }
         return false;
@@ -194,6 +211,7 @@ public:
         }
         return false;
     }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual bool Connect(const SockAddr* addr, SockLen addrlen) { return false; }
@@ -239,6 +257,17 @@ public:
     virtual ssize_t RecvFrom
     (void* buf, size_t len, RecvFlags flags,
      SockAddr* addr, SockLen* addrlen) { return 0; }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual ssize_t Send(const void* message, size_t length) {
+        ssize_t count = this->Send(message, length, this->DefaultSendFlags());
+        return count;
+    }
+    virtual ssize_t Recv(void* message, size_t size) {
+        ssize_t count = this->Recv(message, size, this->DefaultRecvFlags());
+        return count;
+    }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -288,6 +317,15 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual SendFlags DefaultSendFlags() const {
+        return defaultSendFlags;
+    }
+    virtual RecvFlags DefaultRecvFlags() const {
+        return defaultRecvFlags;
+    }
+    virtual ShutdownHow DefaultShutdownHow() const {
+        return defaultShutdownHow;
+    }
     virtual Backlog DefaultBacklog() const {
         return defaultBacklog;
     }

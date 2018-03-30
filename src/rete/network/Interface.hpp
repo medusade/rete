@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2016 $organization$
+/// Copyright (c) 1988-2018 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,65 +13,42 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Address.hpp
+///   File: Interface.hpp
 ///
 /// Author: $author$
-///   Date: 11/30/2016
+///   Date: 3/28/2018
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_ADDRESS_HPP
-#define _RETE_NETWORK_ADDRESS_HPP
+#ifndef _RETE_NETWORK_INTERFACE_HPP
+#define _RETE_NETWORK_INTERFACE_HPP
 
-#include "rete/network/Sockets.hpp"
+#include "rete/network/Endpoint.hpp"
 
 namespace rete {
 namespace network {
 
-typedef int AddressFamily;
-typedef int AddressVersion;
-typedef ImplementBase AddressTImplements;
+typedef ImplementBase  InterfaceTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: AddressT
+///  Class: InterfaceT
 ///////////////////////////////////////////////////////////////////////
 template
-<typename TFamily = AddressFamily,
- typename TVersion = AddressVersion,
- class TSocketsAddress = sockets::Address,
- class TImplements = AddressTImplements>
-
-class _EXPORT_CLASS AddressT: virtual public TImplements {
+<class TImplements = InterfaceTImplements>
+class _EXPORT_CLASS InterfaceT: virtual public TImplements {
 public:
     typedef TImplements Implements;
-
-    typedef TSocketsAddress tSocketsAddress;
-    typedef TFamily tFamily;
-    typedef TVersion tVersion;
-    static const tFamily FamilyUnspec = AF_UNSPEC;
-    static const tVersion VersionUnspec = 0;
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual const tSocketsAddress* const_SocketsAddress() const {
-        return this->SocketsAddress();
+    virtual const sockets::Interface* const_SocketsInterface() const {
+        return this->SocketsInterface();
     }
-    virtual tSocketsAddress* SocketsAddress() const {
+    virtual sockets::Interface* SocketsInterface() const {
         return 0;
     }
-
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual tFamily Family() const {
-        return FamilyUnspec;
-    }
-    virtual tVersion Version() const {
-        return VersionUnspec;
-    }
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef AddressT<> Address;
+typedef InterfaceT<> Interface;
 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_ADDRESS_HPP 
+#endif // _RETE_NETWORK_INTERFACE_HPP 

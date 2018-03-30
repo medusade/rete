@@ -21,23 +21,15 @@
 #ifndef _RETE_NETWORK_ENDPOINT_HPP
 #define _RETE_NETWORK_ENDPOINT_HPP
 
+#include "rete/network/local/Location.hpp"
+#include "rete/network/sockets/Location.hpp"
+#include "rete/network/Location.hpp"
 #include "rete/network/Address.hpp"
 #include "rete/base/Attached.hpp"
 #include "crono/io/Logger.hpp"
 
 namespace rete {
 namespace network {
-
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-typedef int AddrIndex;
-enum {
-    FirstAddrIndex = 0,
-    LastAddrIndex = -1
-};
-typedef u_short SockPort;
-typedef socklen_t SockLen;
-typedef struct sockaddr SockAddr;
 
 typedef SockAddr* SockAddrAttached;
 typedef patrona::AttacherT<SockAddrAttached, int, 0, Address> SockAddrAttacher;
@@ -51,23 +43,56 @@ template
 class _EXPORT_CLASS EndpointT: virtual public TImplements {
 public:
     typedef TImplements Implements;
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached AttachFirst(const Location& location) {
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachFirst;
+        return this->Attach(attach, location);
+    }
+    virtual SockAddrAttached AttachLast(const Location& location) {
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachLast;
+        return this->Attach(attach, location);
+    }
+    virtual SockAddrAttached Attach(const Location& location) {
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::Attach;
+        const local::Location* localLocation = 0;
+        if ((localLocation = location.LocalLocation())) {
+            return this->Attach(*localLocation);
+        }
+        return this->Attach(attach, location);
+    }
+    
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttached AttachFirst(const String& host, SockPort port) {
-        const char* chars = host.has_chars();
-        if ((chars)) { return this->AttachFirst(chars, port); }
-        return  0;
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachFirst;
+        return this->Attach(attach, host, port);
     }
     virtual SockAddrAttached AttachLast(const String& host, SockPort port) {
-        const char* chars = host.has_chars();
-        if ((chars)) { return this->AttachLast(chars, port); }
-        return  0;
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachLast;
+        return this->Attach(attach, host, port);
     }
     virtual SockAddrAttached Attach(const String& host, SockPort port) {
-        const char* chars = host.has_chars();
-        if ((chars)) { return this->Attach(chars, port); }
-        return  0;
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::Attach;
+        return this->Attach(attach, host, port);
     }
+    virtual SockAddrAttached Attach(const String& path) {
+        const char* chars = 0;
+        if ((chars = path.has_chars())) {
+            return this->Attach(chars);
+        }
+        return 0;
+    }
+    
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttached AttachFirst(const char* host, SockPort port) {
         return this->Attach(host, FirstAddrIndex, port);
     }
@@ -77,6 +102,9 @@ public:
     virtual SockAddrAttached Attach(const char* host, SockPort port) {
         return this->Attach(host, FirstAddrIndex, port);
     }
+    
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttached Attach
     (const char_t* host, AddrIndex index, SockPort port) {
         SockAddrAttached saddr = 0;
@@ -119,6 +147,9 @@ public:
         }
         return saddr;
     }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttached Attach
     (const SockAddrAttached socketAddress, SockLen socketAddressLen, SockPort port) {
         return 0;
@@ -129,6 +160,7 @@ public:
     virtual SockAddrAttached Attach(const char_t* path) {
         return 0;
     }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttached SocketAddress(SockLen& len) const {
@@ -144,11 +176,96 @@ public:
     virtual operator SockAddrAttached () const {
         return this->SocketAddress();
     }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual int LastError() const {
         return errno;
     }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual const sockets::Endpoint* const_SocketsEndpoint() const {
+        return this->SocketsEndpoint();
+    }
+    virtual sockets::Endpoint* SocketsEndpoint() const {
+        return 0;
+    }
+    
+protected:
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached Attach
+    (SockAddrAttached (EndpointT::*attach)
+     (const char* host, SockPort port), const Location& location) {
+        if ((attach)) {
+            SockAddrAttached sockAddr = 0;
+            const sockets::Location* socketsLocation = 0;
+
+            if ((socketsLocation = location.SocketsLocation())) {
+                sockAddr = this->Attach(attach, *socketsLocation);
+            }
+            return  sockAddr;
+        }
+        return  0;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached Attach
+    (SockAddrAttached (EndpointT::*attach)
+     (const char* host, SockPort port), const sockets::Location& location) {
+        if ((attach)) {
+            SockAddrAttached sockAddr = 0;
+            SockPort port = 0;
+
+            if (0 < (port = location.Port())) {
+                const char* chars = 0;
+                if ((chars = location.Host())) {
+                    sockAddr = (this->*attach)(chars, port);
+                } else {
+                    sockAddr = (this->*attach)(0, port);
+                }
+            }
+            return  sockAddr;
+        }
+        return  0;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached Attach
+    (SockAddrAttached (EndpointT::*attach)
+     (const char* host, SockPort port), const String& host, SockPort port) {
+        if ((attach)) {
+
+            if (0 < (port)) {
+                SockAddrAttached sockAddr = 0;
+                const char* chars = 0;
+
+                if ((chars = host.has_chars())) {
+                    sockAddr = (this->*attach)(chars, port);
+                } else {
+                    sockAddr = (this->*attach)(0, port);
+                }
+                return  sockAddr;
+            }
+        }
+        return  0;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached Attach(const local::Location& location) {
+        const char* chars = 0;
+        if ((chars = location.Path())) {
+            SockAddrAttached sockAddr = 0;
+            sockAddr = this->Attach(chars);
+            return  sockAddr;
+        }
+        return  0;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };

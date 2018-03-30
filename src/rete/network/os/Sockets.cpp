@@ -19,6 +19,7 @@
 ///   Date: 12/9/2016
 ///////////////////////////////////////////////////////////////////////
 #include "rete/network/os/Sockets.hpp"
+#include "rete/network/os/Socket.cpp"
 
 #if defined(WINDOWS)
 // Windows

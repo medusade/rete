@@ -25,9 +25,9 @@
 #include "rete/network/sockets/Location.hpp"
 #include "rete/network/sockets/Address.hpp"
 #include "rete/network/sockets/Transport.hpp"
+#include "rete/network/Interface.hpp"
+#include "rete/network/Sockets.hpp"
 #include "rete/base/Opened.hpp"
-
-#include <sys/socket.h>
 
 namespace rete {
 namespace network {
@@ -41,7 +41,13 @@ enum {
     BacklogDefault = SOMAXCONN
 };
 typedef int SendFlags;
+enum {
+    SendFlagsDefault = 0
+};
 typedef int RecvFlags;
+enum {
+    RecvFlagsDefault = 0
+};
 typedef int OptLevel;
 typedef int OptName;
 
@@ -64,7 +70,7 @@ typedef TransportProtocol Protocol;
 
 class _EXPORT_CLASS Interface;
 class _EXPORT_CLASS InterfaceImplemented;
-typedef Opener InterfaceTImplements;
+typedef ::patrona::OpenerT<network::Interface> InterfaceTImplements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: InterfaceT
 ///////////////////////////////////////////////////////////////////////
@@ -95,12 +101,17 @@ public:
     static const ShutdownHow shutdownRead = sockets::ShutdownRead;
     static const ShutdownHow shutdownWrite = sockets::ShutdownWrite;
     static const ShutdownHow shutdownBoth = sockets::ShutdownBoth;
+    static const ShutdownHow defaultShutdownHow = sockets::ShutdownBoth;
 
     typedef sockets::Backlog Backlog;
     static const Backlog defaultBacklog = sockets::BacklogDefault;
 
     typedef sockets::SendFlags SendFlags;
+    static const SendFlags defaultSendFlags = sockets::SendFlagsDefault;
+    
     typedef sockets::RecvFlags RecvFlags;
+    static const RecvFlags defaultRecvFlags = sockets::RecvFlagsDefault;
+    
     typedef sockets::OptLevel OptLevel;
     typedef sockets::OptName OptName;
 
@@ -285,6 +296,15 @@ public:
     virtual bool DefaultBindAsReuseAddr() const {
         return defaultBindAsReuseAddr;
     }
+    virtual ShutdownHow DefaultShutdownHow() const {
+        return defaultShutdownHow;
+    }
+    virtual RecvFlags DefaultRecvFlags() const {
+        return defaultRecvFlags;
+    }
+    virtual SendFlags DefaultSendFlags() const {
+        return defaultSendFlags;
+    }
     virtual InterfaceImplemented* Implemented() const {
         return 0;
     }
@@ -292,6 +312,35 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
+typedef InterfaceT<> InterfaceImplement;
+
+///////////////////////////////////////////////////////////////////////
+///  Class: Interface
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS Interface: virtual public InterfaceImplement {
+public:
+    typedef InterfaceImplement Implements;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    using Implements::Accept;
+    virtual bool Accept
+    (Interface& sock, SockAddr* addr, SockLen& addrlen) {
+        InterfaceImplemented* implemented = 0;
+        if ((implemented = sock.Implemented())) {
+            return Accept(*implemented, addr, addrlen);
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual Interface* SocketsInterface() const {
+        return (Interface*)this;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
+
+typedef Base InterfaceExtend;
 
 } // namespace sockets
 } // namespace network 

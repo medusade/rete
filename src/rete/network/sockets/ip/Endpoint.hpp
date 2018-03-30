@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2017 $organization$
+/// Copyright (c) 1988-2018 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,73 +13,81 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Address.hpp
+///   File: Endpoint.hpp
 ///
 /// Author: $author$
-///   Date: 7/9/2017
+///   Date: 3/29/2018
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_ADDRESS_HPP
-#define _RETE_NETWORK_SOCKETS_ADDRESS_HPP
+#ifndef _RETE_NETWORK_SOCKETS_IP_ENDPOINT_HPP
+#define _RETE_NETWORK_SOCKETS_IP_ENDPOINT_HPP
 
-#include "rete/network/Address.hpp"
+#include "rete/network/sockets/Endpoint.hpp"
 
 namespace rete {
 namespace network {
 namespace sockets {
+namespace ip {
 
-typedef network::AddressFamily AddressFamily;
-typedef network::AddressVersion AddressVersion;
-typedef network::Address AddressTImplements;
+typedef sockets::Endpoint EndpointTImplements;
 ///////////////////////////////////////////////////////////////////////
-///  Class: AddressT
+///  Class: EndpointT
 ///////////////////////////////////////////////////////////////////////
-template
-<typename TFamily = AddressFamily,
- typename TVersion = AddressVersion,
- class TImplements = AddressTImplements>
+template 
+<class TAddress,
+ class TImplements = EndpointTImplements,
+ class TExtends = patrona::AttachedT
+ <SockAddrAttached, int, 0, TImplements, TAddress> >
 
-class _EXPORT_CLASS AddressT: virtual public TImplements {
+class _EXPORT_CLASS EndpointT: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
-
-    typedef TFamily tFamily;
-    typedef TVersion tVersion;
-    static const tFamily FamilyUnspec = AF_UNSPEC;
-    static const tVersion VersionUnspec = 0;
-
+    typedef TExtends Extends;
+    typedef sockets::SockAddr SockAddr;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tFamily Family() const {
-        return FamilyUnspec;
+    EndpointT(const EndpointT& copy)
+    : m_socketAddressPort(0), m_socketAddressLen(0) {
     }
-    virtual tVersion Version() const {
-        return VersionUnspec;
+    EndpointT(): m_socketAddressPort(0), m_socketAddressLen(0) {
     }
-
+    virtual ~EndpointT() {
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual SockPort SetSocketAddressPort(SockPort to) {
+        m_socketAddressPort = to;
+        return m_socketAddressPort;
+    }
+    virtual SockPort SocketAddressPort() const {
+        return m_socketAddressPort;
+    }
+    virtual SockLen SetSocketAddressLen(SockLen to) {
+        m_socketAddressLen = to;
+        return m_socketAddressLen;
+    }
+    virtual SockLen SocketAddressLen() const {
+        return m_socketAddressLen;
+    }
+protected:
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void InitAddr(SockAddr& addr, SockLen addrLen) const {
+        ::memset(&addr, 0, addrLen);
+    }
+    virtual void Init() {
+    }
+    virtual void Fini() {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    SockPort m_socketAddressPort;
+    SockLen m_socketAddressLen;
 };
-typedef AddressT<> AddressImplement;
 
-///////////////////////////////////////////////////////////////////////
-///  Class: Address
-///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS Address: virtual public AddressImplement {
-public:
-    typedef AddressImplement Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual Address* SocketsAddress() const {
-        return (Address*)this;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-
-typedef Base AddressExtend;
-
-} // namespace sockets
+} // namespace ip 
+} // namespace sockets 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_ADDRESS_HPP 
+#endif // _RETE_NETWORK_SOCKETS_IP_ENDPOINT_HPP 

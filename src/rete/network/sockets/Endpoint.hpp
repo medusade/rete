@@ -23,25 +23,16 @@
 
 #include "rete/network/sockets/Location.hpp"
 #include "rete/network/sockets/Address.hpp"
-#include "rete/base/Attached.hpp"
-#include "crono/io/Logger.hpp"
+#include "rete/network/Endpoint.hpp"
 
 namespace rete {
 namespace network {
 namespace sockets {
 
-typedef int AddrIndex;
-enum {
-    FirstAddrIndex = 0,
-    LastAddrIndex = -1
-};
-typedef ushort SockPort;
-typedef socklen_t SockLen;
-typedef struct sockaddr SockAddr;
-
-typedef SockAddr* SockAddrAttached;
-typedef patrona::AttacherT<SockAddrAttached, int, 0, Address> SockAddrAttacher;
-typedef SockAddrAttacher EndpointTImplements;
+typedef network::SockAddr SockAddr;
+typedef network::SockAddrAttached SockAddrAttached;
+typedef network::SockAddrAttacher SockAddrAttacher;
+typedef network::Endpoint EndpointTImplements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: EndpointT
 ///////////////////////////////////////////////////////////////////////
@@ -54,46 +45,38 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual SockAddrAttached Attach(const network::Location& location) {
-        const sockets::Location* socketsLocation = location.const_socketsLocation();
-        if ((socketsLocation)) { return this->Attach(*socketsLocation); }
-        return 0;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttached AttachFirst(const sockets::Location& location) {
-        const char* chars = location.Host();
-        SockPort port = location.Port();
-        return this->AttachFirst(chars, port);
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachFirst;
+        return this->Attach(attach, location);
     }
     virtual SockAddrAttached AttachLast(const sockets::Location& location) {
-        const char* chars = location.Host();
-        SockPort port = location.Port();
-        return this->AttachLast(chars, port);
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachLast;
+        return this->Attach(attach, location);
     }
     virtual SockAddrAttached Attach(const sockets::Location& location) {
-        const char* chars = location.Host();
-        SockPort port = location.Port();
-        return this->Attach(chars, port);
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::Attach;
+        return this->Attach(attach, location);
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual SockAddrAttached AttachFirst(const String& host, SockPort port) {
-        const char* chars = host.has_chars();
-        if ((chars)) { return this->AttachFirst(chars, port); }
-        return this->Attach(port);
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachFirst;
+        return this->Attach(attach, host, port);
     }
     virtual SockAddrAttached AttachLast(const String& host, SockPort port) {
-        const char* chars = host.has_chars();
-        if ((chars)) { return this->AttachLast(chars, port); }
-        return this->Attach(port);
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::AttachLast;
+        return this->Attach(attach, host, port);
     }
     virtual SockAddrAttached Attach(const String& host, SockPort port) {
-        const char* chars = host.has_chars();
-        if ((chars)) { return this->Attach(chars, port); }
-        return this->Attach(port);
+        SockAddrAttached (EndpointT::*attach)
+        (const char* host, SockPort port) = &EndpointT::Attach;
+        return this->Attach(attach, host, port);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -190,10 +173,84 @@ public:
     virtual int LastError() const {
         return errno;
     }
+
+protected:
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached Attach
+    (SockAddrAttached (EndpointT::*attach)
+     (const char* host, SockPort port), const network::Location& location) {
+        if ((attach)) {
+            SockAddrAttached sockAddr = 0;
+            const sockets::Location* socketsLocation = 0;
+
+            if ((socketsLocation = location.SocketsLocation())) {
+                sockAddr = this->Attach(attach, *socketsLocation);
+            }
+            return  sockAddr;
+        }
+        return  0;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached Attach
+    (SockAddrAttached (EndpointT::*attach)
+     (const char* host, SockPort port), const sockets::Location& location) {
+        if ((attach)) {
+            SockAddrAttached sockAddr = 0;
+            SockPort port = 0;
+
+            if (0 < (port = location.Port())) {
+                const char* chars = 0;
+                if ((chars = location.Host())) {
+                    sockAddr = (this->*attach)(chars, port);
+                } else {
+                    sockAddr = (this->*attach)(0, port);
+                }
+            }
+            return  sockAddr;
+        }
+        return  0;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual SockAddrAttached Attach
+    (SockAddrAttached (EndpointT::*attach)
+     (const char* host, SockPort port), const String& host, SockPort port) {
+        if ((attach)) {
+
+            if (0 < (port)) {
+                SockAddrAttached sockAddr = 0;
+                const char* chars = 0;
+
+                if ((chars = host.has_chars())) {
+                    sockAddr = (this->*attach)(chars, port);
+                } else {
+                    sockAddr = (this->*attach)(0, port);
+                }
+                return  sockAddr;
+            }
+        }
+        return  0;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef EndpointT<> Endpoint;
+typedef EndpointT<> EndpointImplement;
+
+///////////////////////////////////////////////////////////////////////
+///  Class: Endpoint
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS Endpoint: virtual public EndpointImplement {
+public:
+    typedef EndpointImplement Implements;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual Endpoint* SocketsEndpoint() const {
+        return (Endpoint*)this;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
 
 } // namespace sockets
 } // namespace network 

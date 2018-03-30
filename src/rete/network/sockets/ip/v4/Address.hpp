@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2017 $organization$
+/// Copyright (c) 1988-2018 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -16,70 +16,56 @@
 ///   File: Address.hpp
 ///
 /// Author: $author$
-///   Date: 7/9/2017
+///   Date: 3/29/2018
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_SOCKETS_ADDRESS_HPP
-#define _RETE_NETWORK_SOCKETS_ADDRESS_HPP
+#ifndef _RETE_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP
+#define _RETE_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP
 
-#include "rete/network/Address.hpp"
+#include "rete/network/sockets/ip/Address.hpp"
 
 namespace rete {
 namespace network {
 namespace sockets {
+namespace ip {
+namespace v4 {
 
-typedef network::AddressFamily AddressFamily;
-typedef network::AddressVersion AddressVersion;
-typedef network::Address AddressTImplements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: AddressT
 ///////////////////////////////////////////////////////////////////////
 template
-<typename TFamily = AddressFamily,
- typename TVersion = AddressVersion,
- class TImplements = AddressTImplements>
-
-class _EXPORT_CLASS AddressT: virtual public TImplements {
+<class TImplements = ip::Address::Implements, class TExtends = ip::Address>
+class _EXPORT_CLASS AddressT: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
-
-    typedef TFamily tFamily;
-    typedef TVersion tVersion;
-    static const tFamily FamilyUnspec = AF_UNSPEC;
-    static const tVersion VersionUnspec = 0;
-
+    typedef TExtends Extends;
+    typedef typename Implements::tFamily tFamily;
+    typedef typename Implements::tVersion tVersion;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    AddressT() {
+    }
+    virtual ~AddressT() {
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual tFamily Family() const {
-        return FamilyUnspec;
+        return AF_INET;
     }
     virtual tVersion Version() const {
-        return VersionUnspec;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-typedef AddressT<> AddressImplement;
-
-///////////////////////////////////////////////////////////////////////
-///  Class: Address
-///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS Address: virtual public AddressImplement {
-public:
-    typedef AddressImplement Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual Address* SocketsAddress() const {
-        return (Address*)this;
+        return 4;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
 
-typedef Base AddressExtend;
-
-} // namespace sockets
+} // namespace v4 
+} // namespace ip 
+} // namespace sockets 
 } // namespace network 
 } // namespace rete 
 
-#endif // _RETE_NETWORK_SOCKETS_ADDRESS_HPP 
+
+#endif // _RETE_NETWORK_SOCKETS_IP_V4_ADDRESS_HPP 
+
+        
+

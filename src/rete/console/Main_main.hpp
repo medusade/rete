@@ -20,18 +20,13 @@
 ///////////////////////////////////////////////////////////////////////
 #ifndef _RETE_CONSOLE_MAIN_MAIN_HPP
 #define _RETE_CONSOLE_MAIN_MAIN_HPP
+
 #include "crono/console/getopt/Main.hpp"
 
 namespace rete {
 namespace console {
 
-
-
-
 } // namespace console 
 } // namespace rete 
 
-
 #endif // _RETE_CONSOLE_MAIN_MAIN_HPP 
-        
-

@@ -21,7 +21,7 @@
 #ifndef _RETE_NETWORK_OS_SOCKETS_HPP
 #define _RETE_NETWORK_OS_SOCKETS_HPP
 
-#include "rete/network/os/Os.hpp"
+#include "rete/network/os/Socket.hpp"
 #include "rete/network/Sockets.hpp"
 
 #if defined(WINDOWS)

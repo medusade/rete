@@ -26,6 +26,12 @@
 namespace rete {
 namespace network {
 
+namespace local {
+
+class _EXPORT_CLASS Location;
+
+} // namespace local
+
 typedef ImplementBase LocationTImplements;
 typedef Base LocationTExtends;
 ///////////////////////////////////////////////////////////////////////
@@ -47,10 +53,19 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual const sockets::Location* const_socketsLocation() const {
-        return socketsLocation();
+    virtual const local::Location* const_LocalLocation() const {
+        return LocalLocation();
     }
-    virtual sockets::Location* socketsLocation() const {
+    virtual local::Location* LocalLocation() const {
+        return 0;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual const sockets::Location* const_SocketsLocation() const {
+        return SocketsLocation();
+    }
+    virtual sockets::Location* SocketsLocation() const {
         return 0;
     }
 

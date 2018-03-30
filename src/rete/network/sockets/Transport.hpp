@@ -23,8 +23,6 @@
 
 #include "rete/network/Sockets.hpp"
 
-#include <sys/socket.h>
-
 namespace rete {
 namespace network {
 namespace sockets {
