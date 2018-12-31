@@ -21,29 +21,16 @@
 #ifndef _RETE_BASE_BASE_HPP
 #define _RETE_BASE_BASE_HPP
 
-#include "nadir/base/to_string.hpp"
-#include "nadir/base/string.hpp"
-#include "nadir/base/array.hpp"
-#include "nadir/base/wrapped.hpp"
-#include "nadir/base/base.hpp"
+#include "patrona/cpp/xos/base/Base.hpp"
 
 namespace rete {
 
-typedef ::nadir::implement_base ImplementBase;
-typedef ::nadir::base Base;
+typedef ::patrona::pointer_t pointer_t;
+typedef ::patrona::unsigned_t unsigned_t;
+typedef ::patrona::signed_t signed_t;
 
-typedef ::nadir::char_array CharArray;
-typedef ::nadir::tchar_array TCharArray;
-typedef ::nadir::wchar_array WCharArray;
-
-typedef ::nadir::char_string String;
-typedef ::nadir::tchar_string TString;
-typedef ::nadir::wchar_string WString;
-
-typedef ::nadir::pointer_t pointer_t;
-typedef ::nadir::unsigned_t unsigned_t;
-typedef ::nadir::signed_t signed_t;
-
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 inline const pointer_t& to_pointer(const pointer_t& v) { return v; }
 inline const unsigned_t& to_unsigned(const unsigned_t& v) { return v; }
 inline const signed_t& to_signed(const signed_t& v) { return v; }
@@ -51,9 +38,22 @@ inline const wchar_t& to_wchar(const wchar_t& v) { return v; }
 inline const char& to_char(const char& v) { return v; }
 inline const bool& to_bool(const bool& v) { return v; }
 
-typedef ::nadir::chars_to_string CharsToString;
-typedef ::nadir::chars_to_tstring CharsToTString;
-typedef ::nadir::chars_to_wstring CharsToWString;
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+typedef ::patrona::implement_base ImplementBase;
+typedef ::patrona::base Base;
+
+typedef ::patrona::CharArray CharArray;
+typedef ::patrona::TCharArray TCharArray;
+typedef ::patrona::WCharArray WCharArray;
+
+typedef ::patrona::String String;
+typedef ::patrona::TString TString;
+typedef ::patrona::WString WString;
+
+typedef ::patrona::CharsToString CharsToString;
+typedef ::patrona::CharsToTString CharsToTString;
+typedef ::patrona::CharsToWString CharsToWString;
 
 } // namespace rete
 
