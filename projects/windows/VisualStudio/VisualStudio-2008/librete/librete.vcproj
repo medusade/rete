@@ -24,7 +24,7 @@
 			OutputDirectory="$(RETE_LIB)"
 			IntermediateDirectory="$(RETE_OBJ)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\vcversion.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\rete.vsprops"
+			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;$(RETE_DEFINES)"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;$(RETE_DEBUG_DEFINES)"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -87,7 +87,7 @@
 			OutputDirectory="$(RETE_LIB)"
 			IntermediateDirectory="$(RETE_OBJ)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\vcversion.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\rete.vsprops"
+			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -110,7 +110,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;$(RETE_DEFINES)"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;$(RETE_DEBUG_DEFINES)"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -151,7 +151,7 @@
 			OutputDirectory="$(RETE_LIB)"
 			IntermediateDirectory="$(RETE_OBJ)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\vcversion.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\rete.vsprops"
+			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -175,7 +175,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;$(RETE_DEFINES)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;$(RETE_RELEASE_DEFINES)"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -215,7 +215,7 @@
 			OutputDirectory="$(RETE_LIB)"
 			IntermediateDirectory="$(RETE_OBJ)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\vcversion.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\rete.vsprops"
+			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -240,7 +240,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;$(RETE_DEFINES)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;$(RETE_RELEASE_DEFINES)"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"

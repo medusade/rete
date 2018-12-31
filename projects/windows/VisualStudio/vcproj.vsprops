@@ -14,23 +14,28 @@
 <!-- or otherwise) arising in any way out of the use of this software,      -->
 <!-- even if advised of the possibility of such damage.                     -->
 <!--                                                                        -->
-<!--   File: vcversion.vsprops                                              -->
+<!--   File: vcproj.vsprops                                                 -->
 <!--                                                                        -->
 <!-- Author: $author$                                                       -->
-<!--   Date: 12/27/2018                                                     -->
+<!--   Date: 9/18/2018                                                      -->
 <!--========================================================================-->
 <VisualStudioPropertySheet
     ProjectType="Visual C++"
     Version="8.00"
-    Name="vcversion">
+    Name="vcproj">
 
   <!--===============================================-->
 
-    <UserMacro
-        Name="VCVersion"
-        Value="vc9"
+  <UserMacro
+      Name="SOURCE_ROOT_DIR"
+      Value="../../../../../.."
     />
 
-    <!--===============================================-->
+  <UserMacro
+      Name="SOURCE_BUILD_DIR"
+      Value="$(SOURCE_ROOT_DIR)"
+    />
+
+  <!--===============================================-->
 
 </VisualStudioPropertySheet>

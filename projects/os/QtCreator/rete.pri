@@ -16,7 +16,7 @@
 #   File: rete.pri
 #
 # Author: $author$
-#   Date: 3/24/2018
+#   Date: 12/28/2018
 #
 # Os QtCreator .pri file for rete
 ########################################################################
@@ -169,4 +169,3 @@ rete_LIBS += \
 -lrt
 } else {
 }
-

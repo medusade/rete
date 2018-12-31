@@ -68,6 +68,7 @@ $${RETE_SRC}/rete/network/ip/v4/Endpoint.hpp \
 $${RETE_SRC}/rete/network/ip/v6/Endpoint.hpp \
 $${RETE_SRC}/rete/network/Endpoints.hpp \
 $${RETE_SRC}/rete/network/Interface.hpp \
+$${RETE_SRC}/rete/network/sockets/Interface.hpp \
 $${RETE_SRC}/rete/network/Connection.hpp \
 $${RETE_SRC}/rete/network/Connections.hpp \
 $${RETE_SRC}/rete/network/Connector.hpp \
@@ -86,7 +87,7 @@ $${RETE_SRC}/rete/network/Locations.cpp \
 $${RETE_SRC}/rete/network/Transports.cpp \
 $${RETE_SRC}/rete/network/Endpoint.cpp \
 $${RETE_SRC}/rete/network/Endpoints.cpp \
-$${RETE_SRC}/rete/network/Interface.cpp \
+$${RETE_SRC}/rete/network/sockets/Interface.cpp \
 $${RETE_SRC}/rete/network/Connection.cpp \
 $${RETE_SRC}/rete/network/Connections.cpp \
 $${RETE_SRC}/rete/network/Connector.cpp \

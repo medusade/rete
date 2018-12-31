@@ -4,9 +4,12 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Property Sheets", "Property Sheets", "{E2843804-76BA-4BE6-A3B3-65EC43D8E5CD}"
 	ProjectSection(SolutionItems) = preProject
 		..\crono.vsprops = ..\crono.vsprops
+		..\fila.vsprops = ..\fila.vsprops
 		..\nadir.vsprops = ..\nadir.vsprops
 		..\patrona.vsprops = ..\patrona.vsprops
 		..\rete.vsprops = ..\rete.vsprops
+		..\rostra.vsprops = ..\rostra.vsprops
+		..\vcproj.vsprops = ..\vcproj.vsprops
 		vcversion.vsprops = vcversion.vsprops
 	EndProjectSection
 EndProject
@@ -17,6 +20,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "librete", "librete\librete.vcproj", "{CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hello", "hello\hello.vcproj", "{ECA11104-37BE-44A9-A56B-44F89140B687}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE} = {CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

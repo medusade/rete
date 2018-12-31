@@ -16,7 +16,7 @@
 #   File: rete.pri
 #
 # Author: $author$
-#   Date: 3/24/2018
+#   Date: 12/28/2018
 #
 # QtCreator .pri file for rete
 ########################################################################
@@ -38,7 +38,7 @@ ROSTRA_VERSION_RELEASE = 0
 ROSTRA_VERSION = $${ROSTRA_VERSION_MAJOR}.$${ROSTRA_VERSION_MINOR}.$${ROSTRA_VERSION_RELEASE}
 ROSTRA_NAME = rostra
 ROSTRA_GROUP = $${ROSTRA_NAME}
-ROSTRA_SOURCE = cpp/xos/src
+ROSTRA_SOURCE = src
 ROSTRA_DIR = $${ROSTRA_GROUP}/$${ROSTRA_NAME}-$${ROSTRA_VERSION}
 ROSTRA_PKG_DIR = $${ROSTRA_NAME}
 ROSTRA_HOME_BUILD = $${HOME}/build/$${ROSTRA_NAME}
@@ -234,8 +234,8 @@ fila_DEFINES += \
 
 ########################################################################
 # rete
-FRAMEWORK_NAME = rete
-FRAMEWORK_SOURCE = src
+RETE_NAME = rete
+RETE_SOURCE = src
 
 RETE_PKG = ../../../../..
 RETE_BLD = ../..
@@ -243,7 +243,7 @@ RETE_BLD = ../..
 RETE_PRJ = $${RETE_PKG}
 RETE_BIN = $${RETE_BLD}/bin
 RETE_LIB = $${RETE_BLD}/lib
-RETE_SRC = $${RETE_PKG}/$${FRAMEWORK_SOURCE}
+RETE_SRC = $${RETE_PKG}/$${RETE_SOURCE}
 
 # rete BUILD_CONFIG
 #
@@ -262,8 +262,8 @@ $${RETE_SRC} \
 $${fila_INCLUDEPATH} \
 $${crono_INCLUDEPATH} \
 $${patrona_INCLUDEPATH} \
-$${nadir_INCLUDEPATH} \
 $${rostra_INCLUDEPATH} \
+$${nadir_INCLUDEPATH} \
 $${build_rete_INCLUDEPATH} \
 
 # rete DEFINES
@@ -279,7 +279,5 @@ $${build_rete_DEFINES} \
 # rete LIBS
 #
 rete_LIBS += \
--L$${RETE_LIB}/lib$${FRAMEWORK_NAME} \
--l$${FRAMEWORK_NAME} \
-
-
+-L$${RETE_LIB}/lib$${RETE_NAME} \
+-l$${RETE_NAME} \
