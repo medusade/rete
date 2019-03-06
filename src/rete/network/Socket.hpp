@@ -107,6 +107,7 @@ class _EXPORT_CLASS SocketT: virtual public TImplements {
 public:
     typedef TImplements Implements;
 
+    typedef network::Connection Connection;
     typedef TImplemented SocketTImplemented;
     typedef TTransport Transport;
     typedef TEndpoint Endpoint;

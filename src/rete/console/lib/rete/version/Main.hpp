@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2018 $organization$
+/// Copyright (c) 1988-2019 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,61 +13,60 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: Transport.hpp
+///   File: Main.hpp
 ///
 /// Author: $author$
-///   Date: 12/28/2018
+///   Date: 3/4/2019
 ///////////////////////////////////////////////////////////////////////
-#ifndef _RETE_NETWORK_TRANSPORT_HPP
-#define _RETE_NETWORK_TRANSPORT_HPP
+#ifndef _RETE_CONSOLE_LIB_RETE_VERSION_MAIN_HPP
+#define _RETE_CONSOLE_LIB_RETE_VERSION_MAIN_HPP
 
-#include "rete/base/Base.hpp"
-
-#include <sys/socket.h>
-#include <sys/un.h>
+#include "patrona/console/lib/version/Main.hpp"
+#include "rete/lib/rete/Version.hpp"
+#include "rete/console/getopt/Main.hpp"
 
 namespace rete {
-namespace network {
+namespace console {
+namespace lib {
+namespace rete {
+namespace version {
 
-typedef int TransportDomain;
-typedef int TransportType;
-typedef int TransportProtocol;
-typedef ImplementBase TransportTImplements;
-///////////////////////////////////////////////////////////////////////
-///  Class: TransportT
-///////////////////////////////////////////////////////////////////////
-template
-<typename TDomain = TransportDomain,
- typename TType = TransportType,
- typename TProtocol = TransportProtocol,
- class TImplements = TransportTImplements>
+typedef ::rete::lib::rete::Version MainTVersion;
 
-class _EXPORT_CLASS TransportT: virtual public TImplements {
+typedef ::patrona::console::lib::version::MainT
+<MainTVersion, 
+ ::rete::console::getopt::Main::Implements, 
+ ::rete::console::getopt::Main> MainTExtends;
+
+typedef MainTExtends::Implements MainTImplements;
+///////////////////////////////////////////////////////////////////////
+///  Class: MainT
+///////////////////////////////////////////////////////////////////////
+template <class TImplements = MainTImplements, class TExtends = MainTExtends>
+class _EXPORT_CLASS MainT: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
-    typedef TDomain tDomain;
-    typedef TType tType;
-    typedef TProtocol tProtocol;
-    static const tDomain DomainUnspec = PF_UNSPEC;
-    static const tType TypeUnspec = SOCK_RAW;
-    static const tProtocol ProtocolUnspec = 0;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual tDomain Domain() const {
-        return DomainUnspec;
-    }
-    virtual tType Type() const {
-        return TypeUnspec;
-    }
-    virtual tProtocol Protocol() const {
-        return ProtocolUnspec;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-typedef TransportT<> Transport;
+    typedef TExtends Extends;
 
-} // namespace network 
-} // namespace rete 
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    MainT() {
+    }
+    virtual ~MainT() {
+    }
+private:
+    MainT(const MainT& copy) {
+    }
 
-#endif // _RETE_NETWORK_TRANSPORT_HPP 
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+}; /// class _EXPORT_CLASS MainT
+typedef MainT<> Main;
+
+} /// namespace version
+} /// namespace rete
+} /// namespace lib
+} /// namespace console
+} /// namespace rete
+
+#endif /// _RETE_CONSOLE_LIB_RETE_VERSION_MAIN_HPP 

@@ -22,6 +22,7 @@
 #define _RETE_APP_CONSOLE_RETE_MAIN_HPP
 
 #include "rete/app/console/rete/MainOpt.hpp"
+#include "rete/console/lib/rete/version/Main.hpp"
 #include "rete/network/Transports.hpp"
 #include "rete/network/Locations.hpp"
 #include "rete/network/Endpoints.hpp"
@@ -34,7 +35,10 @@ namespace app {
 namespace console {
 namespace rete {
 
-typedef MainOpt MainExtends;
+typedef ::rete::lib::rete::Version MainTVersion;
+
+typedef ::patrona::console::lib::version::MainT
+<MainTVersion, MainOpt::Implements, MainOpt> MainExtends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: Main
 ///////////////////////////////////////////////////////////////////////
@@ -53,10 +57,11 @@ public:
       m_clientPort(80), m_serverPort(8080),
       m_clientMessage("GET / HTTP/1.0\r\n\r\n"), 
       m_beforeClientMessage(""), m_afterClientMessage(""),
-      m_serverMessage("HTTP/1.0 200 OK\r\n\r\nOK\r\n"), 
+      m_serverMessage("HTTP/1.0 200 OK\r\n\r\n"), 
       m_beforeServerMessage(""), m_afterServerMessage(""),
-      m_transport(0), m_endpoint(0), m_connection(0), m_accepted(0)
-    {
+      m_transport(0), m_endpoint(0), m_connection(0), m_accepted(0) {
+        const ::patrona::lib::Version& version = WhichVersion::Which();
+        m_afterServerMessage.appendl(version.Name(), " version = ", version.ToString().Chars(), "\r\n", NULL);
     }
     virtual ~Main() {
     }
@@ -72,7 +77,15 @@ protected:
         if ((m_run)) {
             err = (this->*m_run)(argc, argv, env);
         } else {
-            err = this->Usage(argc, argv, env);
+            err = DefualtRun(argc, argv, env);
+        }
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual int DefualtRun(int argc, char_t **argv, char_t **env) {
+        int err = 0;
+        if (!(err = Extends::Run(argc, argv, env))) {
+            this->Usage(argc, argv, env);
         }
         return err;
     }
@@ -104,7 +117,7 @@ protected:
                         if (0 < (count = this->SendClientMessage(connection, argc, argv, env))) {
                             
                             LOG_DEBUG("this->RecvServerMessage(connection, argc, argv, env)...");
-                            if (0 < (count = this->RecvServerMessage(connection, argc, argv, env))) {
+                            if (0 < (count = this->RecvMessage(connection, argc, argv, env))) {
                                 const char* chars = 0;
                                 
                                 if ((chars = m_recvMessage.has_chars())) {
@@ -236,7 +249,7 @@ protected:
     }
     virtual ssize_t RecvServerMessage
     (::rete::network::Connection& connection, int argc, char_t**argv, char_t**env) {
-        ssize_t count = 0, amount = 0;
+        /*ssize_t count = 0, amount = 0;
         char c = 0;
         m_recvMessage.clear();
         while (0 < (amount = connection.Recv(&c, sizeof(c)))) {
@@ -246,7 +259,8 @@ protected:
             m_recvMessage.append(&c, 1);
             count += amount;
         }
-        return count;
+        return count;*/
+        return RecvMessage(connection, argc, argv, env);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -275,15 +289,94 @@ protected:
     }
     virtual ssize_t RecvClientMessage
     (::rete::network::Connection& connection, int argc, char_t**argv, char_t**env) {
-        ssize_t count = 0, amount = 0;
+        /*ssize_t count = 0, amount = 0;
         char c = 0;
         m_recvMessage.clear();
         while (0 < (amount = connection.Recv(&c, sizeof(c)))) {
-            if (!(c != '\r') || !(c != 'n')) {
+            if (!(c != '\r') || !(c != '\n')) {
                 break;
             }
             m_recvMessage.append(&c, 1);
             count += amount;
+        }
+        return count;*/
+        return RecvMessage(connection, argc, argv, env);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual ssize_t RecvMessage
+    (::rete::network::Connection& connection, int argc, char_t**argv, char_t**env) {
+        static const char cr = '\r', lf = '\n';
+        enum { Start, Cr, CrLf, CrLfCr } state = Start;
+        ssize_t count = 0, amount = 0;
+        char c = 0;
+        m_recvMessage.clear();
+        while (0 < (amount = connection.Recv(&c, sizeof(c)))) {
+            if (!(c != cr) || !(c != lf)) {
+                switch (state) {
+                case Start:
+                    if ((c != lf)) {
+                        state = Cr;
+                    } else {
+                        m_recvMessage.append(&c, 1);
+                        count += 1;
+                    }
+                    break;
+                case Cr:
+                    if ((c != lf)) {
+                        m_recvMessage.append(&cr, 1);
+                        count += 1;
+                    } else {
+                        state = CrLf;
+                    }
+                    break;
+                case CrLf:
+                    if ((c != lf)) {
+                        state = CrLfCr;
+                    } else {
+                        state = Start;
+                        m_recvMessage.append(&cr, 1);
+                        m_recvMessage.append(&lf, 1);
+                        m_recvMessage.append(&lf, 1);
+                        count += 3;
+                    }
+                    break;
+                case CrLfCr:
+                    if ((c != lf)) {
+                        state = Cr;
+                        m_recvMessage.append(&cr, 1);
+                        m_recvMessage.append(&lf, 1);
+                        m_recvMessage.append(&cr, 1);
+                        m_recvMessage.append(&cr, 1);
+                        count += 4;
+                    } else {
+                        return count;
+                    }
+                    break;
+                }
+            } else {
+                switch (state) {
+                case Cr:
+                    m_recvMessage.append(&cr, 1);
+                    count += 1;
+                    break;
+                case CrLf:
+                    m_recvMessage.append(&cr, 1);
+                    m_recvMessage.append(&lf, 1);
+                    count += 2;
+                    break;
+                case CrLfCr:
+                    m_recvMessage.append(&cr, 1);
+                    m_recvMessage.append(&lf, 1);
+                    m_recvMessage.append(&cr, 1);
+                    count += 3;
+                    break;
+                }
+                state = Start;
+                m_recvMessage.append(&c, 1);
+                count += 1;
+            }
         }
         return count;
     }
@@ -307,12 +400,11 @@ protected:
         return chars;
     }
     virtual const char* AfterServerMessage(size_t& length, int argc, char_t**argv, char_t**env) {
-        const char *chars = 0;
+        const char *chars = this->AfterServerMessage(length);
+        const char_t* arg = 0;
         int args = 0;
-        chars = this->AfterServerMessage(length);
-        if ((0 < (args = argc - optind)) && (argv)) {
-            const char_t* arg = (args>2)?(argv[optind+2]):("\r\n");
-            m_afterMessage.assign(arg);
+        if ((argv) && (0 < (args = argc - optind)) && (args>2) && (arg = argv[optind+2])) {
+            m_afterMessage.assignl(arg, "\r\n", NULL);
             chars = m_afterMessage.has_chars(length);
         }
         return chars;

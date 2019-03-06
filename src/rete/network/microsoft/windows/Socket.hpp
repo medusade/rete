@@ -59,17 +59,17 @@ static const SocketUnattachedTo SocketUnattached = INVALID_SOCKET;
 
 typedef ::patrona::AttacherT
 <SocketAttachedTo, SocketUnattachedTo,
- SocketUnattached, Opener> SocketTAttacher;
+ SocketUnattached, ::rete::network::Socket> SocketTAttacher;
 
 typedef ::patrona::AttachedT
 <SocketAttachedTo, SocketUnattachedTo,
- SocketUnattached, Socket, Base> SocketTAttached;
+ SocketUnattached, SocketTAttacher, Base> SocketTAttached;
 
 typedef ::patrona::OpenedT
 <SocketAttachedTo, SocketUnattachedTo, SocketUnattached,
- Socket, SocketTAttached> SocketTOpened;
+ SocketTAttacher, SocketTAttached> SocketTOpened;
 
-typedef network::Socket SocketTImplements;
+typedef SocketTOpened::Implements SocketTImplements;
 typedef SocketTOpened SocketTExtends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketT
@@ -493,12 +493,13 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
+typedef SocketT<> SocketExtend;
 
 } // namespace windows 
 } // namespace microsoft 
 
-typedef microsoft::windows::SocketTImplements SocketTImplementedImplements;
-typedef microsoft::windows::SocketT<> SocketTImplementedExtends;
+typedef microsoft::windows::SocketExtend::Implements SocketTImplementedImplements;
+typedef microsoft::windows::SocketExtend SocketTImplementedExtends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: SocketTImplemented
 ///////////////////////////////////////////////////////////////////////
@@ -513,6 +514,7 @@ public:
     SocketTImplemented() {}
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    using Extends::Accept;
     virtual bool Accept(SocketTImplemented& sock, SockAddr* addr, SockLen& addrlen) {
         if ((sock.Closed())) {
             Attached detached = ((Attached)Unattached);
