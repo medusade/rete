@@ -73,7 +73,9 @@ $${RETE_SRC}/rete/network/Connection.hpp \
 $${RETE_SRC}/rete/network/Connections.hpp \
 $${RETE_SRC}/rete/network/Connector.hpp \
 $${RETE_SRC}/rete/network/Connectors.hpp \
+\
 $${RETE_SRC}/rete/console/Main_main.hpp \
+\
 $${RETE_SRC}/rete/app/console/rete/MainOpt.hpp \
 $${RETE_SRC}/rete/app/console/rete/Main.hpp \
 
@@ -92,7 +94,9 @@ $${RETE_SRC}/rete/network/Connection.cpp \
 $${RETE_SRC}/rete/network/Connections.cpp \
 $${RETE_SRC}/rete/network/Connector.cpp \
 $${RETE_SRC}/rete/network/Connectors.cpp \
+\
 $${RETE_SRC}/rete/console/Main_main.cpp \
+\
 $${RETE_SRC}/rete/app/console/rete/MainOpt.cpp \
 $${RETE_SRC}/rete/app/console/rete/Main.cpp \
 

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="librete"
-	ProjectGUID="{CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE}"
-	RootNamespace="librete"
+	Name="rete"
+	ProjectGUID="{1630A6A6-077A-4281-BE4F-0C15067BBEF7}"
+	RootNamespace="rete"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -21,9 +21,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(RETE_LIB)"
+			OutputDirectory="$(RETE_BIN)"
 			IntermediateDirectory="$(RETE_OBJ)"
-			ConfigurationType="4"
+			ConfigurationType="1"
 			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			>
@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;$(RETE_DEBUG_DEFINES)"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;$(RETE_DEBUG_DEFINES)"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -64,10 +64,19 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				AdditionalDependencies="$(RETE_LIBS)"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(RETE_LIB_DIRS)"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -79,14 +88,17 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(RETE_LIB)"
+			OutputDirectory="$(RETE_BIN)"
 			IntermediateDirectory="$(RETE_OBJ)"
-			ConfigurationType="4"
+			ConfigurationType="1"
 			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			>
@@ -110,7 +122,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;$(RETE_DEBUG_DEFINES)"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;$(RETE_DEBUG_DEFINES)"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -128,10 +140,19 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				AdditionalDependencies="$(RETE_LIBS)"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(RETE_LIB_DIRS)"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -143,14 +164,17 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(RETE_LIB)"
+			OutputDirectory="$(RETE_BIN)"
 			IntermediateDirectory="$(RETE_OBJ)"
-			ConfigurationType="4"
+			ConfigurationType="1"
 			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -175,7 +199,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;$(RETE_RELEASE_DEFINES)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;$(RETE_RELEASE_DEFINES)"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -192,10 +216,21 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				AdditionalDependencies="$(RETE_LIBS)"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(RETE_LIB_DIRS)"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -207,14 +242,17 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(RETE_LIB)"
+			OutputDirectory="$(RETE_BIN)"
 			IntermediateDirectory="$(RETE_OBJ)"
-			ConfigurationType="4"
+			ConfigurationType="1"
 			InheritedPropertySheets="..\vcversion.vsprops;..\..\vcproj.vsprops;..\..\rostra.vsprops;..\..\nadir.vsprops;..\..\patrona.vsprops;..\..\crono.vsprops;..\..\fila.vsprops;..\..\rete.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -240,7 +278,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(RETE_INCLUDE_DIRS)"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;$(RETE_RELEASE_DEFINES)"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;$(RETE_RELEASE_DEFINES)"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -257,10 +295,21 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				AdditionalDependencies="$(RETE_LIBS)"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(RETE_LIB_DIRS)"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -270,6 +319,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -285,11 +337,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\..\src\rete\base\Base.cpp"
+				RelativePath="..\..\..\..\..\src\rete\app\console\rete\Main.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\src\rete\lib\rete\Version.cpp"
+				RelativePath="..\..\..\..\..\src\rete\console\Main_main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\src\rete\app\console\rete\MainOpt.cpp"
 				>
 			</File>
 		</Filter>
@@ -299,11 +355,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\..\src\rete\base\Base.hpp"
+				RelativePath="..\..\..\..\..\src\rete\app\console\rete\Main.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\src\rete\lib\rete\Version.hpp"
+				RelativePath="..\..\..\..\..\src\rete\app\console\rete\MainOpt.hpp"
 				>
 			</File>
 		</Filter>

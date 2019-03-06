@@ -24,6 +24,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hello", "hello\hello.vcproj
 		{CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE} = {CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rete", "rete\rete.vcproj", "{1630A6A6-077A-4281-BE4F-0C15067BBEF7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE} = {CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -46,12 +51,19 @@ Global
 		{ECA11104-37BE-44A9-A56B-44F89140B687}.Release|Win32.ActiveCfg = Release|Win32
 		{ECA11104-37BE-44A9-A56B-44F89140B687}.Release|Win32.Build.0 = Release|Win32
 		{ECA11104-37BE-44A9-A56B-44F89140B687}.Release|x64.ActiveCfg = Release|Win32
+		{1630A6A6-077A-4281-BE4F-0C15067BBEF7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1630A6A6-077A-4281-BE4F-0C15067BBEF7}.Debug|Win32.Build.0 = Debug|Win32
+		{1630A6A6-077A-4281-BE4F-0C15067BBEF7}.Debug|x64.ActiveCfg = Debug|Win32
+		{1630A6A6-077A-4281-BE4F-0C15067BBEF7}.Release|Win32.ActiveCfg = Release|Win32
+		{1630A6A6-077A-4281-BE4F-0C15067BBEF7}.Release|Win32.Build.0 = Release|Win32
+		{1630A6A6-077A-4281-BE4F-0C15067BBEF7}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ECA11104-37BE-44A9-A56B-44F89140B687} = {A4E23E7C-71C9-49CF-AABA-6292F170D258}
+		{1630A6A6-077A-4281-BE4F-0C15067BBEF7} = {A4E23E7C-71C9-49CF-AABA-6292F170D258}
 		{CAF095E1-FC2D-4D5B-B72F-D4988E52C5DE} = {79CE9CFF-D72F-4BF0-BF20-46590DDFE3B7}
 	EndGlobalSection
 EndGlobal

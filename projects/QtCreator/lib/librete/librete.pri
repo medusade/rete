@@ -118,6 +118,11 @@ $${RETE_SRC}/rete/network/Sockets.hpp \
 $${RETE_SRC}/rete/network/SocketStream.hpp \
 $${RETE_SRC}/rete/network/SocketWriter.hpp \
 $${RETE_SRC}/rete/network/Transport.hpp \
+\
+$${RETE_SRC}/rete/lib/Version.hpp \
+$${RETE_SRC}/rete/lib/rete/Version.hpp \
+\
+$${RETE_SRC}/rete/console/lib/rete/version/Main.hpp \
 
 # librete SOURCES
 #
@@ -139,6 +144,10 @@ $${RETE_SRC}/rete/network/Sockets.cpp \
 $${RETE_SRC}/rete/network/SocketStream.cpp \
 $${RETE_SRC}/rete/network/SocketWriter.cpp \
 $${RETE_SRC}/rete/network/Transport.cpp \
+\
+$${RETE_SRC}/rete/lib/rete/Version.cpp \
+\
+$${RETE_SRC}/rete/console/lib/rete/version/Main.cpp \
 
 ########################################################################
 
