@@ -53,8 +53,14 @@ $${rete_DEFINES} \
 # rete_exe HEADERS
 #
 rete_exe_HEADERS += \
+$${CIFRA_SRC}/cifra/crypto/random/generator.hpp \
+$${CIFRA_SRC}/cifra/crypto/random/pseudo/generator.hpp \
+\
 $${RETE_SRC}/rete/network/Sockets.hpp \
 $${RETE_SRC}/rete/network/Address.hpp \
+$${RETE_SRC}/rete/network/ethernet/Address.hpp \
+$${RETE_SRC}/rete/network/unique/Identifier.hpp \
+$${RETE_SRC}/rete/network/unique/posix/Identifier.hpp \
 $${RETE_SRC}/rete/network/Addresses.hpp \
 $${RETE_SRC}/rete/network/Location.hpp \
 $${RETE_SRC}/rete/network/local/Location.hpp \
@@ -82,7 +88,10 @@ $${RETE_SRC}/rete/app/console/rete/Main.hpp \
 # rete_exe SOURCES
 #
 rete_exe_SOURCES += \
-$${RETE_SRC}/rete/network/Address.cpp \
+$${CIFRA_SRC}/cifra/crypto/random/pseudo/generator.cpp \
+\
+$${RETE_SRC}/rete/network/ethernet/Address.cpp \
+$${RETE_SRC}/rete/network/unique/posix/Identifier.cpp \
 $${RETE_SRC}/rete/network/Addresses.cpp \
 $${RETE_SRC}/rete/network/Location.cpp \
 $${RETE_SRC}/rete/network/Locations.cpp \

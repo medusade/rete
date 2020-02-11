@@ -142,6 +142,28 @@ fila_LIBS += \
 -l$${FILA_NAME} \
 
 ########################################################################
+# cifra
+CIFRA_THIRDPARTY_PKG_MAKE_BLD = $${CIFRA_THIRDPARTY_PKG}/build/$${RETE_OS}/$${BUILD_CONFIG}
+CIFRA_THIRDPARTY_PRJ_MAKE_BLD = $${CIFRA_THIRDPARTY_PRJ}/build/$${RETE_OS}/$${BUILD_CONFIG}
+CIFRA_THIRDPARTY_PKG_BLD = $${CIFRA_THIRDPARTY_PKG}/build/$${RETE_OS}/QtCreator/$${BUILD_CONFIG}
+CIFRA_THIRDPARTY_PRJ_BLD = $${CIFRA_THIRDPARTY_PRJ}/build/$${RETE_OS}/QtCreator/$${BUILD_CONFIG}
+CIFRA_PKG_BLD = $${OTHER_BLD}/$${CIFRA_PKG}/build/$${RETE_OS}/QtCreator/$${BUILD_CONFIG}
+CIFRA_PRJ_BLD = $${OTHER_BLD}/$${CIFRA_PRJ}/build/$${RETE_OS}/QtCreator/$${BUILD_CONFIG}
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PKG_MAKE_BLD}/lib
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PRJ_MAKE_BLD}/lib
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PKG_BLD}/lib
+#CIFRA_LIB = $${CIFRA_THIRDPARTY_PRJ_BLD}/lib
+#CIFRA_LIB = $${CIFRA_PKG_BLD}/lib
+CIFRA_LIB = $${CIFRA_PRJ_BLD}/lib
+#CIFRA_LIB = $${RETE_LIB}
+
+# cifra LIBS
+#
+cifra_LIBS += \
+-L$${CIFRA_LIB}/lib$${CIFRA_NAME} \
+-l$${CIFRA_NAME} \
+
+########################################################################
 # rete
 
 # rete INCLUDEPATH
