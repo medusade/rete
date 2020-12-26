@@ -16,7 +16,7 @@
 #   File: rete.pri
 #
 # Author: $author$
-#   Date: 3/24/2018
+#   Date: 3/24/2018, 12/26/2020
 #
 # QtCreator .pri file for rete executable rete
 ########################################################################
@@ -37,6 +37,7 @@ $${rete_INCLUDEPATH} \
 #
 rete_exe_DEFINES += \
 $${rete_DEFINES} \
+XOS_DEFAULT_LOG_ERROR \
 
 ########################################################################
 # rete_exe OBJECTIVE_HEADERS

@@ -16,10 +16,11 @@
 #   File: librete.pro
 #
 # Author: $author$
-#   Date: 3/24/2018
+#   Date: 3/24/2018, 12/26/2020
 #
 # QtCreator .pro file for rete library librete
 ########################################################################
+include(../../../../../../build/QtCreator/rete.pri)
 include(../../../../../build/QtCreator/rete.pri)
 include(../../../../QtCreator/rete.pri)
 include(../../rete.pri)
@@ -56,12 +57,12 @@ $${librete_OBJECTIVE_SOURCES} \
 #
 HEADERS += \
 $${librete_HEADERS} \
+$${librete_OBJECTIVE_HEADERS} \
 
 # SOURCES
 #
 SOURCES += \
 $${librete_SOURCES} \
-$${OBJECTIVE_SOURCES} \
 
 ########################################################################
 

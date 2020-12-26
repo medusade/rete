@@ -16,10 +16,11 @@
 #   File: rete.pro
 #
 # Author: $author$
-#   Date: 3/24/2018
+#   Date: 3/24/2018, 12/26/2020
 #
 # QtCreator .pro file for rete executable rete
 ########################################################################
+include(../../../../../../build/QtCreator/rete.pri)
 include(../../../../../build/QtCreator/rete.pri)
 include(../../../../QtCreator/rete.pri)
 include(../../rete.pri)
@@ -54,12 +55,12 @@ $${rete_exe_OBJECTIVE_SOURCES} \
 #
 HEADERS += \
 $${rete_exe_HEADERS} \
+$${rete_exe_OBJECTIVE_HEADERS} \
 
 # SOURCES
 #
 SOURCES += \
 $${rete_exe_SOURCES} \
-$${OBJECTIVE_SOURCES} \
 
 ########################################################################
 # FRAMEWORKS
