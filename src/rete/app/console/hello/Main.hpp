@@ -313,7 +313,8 @@ protected:
         if ((optarg) && (optarg[0])) {
             short port = 0;
             std::stringstream ss(optarg);
-            if (0 < (ss >> port)) {
+            ss >> port;
+            if (0 < (port)) {
                 m_port = port;
             }
         }
